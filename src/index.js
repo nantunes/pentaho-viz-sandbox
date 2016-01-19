@@ -17,9 +17,6 @@ var cors = {
 var sandbox_path = __dirname + "/ui";
 var sandbox_server = new nstatic.Server(sandbox_path, cors);
 
-var api_path = path.dirname(require.resolve("pentaho-viz-api"));
-var api_server = new nstatic.Server(api_path, cors);
-
 var commonui_path = path.dirname(require.resolve("common-ui/package.json"));
 var commonui_server = new nstatic.Server(commonui_path + "/package-res", cors);
 
@@ -42,9 +39,6 @@ http.createServer(function (request, response) {
       server = viz_server;
     } else if(url.startsWith("/sandbox")) {
       server = sandbox_server;
-      url = url.substring(8);
-    } else if(url.startsWith("/viz-api")) {
-      server = api_server;
       url = url.substring(8);
     } else if(url.startsWith("/content/common-ui")) {
       server = commonui_server;

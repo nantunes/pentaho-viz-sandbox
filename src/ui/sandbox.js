@@ -40,10 +40,8 @@ define([
 
   // viz stuff
   var sandboxContext = new Context();
+
   var activeData = null;
-  var activeModelProperties = null;
-  var ActiveModelClass = null;
-  var activeModel = null;
   var activeView = null;
 
   sandboxContext.getAllAsync().then(function(types) {
@@ -66,25 +64,17 @@ define([
     code.setValue("");
     render_output.innerHTML = "";
 
-    if(ActiveModelClass) {
-      ActiveModelClass = null;
-    }
-
-    if(activeModel) {
-      activeModel = null;
-    }
-
     if(activeView) {
       activeView.dispose();
       activeView = null;
     }
 
     if(info) {
-      ActiveModelClass = sandboxContext.get(info);
+      var ModelClass = sandboxContext.get(info);
 
-      activeModelProperties = {};
+      var activeModelProperties = {};
 
-      var props = ActiveModelClass.meta.props;
+      var props = ModelClass.meta.props;
       for(var i = 0, ic = props.length; i !== ic; ++i) {
         var prop = props[i];
 
@@ -101,20 +91,19 @@ define([
         }
       }
 
-      activeModel = new ActiveModelClass(activeModelProperties);
+      if(!activeData) {
+        activeData = new Table(datasets[0]);
+      }
+
+      var model = new ModelClass(activeModelProperties);
+      model.set("data", activeData);
 
       code.setValue(JSON.stringify(activeModelProperties, null, 2));
 
-      activeModel.meta.viewClass.then(function(View) {
-        activeView = new View(render_output, activeModel);
+      model.meta.viewClass.then(function(View) {
+        activeView = new View(render_output, model);
 
-        if(!activeData) {
-          activeData = new Table(datasets[0]);
-        }
-
-        activeView.setData(activeData).render().then(function() {
-          console.log("Render after viz change", arguments);
-        });
+        activeView.render();
       });
     }
   }
@@ -134,9 +123,9 @@ define([
           activeView.model.set(prop.key, newModel[prop.key] || prop.value);
         }
 
-        activeView.render().then(function() {
-          console.log("Render after button click", arguments);
-        });
+        activeView.model.set("data", activeData);
+
+        activeView.render();
       } catch(e) {
         console.log(e);
       }
@@ -149,10 +138,8 @@ define([
     activeData = new Table(datasets[index]);
 
     if(activeView) {
-      activeView.setData(activeData);
-      activeView.render().then(function() {
-        console.log("Render after dataset change", arguments);
-      });
+      activeView.model.set("data", activeData);
+      activeView.render();
     }
   }
 
@@ -160,7 +147,7 @@ define([
    * Dumps the active model to the console.
    */
   function dumpModel() {
-    console.log(activeModel);
+    console.log(activeView.model);
   }
 
   function showTestsArea() {

@@ -1,6 +1,6 @@
 {
   "name": "pentaho-viz-sandbox",
-  "version": "1.0.10",
+  "version": "1.0.12",
   "author": "Nelson Antunes <nelson.antunes@webdetails.pt>",
   "description": "Pentaho viz-api sandbox POC",
   "private": true,
