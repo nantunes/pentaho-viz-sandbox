@@ -1,0 +1,105 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Visualization Sandbox</title>
+
+    <link rel="stylesheet" type="text/css" href="style.css">
+
+    <script language="javascript" type="text/javascript" src="/content/common-ui/resources/web/require.js"></script>
+    <script type="text/javascript">
+      (function(w) {
+        "use strict";
+
+        w.CONTEXT_PATH = "/";
+
+        w.requireCfg = {"shim":{},"packages":[],"paths":{},"map":{"*":{}},"config":{"pentaho/service":{}}};
+      })(window);
+    </script>
+    <script language="javascript" type="text/javascript" src="/content/common-ui/resources/web/common-ui-require-js-cfg.js"></script>
+  </head>
+  <body>
+
+    <div class="wrapper">
+      <header class="header">
+        <label for="types">Viz:</label>
+        <select id="types">
+          <option value="--">--</option>
+        </select>
+      </header>
+      <div class="wrapper2">
+        <article class="main" id="render_area">
+          <div id="render_output"></div>
+        </article>
+        <aside class="aside aside-1" id="data_area"><h2>Data</h2></aside>
+        <aside class="aside aside-2" id="config_area"><h2>Config</h2>
+          <textarea id="output"></textarea>
+          <button id="render_btn">Update rendering</button>
+          <button id="dump_btn">Dump model</button>
+        </aside>
+      </div>
+      <footer class="footer" id="error_area">
+        <h2 id="error_area_header">No tests found.</h2>
+        Not implemented!
+      </footer>
+    </div>
+
+    <script type="text/javascript">
+      (function(w) {
+        "use strict";
+
+        w.requireCfg["packages"].push({
+          name: "codemirror",
+          location: "/dev/node_modules/codemirror",
+          main: "lib/codemirror"
+        });
+
+        // Register builtin calcNew sample
+        w.requireCfg["packages"].push({
+          "name": "pentaho/visual/samples/calcNew",
+          "main": "typeFactory"
+        });
+
+        w.requireCfg["config"]["pentaho/service"]["pentaho/visual/samples/calcNew"] = "pentaho/type/value";
+
+        require.config(w.requireCfg);
+
+        require(["json!/package.json"], function(devPackage) {
+          // register dev package
+          var main = devPackage.main;
+          if(main.endsWith(".js")) {
+            main = main.substring(0, main.length - 3);
+          }
+
+          w.requireCfg.paths["pentaho/i18n"] = "/content/common-ui/resources/web/test/karma/unit/pentaho/i18nMock";
+
+          w.requireCfg["packages"].push({
+            "name": devPackage.name,
+            "main": main,
+            "location": "/dev"
+          });
+
+          if(devPackage["config"]) {
+            for(var service in devPackage["config"]) {
+              if(!w.requireCfg["config"][service]) {
+                w.requireCfg["config"][service] = {};
+              }
+
+              for(var key in devPackage["config"][service]) {
+                var real_key = key;
+                if(key.length > 0 && key.startsWith(".")) {
+                  real_key = devPackage.name + key.substring(1);
+                }
+
+                w.requireCfg["config"][service][real_key] = devPackage["config"][service][key];
+              }
+            }
+          }
+
+          require.config(w.requireCfg);
+
+          require(["./sandbox"]);
+        });
+      })(window);
+    </script>
+    </body>
+</html>

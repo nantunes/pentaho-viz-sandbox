@@ -1,0 +1,150 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  /*overflow: hidden;*/
+  width: 100%;
+  height: 100%;
+  background-color: #EEEEEE;
+
+  font-family: helvetica, arial, sans-serif;
+}
+
+.CodeMirror pre {
+  text-align: left;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+h2 {
+  height: 1rem;
+  margin: 1rem;
+  font-size: 1rem;
+}
+
+button {
+  height: 2rem;
+  margin: 0.5rem;
+}
+
+.wrapper {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+
+  -webkit-flex-flow: column nowrap;
+  flex-flow: column nowrap;
+
+  font-weight: bold;
+  text-align: center;
+
+  height: 100%;
+  width: 100%;
+}
+
+.header {
+  padding: 0.5rem;
+  width: 100%;
+
+  min-height: 2.5rem;
+
+  background: blue;
+  color: white;
+}
+
+.footer {
+  width: 100%;
+
+  height: 3rem;
+
+  position: fixed;
+  bottom: 0;
+
+  transition: height 1s;
+
+  background: orange;
+}
+
+.footer h2 {
+  cursor: pointer;
+}
+
+.wrapper2 {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+
+  -webkit-flex-flow: column wrap;
+  flex-flow: column wrap;
+
+  flex: 1;
+
+  max-height: calc(100% - 5rem);
+}
+
+.main {
+  text-align: left;
+  background: lightgrey;
+}
+
+.aside-1 {
+  background: lightblue;
+
+  display: flex;
+  flex-flow: column;
+}
+
+.aside-2 {
+  background: lightblue;
+
+  overflow: auto;
+  display: flex;
+  flex-flow: column;
+}
+
+@media all and (min-width: 600px) {
+  .aside {
+    flex: 1 auto;
+  }
+}
+@media all and (min-width: 800px) {
+  .wrapper2 {
+    -webkit-flex-flow: row wrap;
+    flex-flow: row wrap;
+
+    flex: 1;
+  }
+
+  .main {
+    flex: 3 0px;
+  }
+
+  .aside-1 {
+    order: 1;
+  }
+
+  .main {
+    order: 2;
+  }
+
+  .aside-2 {
+    order: 3;
+  }
+
+  .footer {
+    order: 4;
+  }
+}
+
+#output {
+  width: 100%;
+  height: auto;
+  max-height: calc(100% - 10rem);
+}
