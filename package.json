@@ -1,14 +1,14 @@
 {
   "name": "pentaho-viz-sandbox",
   "version": "1.0.12",
-  "author": "Nelson Antunes <nelson.antunes@webdetails.pt>",
-  "description": "Pentaho viz-api sandbox POC",
   "private": true,
+  "description": "Pentaho viz-api sandbox POC",
+  "license": "MIT",
+  "author": "Nelson Antunes <nelson.antunes@webdetails.pt>",
   "main": "src/index.js",
   "bin": {
     "pentaho-viz-sandbox": "src/index.js"
   },
-  "license": "MIT",
   "dependencies": {
     "codemirror": "^5.10.0",
     "node-static": "^0.7.7",
