@@ -1,6 +1,6 @@
 {
   "name": "pentaho-viz-sandbox",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "private": true,
   "description": "Pentaho viz-api sandbox POC",
   "license": "MIT",
@@ -13,6 +13,6 @@
     "codemirror": "^5.10.0",
     "node-static": "^0.7.7",
     "open": "0.0.5",
-    "common-ui": "git+https://github.com/carlosrusso/pentaho-platform-plugin-common-ui.git#BACKLOG-6020"
+    "common-ui": "https://github.com/pentaho/pentaho-platform-plugin-common-ui"
   }
 }
