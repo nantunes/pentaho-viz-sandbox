@@ -8,6 +8,8 @@ define([
 ], function(CodeMirror, Context, Table, datasets) {
   "use strict";
 
+  /* globals document:false */
+
   // UI elements
   var select = document.getElementById("types");
   var render_output = document.getElementById("render_output");
@@ -23,10 +25,10 @@ define([
   render_btn.onclick = modelChanged;
   dump_btn.onclick = dumpModel;
 
-  for(var i = 0, ic = datasets.length; i !== ic; ++i) {
+  for (var i = 0, ic = datasets.length; i !== ic; ++i) {
     var btn = document.createElement("button");
     btn.data = i;
-    btn.innerHTML = "Dataset " + (i+1);
+    btn.innerHTML = "Dataset " + (i + 1);
 
     btn.onclick = datasetChanged;
 
@@ -45,7 +47,7 @@ define([
   var activeView = null;
 
   sandboxContext.getAllAsync().then(function(types) {
-    for(var i = 0, ic = types.length; i !== ic; ++i) {
+    for (var i = 0, ic = types.length; i !== ic; ++i) {
       var type = types[i].meta;
 
       var opt = document.createElement("option");
@@ -64,40 +66,46 @@ define([
     code.setValue("");
     render_output.innerHTML = "";
 
-    if(activeView) {
+    if (activeView) {
       activeView.dispose();
       activeView = null;
     }
 
-    if(info) {
+    if (info) {
       var ModelClass = sandboxContext.get(info);
 
       var activeModelProperties = {};
 
       var props = ModelClass.meta.props;
-      for(var i = 0, ic = props.length; i !== ic; ++i) {
+      for (var i = 0, ic = props.length; i !== ic; ++i) {
         var prop = props[i];
 
-        if(prop.required || !prop.isRoot) {
+        if (prop.key === "data") {
+          if (!activeData) {
+            activeData = new Table(datasets[0]);
+          }
+
+          activeModelProperties.data = activeData;
+
+          continue;
+        }
+
+        if (prop.required || !prop.isRoot) {
           activeModelProperties[prop.key] = prop.value;
 
           // HACK To support calc out of the box
-          if(prop.key === "measure" && !prop.value) {
+          if (prop.key === "measure" && !prop.value) {
             activeModelProperties[prop.key] = "sales";
           }
-          if(prop.key === "operation" && !!prop.value) {
+          if (prop.key === "operation" && !!prop.value) {
             activeModelProperties[prop.key] = prop.value.toUpperCase();
           }
         }
       }
 
-      if(!activeData) {
-        activeData = new Table(datasets[0]);
-      }
-
       var model = new ModelClass(activeModelProperties);
-      model.set("data", activeData);
 
+      delete activeModelProperties.data;
       code.setValue(JSON.stringify(activeModelProperties, null, 2));
 
       model.meta.viewClass.then(function(View) {
@@ -112,21 +120,23 @@ define([
    * Renders the viz.
    */
   function modelChanged() {
-    if(activeView) {
+    if (activeView) {
       try {
         var newModel = JSON.parse(code.getValue());
 
         var props = activeView.model.meta.props;
-        for(var i = 0, ic = props.length; i !== ic; ++i) {
+        for (var i = 0, ic = props.length; i !== ic; ++i) {
           var prop = props[i];
 
-          activeView.model.set(prop.key, newModel[prop.key] || prop.value);
+          if (prop.key !== "data") {
+            activeView.model.set(prop.key, newModel[prop.key] || prop.value);
+          }
         }
 
         activeView.model.set("data", activeData);
 
         activeView.render();
-      } catch(e) {
+      } catch (e) {
         console.log(e);
       }
     }
@@ -137,7 +147,7 @@ define([
     var index = btn.data;
     activeData = new Table(datasets[index]);
 
-    if(activeView) {
+    if (activeView) {
       activeView.model.set("data", activeData);
       activeView.render();
     }
@@ -151,7 +161,7 @@ define([
   }
 
   function showTestsArea() {
-    if(error_area.style.height) {
+    if (error_area.style.height) {
       error_area.style.height = null;
     } else {
       error_area.style.height = "35%";

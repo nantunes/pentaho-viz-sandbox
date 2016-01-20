@@ -1,6 +1,6 @@
 {
   "name": "pentaho-viz-sandbox",
-  "version": "1.0.13",
+  "version": "1.0.14",
   "private": true,
   "description": "Pentaho viz-api sandbox POC",
   "license": "MIT",
