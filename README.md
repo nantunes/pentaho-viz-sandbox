@@ -1,5 +1,11 @@
+# Pentaho Visualization Sandbox#
 
-Quickly running:
+*Note*: Please ensure you have an updated npm version installed (tested with 3.5.0).
+
+  ```npm install -g npm```
+
+
+## Quickly running
 
 1. ```mkdir my-sample-viz```
 2. ```cd my-sample-viz```
@@ -7,7 +13,8 @@ Quickly running:
 4. ```pentaho-viz-scaffold```
 5. ```npm run sandbox```
 
-Without scaffolding:
+
+## Without scaffolding
 
 1. ```git clone https://github.com/nantunes/pentaho-viz-calc-sample```
 2. ```cd pentaho-viz-calc-sample```
