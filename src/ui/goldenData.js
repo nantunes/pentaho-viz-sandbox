@@ -20,7 +20,8 @@ define(function() {
       ],
       rows: [
         {c: [{v: "pentaho", f: "Pentaho"}, 20]},
-        {c: [{v: "toyota", f: "Toyota"}, {v: 30}]}
+        {c: [{v: "toyota", f: "Toyota"}, {v: 30}]},
+        {c: [{v: "mazda", f: "Mazda"}, {v: 40}]}
       ]
     }
   ];

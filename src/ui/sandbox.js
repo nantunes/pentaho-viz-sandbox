@@ -76,21 +76,14 @@ define([
 
       var activeModelProperties = {};
 
-      var props = ModelClass.meta.props;
-      for (var i = 0, ic = props.length; i !== ic; ++i) {
-        var prop = props[i];
-
+      ModelClass.meta.each(function(prop) {
         if (prop.key === "data") {
           if (!activeData) {
             activeData = new Table(datasets[0]);
           }
 
           activeModelProperties.data = activeData;
-
-          continue;
-        }
-
-        if (prop.required || !prop.isRoot) {
+        } else if (prop.required || !prop.isRoot) {
           activeModelProperties[prop.key] = prop.value;
 
           // HACK To support calc out of the box
@@ -101,7 +94,7 @@ define([
             activeModelProperties[prop.key] = prop.value.toUpperCase();
           }
         }
-      }
+      });
 
       var model = new ModelClass(activeModelProperties);
 
@@ -124,14 +117,11 @@ define([
       try {
         var newModel = JSON.parse(code.getValue());
 
-        var props = activeView.model.meta.props;
-        for (var i = 0, ic = props.length; i !== ic; ++i) {
-          var prop = props[i];
-
+        activeView.model.meta.each(function(prop) {
           if (prop.key !== "data") {
             activeView.model.set(prop.key, newModel[prop.key] || prop.value);
           }
-        }
+        });
 
         activeView.model.set("data", activeData);
 
