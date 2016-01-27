@@ -91,7 +91,7 @@ define([
             activeModelProperties[prop.key] = "sales";
           }
           if (prop.key === "operation" && !!prop.value) {
-            activeModelProperties[prop.key] = prop.value.toUpperCase();
+            activeModelProperties[prop.key] = prop.value.value.toUpperCase();
           }
         }
       });
