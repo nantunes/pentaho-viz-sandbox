@@ -19,6 +19,8 @@ define([
   var render_btn = document.getElementById("render_btn");
   var dump_btn = document.getElementById("dump_btn");
 
+  var error_lines = [];
+
   // UI actions
   select.onchange = vizChanged;
   error_area_header.onclick = showTestsArea;
@@ -104,6 +106,7 @@ define([
       model.meta.viewClass.then(function(View) {
         activeView = new View(render_output, model);
 
+        callValidation();
         activeView.render();
       });
     }
@@ -125,6 +128,7 @@ define([
 
         activeView.model.set("data", activeData);
 
+        callValidation();
         activeView.render();
       } catch (e) {
         console.log(e);
@@ -139,8 +143,40 @@ define([
 
     if (activeView) {
       activeView.model.set("data", activeData);
+
+      callValidation();
       activeView.render();
     }
+  }
+
+  function callValidation() {
+    code.operation(function () {
+      for (var i = 0, ic = error_lines.length; i !== ic; ++i) {
+        code.removeLineWidget(error_lines[i]);
+      }
+      error_lines.length = 0;
+
+      var errors = activeView.model.validate();
+
+      if (errors) {
+        for (var i in errors) {
+          var error = errors[i];
+
+          var msg = document.createElement("div");
+          var icon = msg.appendChild(document.createElement("span"));
+          icon.innerHTML = "!";
+          icon.className = "code-editor-error-icon";
+          msg.appendChild(document.createTextNode(error.message));
+          msg.className = "code-editor-error";
+          error_lines.push(code.addLineWidget(0, msg, {
+            coverGutter: false,
+            noHScroll: true,
+            above: true,
+            inline: true
+          }));
+        }
+      }
+    });
   }
 
   /**
