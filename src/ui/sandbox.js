@@ -85,8 +85,8 @@ define([
           }
 
           activeModelProperties.data = activeData;
-        } else if (prop.required || !prop.isRoot) {
-          activeModelProperties[prop.key] = prop.value;
+        } else if (prop.required || (prop.list && prop.countMin > 0) || !prop.isRoot) {
+          activeModelProperties[prop.key] = prop.value != null ? prop.value : (prop.list ? [] : null);
 
           // HACK To support calc out of the box
           if (prop.key === "measure" && !prop.value) {
