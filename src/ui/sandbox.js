@@ -122,7 +122,7 @@ define([
 
         activeView.model.meta.each(function(prop) {
           if (prop.key !== "data") {
-            activeView.model.set(prop.key, newModel[prop.key] || prop.value);
+            activeView.model.set(prop.key, newModel[prop.key] != null ? newModel[prop.key] : prop.value);
           }
         });
 
