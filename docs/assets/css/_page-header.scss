@@ -1,0 +1,32 @@
+.page-header {
+  background: #f5f5f5;
+
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  align-content: flex-start;
+
+  h1 {
+    color: #333333;
+    max-width: 55rem;
+  }
+
+  h2 {
+    color: #606c71;
+    max-width: 55rem;
+  }
+
+  .btn {
+    color: #606c71;
+    background-color: #f5f5f5;
+    border-color: #c1c1c1;
+  }
+
+  .btn:hover {
+    color: #fff;
+    background-color: #159957;
+    border-color: #f5f5f5;
+  }
+}

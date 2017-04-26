@@ -1,1 +1,18 @@
+title: Pentaho Visualization API 3.0
+description: > # this means to ignore newlines until "baseurl:"
+  The Pentaho Visualisation Framework provides a unified way to
+  visualize data across the Pentaho suite (Analyzer, PDI, CDF).
+
 theme: jekyll-theme-cayman
+
+# Build settings
+markdown: kramdown
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+
+safe: true
+
+sass:
+    sass_dir: ./assets/css

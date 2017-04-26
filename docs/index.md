@@ -1,3 +1,7 @@
+---
+title: Pentaho Visualization API 3.0
+---
+
 # Overview
 The Pentaho Visualisation Framework provides a unified way to visualize data across the Pentaho suite (Analyzer, PDI, CDF). The stock CCC charts provide a set of ready-to-use chart types, customisable and extendable.
 
