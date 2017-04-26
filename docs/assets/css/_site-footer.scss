@@ -4,21 +4,25 @@
   padding: 2em;
   margin: 0;
 
-  h2 {
-    display: inline-block;
+  .footer-wrapper {
+    max-width: 55rem;
 
-    margin: 0;
-    font-size: 1.05em;
-    font-weight: bold;
-  }
-
-  ul {
-    display: inline-block;
-
-    li {
+    h2 {
       display: inline-block;
-      padding-right: 4em;
-      margin-top: 0.2em;
+
+      margin: 0;
+      font-size: 1.05em;
+      font-weight: bold;
+    }
+
+    ul {
+      display: inline-block;
+
+      li {
+        display: inline-block;
+        padding-right: 4em;
+        margin-top: 0.2em;
+      }
     }
   }
 }
