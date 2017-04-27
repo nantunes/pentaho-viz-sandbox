@@ -1,12 +1,18 @@
 .site-header {
-  height: 60px;
   width: 100%;
   max-width: 64rem;
 
+  margin-bottom: 1rem;
+
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+
   .logo {
-    display: block;
+    display: inline-block;
 
     width: 155px;
+    min-width: 155px;
     height: auto;
 
     margin-top: 13px;
@@ -17,12 +23,25 @@
       height: 100%;
     }
   }
+
+  h1 {
+    display: inline-block;
+    margin: 0 0 0 1rem;
+
+    a,
+    a:link,
+    a:visited,
+    a:hover,
+    a:active {
+      font-size: 1.75rem;
+
+      color: #333333;
+    }
+  }
 }
 
 @media (min-width: 1024px) {
   .site-header {
-    height: 110px;
-
     margin-left: auto;
     margin-right: auto;
 

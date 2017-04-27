@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="UTF-8">
+  <title>Pentaho Visualisation API - Pentaho Platform JavaScript APIs</title>
+  <meta name="description" content="The Pentaho Visualisation API provides a unified way to visualize data across the Pentaho suite (Analyzer, PDI, CDF)."/>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="/assets/css/style.css?v=23f7709f910fa86c83ad9c8225a7feb3dff24cc1">
+
+</head>
+<body class="intro-layout">
+    <header class="site-header">
+    <a class="logo" href="/">
+      <img src="/assets/img/logo.svg" alt="Pentaho" onerror="this.src='http://www.pentaho.com/sites/all/themes/pentaho_resp/logo.svg';">
+    </a>
+    <h1><a href="/">Pentaho Platform JavaScript APIs</a></h1>
+  </header>
+
+
+  <section class="page-header intro-page-header">
+    <div class="page-header-wrapper">
+        <h1 class="project-name">Pentaho Visualisation API</h1>
+        <h2 class="project-tagline">The Pentaho Visualisation API provides a unified way to visualize data across the Pentaho suite (Analyzer, PDI, CDF).</h2>
+        
+        <a href="http://github.com/nantunes/pentaho-viz-sandbox" class="btn">View on GitHub</a>
+        
+        
+    </div>
+  </section>
+
+  <section class="main-content">
+    <h1 id="overview">Overview</h1>
+<p>The Pentaho Visualisation API provides a unified way to visualize data across the Pentaho suite (Analyzer, PDI, CDF). The stock CCC charts provide a set of ready-to-use chart types, customisable and extendable.</p>
+
+<p>Visualisations are implemented on top of the <a href="another-page">Type API</a>. That ensures out-of-the-box class inheritance capabilities (reducing code duplication), <a href="another-page">change events</a>, <a href="another-page">validation</a>, <a href="another-page">configuration</a> and <a href="another-page">serialization</a>.</p>
+
+<p>The framework includes 14 visualisation Models (chart types) and corresponding Views (chart implementations).</p>
+
+<blockquote>
+  <p><strong>List them</strong></p>
+</blockquote>
+
+<p>Views can be further customised by <a href="another-page">configuration</a> (through <a href="another-page">CCC extension points</a> in the case of stock viz) to fit the desired look and feel. They are also interactive, exposing <a href="another-page">actions</a> and showing <a href="another-page">tooltips</a>.</p>
+
+<blockquote>
+  <p>Should we mention the Pentaho Web Framework’s <a href="another-page">Data Access API</a>?</p>
+</blockquote>
+
+<hr />
+
+<h1 id="creating-a-visualisation">Creating a visualisation</h1>
+<blockquote>
+  <p>Provide the instructions to clone the sample repository.</p>
+</blockquote>
+
+<h2 id="preparing-the-environment">Preparing the environment</h2>
+<blockquote>
+  <p>The objective is to provide / guide to the creation of a setup where the developer can simply open an .html file and see a chart (like in https://developers.google.com/chart/interactive/docs/quick_start).</p>
+</blockquote>
+
+<h3 id="1-loading-the-library">1. Loading the library</h3>
+<blockquote>
+  <p>Would be great to just <code class="highlighter-rouge">npm install pentaho/viz-api</code>… Even if not published in the public npm registry, Nexus includes its won (https://pentaho-engineering.slack.com/archives/C1N63MHB4/p1467994662000037).</p>
+
+  <p>What’s the alternative? Include a copy of it in the sample repo? Loading from a local server instalation? <code class="highlighter-rouge">npm install https://github.com/pentaho/pentaho-platform-plugin-common-ui.git</code>?</p>
+</blockquote>
+
+<h3 id="2-setting-up-a-simple-container">2. Setting up a simple container</h3>
+<h3 id="3-preparing-test-data">3. Preparing test data</h3>
+<h3 id="4-loading-a-stock-visualisation">4. Loading a stock visualisation</h3>
+
+<h2 id="implementing-a-custom-visualisation">Implementing a custom visualisation</h2>
+
+<h3 id="1-choose-your-model">1. Choose your Model</h3>
+
+<h4 id="__-a-create-a-new-model--extend-an-existing-one">__ a) Create a new model / extend an existing one</h4>
+<h5 id="__-visual-roles"><em>__</em> Visual Roles</h5>
+<h5 id="__-validation"><em>__</em> Validation</h5>
+
+<h4 id="__-b-reuse-an-existing-model">__ b) Reuse an existing model</h4>
+<p>(currently this implies changing the defaultView property of the model through configuration)</p>
+
+<h3 id="2-create-your-view">2. Create your View</h3>
+
+<h4 id="__1-render-methods">__1. Render methods</h4>
+
+<h4 id="__2-interactivity">__2. Interactivity</h4>
+<h5 id="__-trigger-select-actions"><em>__</em> Trigger Select actions</h5>
+<h5 id="__-trigger-execute-actions"><em>__</em> Trigger Execute actions</h5>
+<h5 id="__-tooltips-out-of-scope"><em>__</em> <del>Tooltips</del> [out of scope]</h5>
+<h5 id="__-printing--exporting-out-of-scope"><em>__</em> <del>Printing / exporting</del> [out of scope]</h5>
+
+<h4 id="__3-color-pallets-out-of-scope">__3. <del>Color pallets</del> [out of scope]</h4>
+
+<h4 id="__4-themes-2nd-pass">__4. <del>Themes</del> [2nd pass]</h4>
+
+<h4 id="__5-localization-2nd-pass">__5. <del>Localization</del> [2nd pass]</h4>
+
+<h2 id="deploying-your-visualisation">Deploying your visualisation</h2>
+
+<h3 id="packaging">Packaging</h3>
+<blockquote>
+  <p>Explain the Pentaho Web Packaging, the package.json, the pentaho/service config, the bundling…</p>
+
+  <p><strong>How to package dependencies!</strong> Webjars, feature, kar…</p>
+</blockquote>
+
+<h3 id="installing">Installing</h3>
+<blockquote>
+  <p>Copy to the deploy folder… Submit it to the marketplace?</p>
+</blockquote>
+
+<hr />
+
+<h1 id="configuring-visualisations">Configuring visualisations</h1>
+<blockquote>
+  <p>The config file location, its format, adding configuration rules, priorities, etc..</p>
+</blockquote>
+
+<h2 id="migrating-analyzers-settings">Migrating Analyzer’s settings</h2>
+
+  </section>
+
+    <footer class="site-footer">
+    <div class="footer-wrapper">
+      <h2>Learn More:</h2>
+      <ul>
+        <li><a href="" target="_blank">Reference documentation</a></li>
+        <li><a href="" target="_blank">Pentaho Forums</a></li>
+      </ul>
+    </div>
+  </footer>
+
+    <div class="community-footer">
+    <div class="helpImproveWrapper">
+      <div class="helpImprove">
+        <p>Help us improve this website. Send your feedback to <a href="mailto:community@pentaho.com" class="footer-link">community@pentaho.com</a></p>
+        <section class="footer-social-wrapper">
+          <div class="region region-footer-social">
+            <div class="content text-right">
+              <a class="footer-social-item youtube" href="https://www.youtube.com/user/pentaho" target="_blank"></a>
+              <a class="footer-social-item gplus" href="https://plus.google.com/+Pentahocorporation/posts" target="_blank"></a>
+              <a class="footer-social-item twitter" href="http://twitter.com/Pentaho" target="_blank"></a>
+              <a class="footer-social-item facebook" href="http://www.facebook.com/pentaho" target="_blank"></a>
+              <a class="footer-social-item linkedin" href="http://www.linkedin.com/company/pentaho" target="_blank"></a>
+              <a class="footer-social-item rss-feed" href="http://www.pentaho.com/blog"></a>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
