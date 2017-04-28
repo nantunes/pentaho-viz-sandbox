@@ -3,13 +3,10 @@
   <!-- load requirejs -->
   <script type="text/javascript" src="node_modules/requirejs/require.js"></script>
 
-  <!-- load the VizAPI helper -->
-  <script type="text/javascript" src="node_modules/@nantunes/viz-api/loader.js"></script>
+  <!-- load the VizAPI dev bootstrap helper -->
+  <script type="text/javascript" src="node_modules/@nantunes/viz-api/dev-bootstrap.js"></script>
 
   <script type="text/javascript">
-    // use the VizAPI helper to apply requirejs dev environment configurations
-    vizApiHelperDevRequireConfig(require, "node_modules/@nantunes/viz-api");
-
     require([
       "pentaho/type/Context",
       "pentaho/data/Table",

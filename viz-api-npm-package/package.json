@@ -1,0 +1,11 @@
+{
+  "name": "@nantunes/viz-api",
+  "version": "3.0.4",
+  "description": "",
+  "main": "context.js",
+  "author": "@pentaho/millenniumfalcon",
+  "license": "MIT",
+  "dependencies": {
+    "requirejs": "^2.3.3"
+  }
+}

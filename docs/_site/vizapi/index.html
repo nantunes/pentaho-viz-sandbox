@@ -73,13 +73,10 @@
   <span class="c">&lt;!-- load requirejs --&gt;</span>
   <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/javascript"</span> <span class="na">src=</span><span class="s">"node_modules/requirejs/require.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
 
-  <span class="c">&lt;!-- load the VizAPI helper --&gt;</span>
-  <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/javascript"</span> <span class="na">src=</span><span class="s">"node_modules/@nantunes/viz-api/loader.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+  <span class="c">&lt;!-- load the VizAPI dev bootstrap helper --&gt;</span>
+  <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/javascript"</span> <span class="na">src=</span><span class="s">"node_modules/@nantunes/viz-api/dev-bootstrap.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
 
   <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/javascript"</span><span class="nt">&gt;</span>
-    <span class="c1">// use the VizAPI helper to apply requirejs dev environment configurations</span>
-    <span class="nx">vizApiHelperDevRequireConfig</span><span class="p">(</span><span class="nx">require</span><span class="p">,</span> <span class="s2">"node_modules/@nantunes/viz-api"</span><span class="p">);</span>
-
     <span class="nx">require</span><span class="p">([</span>
       <span class="s2">"pentaho/type/Context"</span><span class="p">,</span>
       <span class="s2">"pentaho/data/Table"</span><span class="p">,</span>
