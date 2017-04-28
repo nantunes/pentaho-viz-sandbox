@@ -114,7 +114,7 @@ static -p 8000</pre>
 
 <b>Python 3:</b><pre>python -m http.server 8000</pre>
 
-<b>Ruby:</b><pre>ruby -run -e httpd . -p 8080</pre>
+<b>Ruby:</b><pre>ruby -run -e httpd . -p 8000</pre>
 " type="warning" %}
 
 ## Implementing a custom visualisation
