@@ -1,0 +1,63 @@
+<html>
+<head>
+  <!-- load requirejs -->
+  <script type="text/javascript" src="node_modules/requirejs/require.js"></script>
+
+  <!-- load the VizAPI helper -->
+  <script type="text/javascript" src="node_modules/@nantunes/viz-api/loader.js"></script>
+
+  <script type="text/javascript">
+    // use the VizAPI helper to apply requirejs dev environment configurations
+    vizApiHelperDevRequireConfig(require, "node_modules/@nantunes/viz-api");
+
+    require([
+      "pentaho/type/Context",
+      "pentaho/data/Table",
+      "pentaho/visual/base/view",
+      "pentaho/visual/samples/calc"
+    ], function(Context, Table, baseViewFactory, calcFactory) {
+        // Setup up a VizAPI context
+      // Setup up a VizAPI context
+      var context = new Context({application: "viz-api-sandbox"});
+
+      // Prepare some test data
+      var dataTable = new Table({
+        model: [
+          {name: "family", type: "string", label: "Family"},
+          {name: "sales",  type: "number", label: "Sales"}
+        ],
+        rows: [
+          {c: [{v: "plains", f: "Plains"}, 123]},
+          {c: [{v: "cars",   f: "Cars"  }, 456]}
+        ]
+      });
+
+      // Create the visualization model
+      var CalcModel = context.get(calcFactory);
+      var model = new CalcModel({
+        "data": dataTable,
+        "levels": {attributes: ["family"]},
+        "measure": {attributes: ["sales"]},
+        "operation": "avg"
+      });
+
+      // Create the visualization view
+      var BaseView = context.get(baseViewFactory);
+      BaseView.createAsync({
+        domContainer: document.getElementById("viz_div"),
+        width: 400,
+        height: 200,
+        model: model
+      }).then(function(view) {
+        // Render the visualization
+        view.update();
+      });
+    });
+  </script>
+</head>
+
+<body>
+  <!-- div that will contain the visualization -->
+  <div id="viz_div"></div>
+</body>
+</html>

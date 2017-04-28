@@ -6,7 +6,7 @@
   <meta name="description" content="The Pentaho Visualisation API provides a unified way to visualize data across the Pentaho suite (Analyzer, PDI, CDF)."/>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
-  <link rel="stylesheet" href="/assets/css/style.css?v=23f7709f910fa86c83ad9c8225a7feb3dff24cc1">
+  <link rel="stylesheet" href="/assets/css/style.css?v=2df9c297ce7cade239974bb48878c54f9af483d0">
 
 </head>
 <body class="intro-layout">
@@ -41,34 +41,121 @@
   <p><strong>List them</strong></p>
 </blockquote>
 
-<p>Views can be further customised by <a href="another-page">configuration</a> (through <a href="another-page">CCC extension points</a> in the case of stock viz) to fit the desired look and feel. They are also interactive, exposing <a href="another-page">actions</a> and showing <a href="another-page">tooltips</a>.</p>
-
-<blockquote>
-  <p>Should we mention the Pentaho Web Framework’s <a href="another-page">Data Access API</a>?</p>
-</blockquote>
+<p>Views can be further customised by <a href="another-page">configuration</a> (through <a href="another-page">CCC extension points</a> in the case of the stock visualizations) to fit the desired look and feel. They are also interactive, exposing <a href="another-page">actions</a> and showing <a href="another-page">tooltips</a>.</p>
 
 <hr />
 
 <h1 id="creating-a-visualisation">Creating a visualisation</h1>
-<blockquote>
-  <p>Provide the instructions to clone the sample repository.</p>
-</blockquote>
+<p>The following steps will walk you through the creating of a simple visualization. The complete code is available at <a href="https://github.com/pentaho/pentaho-engineering-samples">pentaho/pentaho-engineering-samples</a>. You can clone the sample code into a directory of your choosing.</p>
+
+<h2 id="prerequisites">Prerequisites</h2>
+<ul>
+  <li>An npm registry compatible package manager like <a href="https://yarnpkg.com">yarn</a> or <a href="https://www.npmjs.com">npm</a>.</li>
+</ul>
 
 <h2 id="preparing-the-environment">Preparing the environment</h2>
-<blockquote>
-  <p>The objective is to provide / guide to the creation of a setup where the developer can simply open an .html file and see a chart (like in https://developers.google.com/chart/interactive/docs/quick_start).</p>
-</blockquote>
+<div class="callout callout-info"><p>You can skip this section if you choose to clone the sample repository.</p>
+<p>In that case you just need to install the dependencies by typing <code>yarn install</code> or <code>npm install</code>.</p>
+<p>Then continue to <a href="#implementing-a-custom-visualisation">the next section</a>.</p>
+</div>
 
-<h3 id="1-loading-the-library">1. Loading the library</h3>
-<blockquote>
-  <p>Would be great to just <code class="highlighter-rouge">npm install pentaho/viz-api</code>… Even if not published in the public npm registry, Nexus includes its won (https://pentaho-engineering.slack.com/archives/C1N63MHB4/p1467994662000037).</p>
+<h3 id="1-setting-up-the-project">1. Setting up the project</h3>
+<ul>
+  <li>Create a folder and initialize it (with <code class="highlighter-rouge">yarn init</code> or <code class="highlighter-rouge">npm init</code>);</li>
+  <li>Add the VizAPI dependency: <code class="highlighter-rouge">yarn add @nantunes/viz-api</code> or <code class="highlighter-rouge">npm install @nantunes/viz-api --save</code></li>
+</ul>
 
-  <p>What’s the alternative? Include a copy of it in the sample repo? Loading from a local server instalation? <code class="highlighter-rouge">npm install https://github.com/pentaho/pentaho-platform-plugin-common-ui.git</code>?</p>
-</blockquote>
+<h3 id="2-creating-a-simple-container">2. Creating a simple container</h3>
+<ul>
+  <li>Create and edit an HTML file (e.g. <code class="highlighter-rouge">index.html</code>) with the following content:
+    <div class="language-html highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+  <span class="c">&lt;!-- load requirejs --&gt;</span>
+  <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/javascript"</span> <span class="na">src=</span><span class="s">"node_modules/requirejs/require.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
 
-<h3 id="2-setting-up-a-simple-container">2. Setting up a simple container</h3>
-<h3 id="3-preparing-test-data">3. Preparing test data</h3>
-<h3 id="4-loading-a-stock-visualisation">4. Loading a stock visualisation</h3>
+  <span class="c">&lt;!-- load the VizAPI helper --&gt;</span>
+  <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/javascript"</span> <span class="na">src=</span><span class="s">"node_modules/@nantunes/viz-api/loader.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+
+  <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/javascript"</span><span class="nt">&gt;</span>
+    <span class="c1">// use the VizAPI helper to apply requirejs dev environment configurations</span>
+    <span class="nx">vizApiHelperDevRequireConfig</span><span class="p">(</span><span class="nx">require</span><span class="p">,</span> <span class="s2">"node_modules/@nantunes/viz-api"</span><span class="p">);</span>
+
+    <span class="nx">require</span><span class="p">([</span>
+      <span class="s2">"pentaho/type/Context"</span><span class="p">,</span>
+      <span class="s2">"pentaho/data/Table"</span><span class="p">,</span>
+      <span class="s2">"pentaho/visual/base/view"</span><span class="p">,</span>
+      <span class="s2">"pentaho/visual/samples/calc"</span>
+    <span class="p">],</span> <span class="kd">function</span><span class="p">(</span><span class="nx">Context</span><span class="p">,</span> <span class="nx">Table</span><span class="p">,</span> <span class="nx">baseViewFactory</span><span class="p">,</span> <span class="nx">calcFactory</span><span class="p">)</span> <span class="p">{</span>
+      <span class="c1">// Setup up a VizAPI context</span>
+      <span class="kd">var</span> <span class="nx">context</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Context</span><span class="p">({</span><span class="na">application</span><span class="p">:</span> <span class="s2">"viz-api-sandbox"</span><span class="p">});</span>
+
+      <span class="c1">// Prepare some test data</span>
+      <span class="kd">var</span> <span class="nx">dataTable</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Table</span><span class="p">({</span>
+        <span class="na">model</span><span class="p">:</span> <span class="p">[</span>
+          <span class="p">{</span><span class="na">name</span><span class="p">:</span> <span class="s2">"family"</span><span class="p">,</span> <span class="na">type</span><span class="p">:</span> <span class="s2">"string"</span><span class="p">,</span> <span class="na">label</span><span class="p">:</span> <span class="s2">"Family"</span><span class="p">},</span>
+          <span class="p">{</span><span class="na">name</span><span class="p">:</span> <span class="s2">"sales"</span><span class="p">,</span>  <span class="na">type</span><span class="p">:</span> <span class="s2">"number"</span><span class="p">,</span> <span class="na">label</span><span class="p">:</span> <span class="s2">"Sales"</span><span class="p">}</span>
+        <span class="p">],</span>
+        <span class="na">rows</span><span class="p">:</span> <span class="p">[</span>
+          <span class="p">{</span><span class="na">c</span><span class="p">:</span> <span class="p">[{</span><span class="na">v</span><span class="p">:</span> <span class="s2">"plains"</span><span class="p">,</span> <span class="na">f</span><span class="p">:</span> <span class="s2">"Plains"</span><span class="p">},</span> <span class="mi">123</span><span class="p">]},</span>
+          <span class="p">{</span><span class="na">c</span><span class="p">:</span> <span class="p">[{</span><span class="na">v</span><span class="p">:</span> <span class="s2">"cars"</span><span class="p">,</span>   <span class="na">f</span><span class="p">:</span> <span class="s2">"Cars"</span>  <span class="p">},</span> <span class="mi">456</span><span class="p">]}</span>
+        <span class="p">]</span>
+      <span class="p">});</span>
+
+      <span class="c1">// Create the visualization model</span>
+      <span class="kd">var</span> <span class="nx">CalcModel</span> <span class="o">=</span> <span class="nx">context</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="nx">calcFactory</span><span class="p">);</span>
+      <span class="kd">var</span> <span class="nx">model</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">CalcModel</span><span class="p">({</span>
+        <span class="s2">"data"</span><span class="p">:</span> <span class="nx">dataTable</span><span class="p">,</span>
+        <span class="s2">"levels"</span><span class="p">:</span> <span class="p">{</span><span class="na">attributes</span><span class="p">:</span> <span class="p">[</span><span class="s2">"family"</span><span class="p">]},</span>
+        <span class="s2">"measure"</span><span class="p">:</span> <span class="p">{</span><span class="na">attributes</span><span class="p">:</span> <span class="p">[</span><span class="s2">"sales"</span><span class="p">]},</span>
+        <span class="s2">"operation"</span><span class="p">:</span> <span class="s2">"avg"</span>
+      <span class="p">});</span>
+
+      <span class="c1">// Create the visualization view</span>
+      <span class="kd">var</span> <span class="nx">BaseView</span> <span class="o">=</span> <span class="nx">context</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="nx">baseViewFactory</span><span class="p">);</span>
+      <span class="nx">BaseView</span><span class="p">.</span><span class="nx">createAsync</span><span class="p">({</span>
+        <span class="na">domContainer</span><span class="p">:</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">"viz_div"</span><span class="p">),</span>
+        <span class="na">width</span><span class="p">:</span> <span class="mi">400</span><span class="p">,</span>
+        <span class="na">height</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span>
+        <span class="na">model</span><span class="p">:</span> <span class="nx">model</span>
+      <span class="p">}).</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">view</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// Render the visualization</span>
+        <span class="nx">view</span><span class="p">.</span><span class="nx">update</span><span class="p">();</span>
+      <span class="p">});</span>
+    <span class="p">});</span>
+  <span class="nt">&lt;/script&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+
+<span class="nt">&lt;body&gt;</span>
+  <span class="c">&lt;!-- div that will contain the visualization --&gt;</span>
+  <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"viz_div"</span><span class="nt">&gt;&lt;/div&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</code></pre>
+    </div>
+  </li>
+</ul>
+
+<h3 id="3-test-your-code">3. Test your code</h3>
+<ul>
+  <li>Open the HTML file in a browser.</li>
+</ul>
+<div class="callout callout-warning"><p>Directly opening the file through the filesystem will not work when using Google Chrome (and Chromium and possibly other browsers).</p>
+
+<p>Security restrictions disallow the loading of local resources using XHR. That is currently required by the VizAPI to load localization bundles and other resources.</p>
+
+<p>To overcome this limitation you can serve the project files with a HTTP server. There are several simple to use solutions:</p>
+
+<b>Node:</b><pre>npm install -g node-static
+static -p 8000</pre>
+
+<b>PHP:</b><pre>php -S localhost:8000</pre>
+
+<b>Python 2:</b><pre>python -m SimpleHTTPServer 8000</pre>
+
+<b>Python 3:</b><pre>python -m http.server 8000</pre>
+
+<b>Ruby:</b><pre>ruby -run -e httpd . -p 8080</pre>
+</div>
 
 <h2 id="implementing-a-custom-visualisation">Implementing a custom visualisation</h2>
 

@@ -1,18 +1,11 @@
 {
   "name": "pentaho-viz-sandbox",
-  "version": "1.2.3",
+  "version": "0.0.1",
   "private": true,
-  "description": "Pentaho viz-api sandbox POC",
+  "description": "Pentaho Visualization API sandbox",
   "license": "MIT",
-  "author": "Nelson Antunes <nelson.antunes@webdetails.pt>",
-  "main": "src/index.js",
-  "bin": {
-    "pentaho-viz-sandbox": "src/index.js"
-  },
+  "author": "Nelson Antunes <nantunes@pentaho.com>",
   "dependencies": {
-    "codemirror": "^5.10.0",
-    "node-static": "^0.7.7",
-    "open": "0.0.5",
-    "common-ui": "https://github.com/pentaho/pentaho-platform-plugin-common-ui"
+    "@nantunes/viz-api": "^3.0.2"
   }
 }

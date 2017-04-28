@@ -13,26 +13,112 @@ The framework includes 14 visualisation Models (chart types) and corresponding V
 
 > **List them**
 
-Views can be further customised by [configuration](another-page) (through [CCC extension points](another-page) in the case of stock viz) to fit the desired look and feel. They are also interactive, exposing [actions](another-page) and showing [tooltips](another-page).
-
-> Should we mention the Pentaho Web Framework's [Data Access API](another-page)?
+Views can be further customised by [configuration](another-page) (through [CCC extension points](another-page) in the case of the stock visualizations) to fit the desired look and feel. They are also interactive, exposing [actions](another-page) and showing [tooltips](another-page).
 
 ----
 
 # Creating a visualisation
-> Provide the instructions to clone the sample repository.
+The following steps will walk you through the creating of a simple visualization. The complete code is available at [pentaho/pentaho-engineering-samples](https://github.com/pentaho/pentaho-engineering-samples). You can clone the sample code into a directory of your choosing.
+
+## Prerequisites
+- An npm registry compatible package manager like [yarn](https://yarnpkg.com) or [npm](https://www.npmjs.com).
 
 ## Preparing the environment
-> The objective is to provide / guide to the creation of a setup where the developer can simply open an .html file and see a chart (like in https://developers.google.com/chart/interactive/docs/quick_start).
+{% include callout.html content="<p>You can skip this section if you choose to clone the sample repository.</p>
+<p>In that case you just need to install the dependencies by typing <code>yarn install</code> or <code>npm install</code>.</p>
+<p>Then continue to <a href='#implementing-a-custom-visualisation'>the next section</a>.</p>
+" type="info" %}
 
-### 1. Loading the library
-> Would be great to just `npm install pentaho/viz-api`... Even if not published in the public npm registry, Nexus includes its won (https://pentaho-engineering.slack.com/archives/C1N63MHB4/p1467994662000037).
-> 
-> What's the alternative? Include a copy of it in the sample repo? Loading from a local server instalation? `npm install https://github.com/pentaho/pentaho-platform-plugin-common-ui.git`?
+### 1. Setting up the project
+- Create a folder and initialize it (with `yarn init` or `npm init`);
+- Add the VizAPI dependency: `yarn add @nantunes/viz-api` or `npm install @nantunes/viz-api --save`
 
-### 2. Setting up a simple container
-### 3. Preparing test data
-### 4. Loading a stock visualisation
+### 2. Creating a simple container
+- Create and edit an HTML file (e.g. `index.html`) with the following content:
+```html
+  <html>
+  <head>
+    <!-- load requirejs -->
+    <script type="text/javascript" src="node_modules/requirejs/require.js"></script>
+
+    <!-- load the VizAPI helper -->
+    <script type="text/javascript" src="node_modules/@nantunes/viz-api/loader.js"></script>
+
+    <script type="text/javascript">
+      // use the VizAPI helper to apply requirejs dev environment configurations
+      vizApiHelperDevRequireConfig(require, "node_modules/@nantunes/viz-api");
+
+      require([
+        "pentaho/type/Context",
+        "pentaho/data/Table",
+        "pentaho/visual/base/view",
+        "pentaho/visual/samples/calc"
+      ], function(Context, Table, baseViewFactory, calcFactory) {
+        // Setup up a VizAPI context
+        var context = new Context({application: "viz-api-sandbox"});
+
+        // Prepare some test data
+        var dataTable = new Table({
+          model: [
+            {name: "family", type: "string", label: "Family"},
+            {name: "sales",  type: "number", label: "Sales"}
+          ],
+          rows: [
+            {c: [{v: "plains", f: "Plains"}, 123]},
+            {c: [{v: "cars",   f: "Cars"  }, 456]}
+          ]
+        });
+
+        // Create the visualization model
+        var CalcModel = context.get(calcFactory);
+        var model = new CalcModel({
+          "data": dataTable,
+          "levels": {attributes: ["family"]},
+          "measure": {attributes: ["sales"]},
+          "operation": "avg"
+        });
+
+        // Create the visualization view
+        var BaseView = context.get(baseViewFactory);
+        BaseView.createAsync({
+          domContainer: document.getElementById("viz_div"),
+          width: 400,
+          height: 200,
+          model: model
+        }).then(function(view) {
+          // Render the visualization
+          view.update();
+        });
+      });
+    </script>
+  </head>
+
+  <body>
+    <!-- div that will contain the visualization -->
+    <div id="viz_div"></div>
+  </body>
+  </html>
+```
+
+### 3. Test your code
+- Open the HTML file in a browser.
+{% include callout.html content="<p>Directly opening the file through the filesystem will not work when using Google Chrome (and Chromium and possibly other browsers).</p>
+
+<p>Security restrictions disallow the loading of local resources using XHR. That is currently required by the VizAPI to load localization bundles and other resources.</p>
+
+<p>To overcome this limitation you can serve the project files with a HTTP server. There are several simple to use solutions:</p>
+
+<b>Node:</b><pre>npm install -g node-static
+static -p 8000</pre>
+
+<b>PHP:</b><pre>php -S localhost:8000</pre>
+
+<b>Python 2:</b><pre>python -m SimpleHTTPServer 8000</pre>
+
+<b>Python 3:</b><pre>python -m http.server 8000</pre>
+
+<b>Ruby:</b><pre>ruby -run -e httpd . -p 8080</pre>
+" type="warning" %}
 
 ## Implementing a custom visualisation
 
