@@ -1,6 +1,6 @@
 ---
 title: Another page
-parent-title: Visualisation API
+parent-title: Visualization API
 ---
 
 # Hello

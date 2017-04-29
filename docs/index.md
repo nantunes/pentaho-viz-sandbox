@@ -11,7 +11,12 @@ Lore...
             <dt>
                 <a title="Pentaho Visualization API" href="vizapi">Pentaho Visualization API</a> ⭐ <em>3.0 beta</em>
             </dt>
-            <dd>The Pentaho Visualisation API provides a unified way to visualize data across the Pentaho suite (Analyzer, PDI, CDF). The stock CCC charts provide a set of ready-to-use chart types, customisable and extendable.</dd>
+            <dd>
+                The Pentaho Visualization API provides a unified way to visualize data across the 
+                Pentaho suite (Analyzer, PDI, CDF). 
+                The stock CCC charts provide a set of ready-to-use chart types, 
+                customisable and extendable.
+            </dd>
         </dl>
     </li>
     <li>
@@ -77,7 +82,10 @@ Lore...
                             <dt>
                                 <a title="Pentaho Core API Lang package" href="core/lang">pentaho/lang</a>
                             </dt>
-                            <dd>Classes and interfaces used as type system building blocks to form other classes and interfaces of the Pentaho Web Platform.</dd>
+                            <dd>
+                                Classes and interfaces used as type system building blocks to form other classes and 
+                                interfaces of the Pentaho Web Platform.
+                             </dd>
                         </dl>
                     </li>
                 </ul>

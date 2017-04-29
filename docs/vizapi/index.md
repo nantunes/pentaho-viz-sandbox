@@ -1,32 +1,42 @@
 ---
-title: Pentaho Visualisation API
-description: The Pentaho Visualisation API provides a unified way to visualize data across the Pentaho suite (Analyzer, PDI, CDF).
+title: Pentaho Visualization API
+description: The Pentaho Visualization API provides a unified way to visualize data across the Pentaho suite (Analyzer, PDI, CDF).
 layout: sub-intro
 ---
 
 # Overview
-The Pentaho Visualisation API provides a unified way to visualize data across the Pentaho suite (Analyzer, PDI, CDF). The stock CCC charts provide a set of ready-to-use chart types, customisable and extendable.
+The Pentaho Visualization API provides a unified way to visualize data across the Pentaho suite (Analyzer, PDI, CDF).
+The stock CCC charts provide a set of ready-to-use chart types, customizable and extensible.
 
-Visualisations are implemented on top of the [Type API](another-page). That ensures out-of-the-box class inheritance capabilities (reducing code duplication), [change events](another-page), [validation](another-page), [configuration](another-page) and [serialization](another-page).
+Visualizations are implemented on top of the [Type API](another-page).
+That ensures out-of-the-box class inheritance capabilities (reducing code duplication), 
+[change events](another-page), [validation](another-page), [configuration](another-page) and 
+[serialization](another-page).
 
-The framework includes 14 visualisation Models (chart types) and corresponding Views (chart implementations).
+The framework includes 14 visualization Models (chart types) and corresponding Views (chart implementations).
 
 > **List them**
 
-Views can be further customised by [configuration](another-page) (through [CCC extension points](another-page) in the case of the stock visualizations) to fit the desired look and feel. They are also interactive, exposing [actions](another-page) and showing [tooltips](another-page).
+Views can be further customized by [configuration](another-page) 
+(through [CCC extension points](another-page) in the case of the stock visualizations) to fit the desired look and feel.
+They are also interactive, exposing [actions](another-page) and showing [tooltips](another-page).
 
 ----
 
-# Creating a visualisation
-The following steps will walk you through the creating of a simple visualization. The complete code is available at [pentaho/pentaho-engineering-samples](https://github.com/pentaho/pentaho-engineering-samples). You can clone the sample code into a directory of your choosing.
+# Creating a visualization
+The following steps will walk you through the creation of a simple visualization. 
+The complete code is available at 
+[pentaho/pentaho-engineering-samples](https://github.com/pentaho/pentaho-engineering-samples). 
+You can clone the sample code into a directory of your choosing.
 
 ## Prerequisites
 - An npm registry compatible package manager like [yarn](https://yarnpkg.com) or [npm](https://www.npmjs.com).
 
 ## Preparing the environment
 {% include callout.html content="<p>You can skip this section if you choose to clone the sample repository.</p>
-<p>In that case you just need to install the dependencies by typing <code>yarn install</code> or <code>npm install</code>.</p>
-<p>Then continue to <a href='#implementing-a-custom-visualisation'>the next section</a>.</p>
+<p>In that case you just need to install the dependencies by typing <code>yarn install</code> or 
+<code>npm install</code>.</p>
+<p>Then continue to <a href='#implementing-a-custom-visualization'>the next section</a>.</p>
 " type="info" %}
 
 ### 1. Setting up the project
@@ -99,11 +109,14 @@ The following steps will walk you through the creating of a simple visualization
 
 ### 3. Test your code
 - Open the HTML file in a browser.
-{% include callout.html content="<p>Directly opening the file through the filesystem will not work when using Google Chrome (and Chromium and possibly other browsers).</p>
+{% include callout.html content="<p>Directly opening the file through the filesystem will not work when using 
+Google Chrome (and Chromium and possibly other browsers).</p>
 
-<p>Security restrictions disallow the loading of local resources using XHR. That is currently required by the VizAPI to load localization bundles and other resources.</p>
+<p>Security restrictions disallow the loading of local resources using XHR. That is currently required by the VizAPI to 
+load localization bundles and other resources.</p>
 
-<p>To overcome this limitation you can serve the project files with a HTTP server. There are several simple to use solutions:</p>
+<p>To overcome this limitation you can serve the project files with a HTTP server. 
+There are several simple to use solutions:</p>
 
 <b>Node:</b><pre>npm install -g node-static
 static -p 8000</pre>
@@ -117,7 +130,7 @@ static -p 8000</pre>
 <b>Ruby:</b><pre>ruby -run -e httpd . -p 8000</pre>
 " type="warning" %}
 
-## Implementing a custom visualisation
+## Implementing a custom visualization
 
 ### 1. Choose your Model
 
@@ -145,7 +158,7 @@ static -p 8000</pre>
 
 #### __5. ~~Localization~~ [2nd pass]
 
-## Deploying your visualisation
+## Deploying your visualization
 
 ### Packaging
 > Explain the Pentaho Web Packaging, the package.json, the pentaho/service config, the bundling...
@@ -157,7 +170,7 @@ static -p 8000</pre>
 
 ----
 
-# Configuring visualisations
+# Configuring visualizations
 > The config file location, its format, adding configuration rules, priorities, etc..
 
 ## Migrating Analyzer's settings
