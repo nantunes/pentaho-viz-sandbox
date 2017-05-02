@@ -106,6 +106,9 @@ You can clone the sample code into a directory of your choosing.
   </body>
   </html>
 ```
+This will show the simplest (and most useless) visualization: a calculator, 
+which just displays the result of aggregating the values of one column of a dataset. 
+That's why you'll create your own!
 
 ### 3. Test your code
 - Open the HTML file in a browser.
@@ -132,17 +135,185 @@ static -p 8000</pre>
 
 ## Implementing a custom visualization
 
-### 1. Choose your Model
+A visualization is composed of one model and (at least) one view.
+The model defines a certain kind of visualization,
+in terms of the visual degrees of freedom it has (like _category_, _color_ and _size_) and 
+any major options that affect its rendering.
+A view implements the actual rendering using chosen technologies.
 
-#### __ a) Create a new model / extend an existing one
-##### ____ Visual Roles
-##### ____ Validation
+In this walk-through, you'll implement a simple Bar chart visualization using the amazing D3 graphics library.
 
-#### __ b) Reuse an existing model
-(currently this implies changing the defaultView property of the model through configuration)
+### 1. Defining the Model
 
+The simplest Bar chart shows a single series of data, 
+one bar per _category_, having a height proportional to a numeric _measure_. 
+Thus, there are two main visual degrees of freedom, or, as called in the Visualization API, **visual roles**,
+_Category_ and _Measure_. The value of the first is visually encoded by the _horizontal position_ of bars and, 
+the second, by the _height_ of bars.
+
+#### Skeleton Model
+
+Start by creating a folder named `"bar"` and, in it, creating a file named `model.js`.
+Then, place the following code in it:
+
+```js
+// bar/model.js (step 1)
+define([
+  "module",
+  "pentaho/visual/base"
+], function(module, baseModelFactory) {
+  
+  // Return the Model factory function.
+  return function(context) {
+    
+    // Obtain the base Model class from the context, given the base Model's factory function.
+    var BaseModel = context.get(baseModelFactory);
+    
+    // Return the Bar model class.
+    return BaseModel.extend({
+      type: {
+        // This is the id of the model (and of the visualization).
+        id: "pentaho/visual/samples/bar",
+        
+        // The AMD/RequireJS module id of the visualization.
+        sourceId: module.id,
+        
+        // The default view to use to render this visualization is
+        // a sibling module named `view.js`.
+        defaultView: "./view"
+      }
+    });
+  };
+});
+```
+
+This defines a visualization model type, of id `pentaho/visual/samples/bar`, 
+that inherits directly from the base visualization model, `pentaho/visual/base`,
+but says nothing specific (yet) about Bar charts.
+
+#### Complete Model
+
+The following is the Bar chart visualization model, 
+where the `props` attribute was added, 
+containing Bar-specific properties:
+
+```js
+// bar/model.js (step 2)
+define([
+  "module",
+  "pentaho/visual/base"
+], function(module, baseModelFactory) {
+  
+  return function(context) {
+    
+    var BaseModel = context.get(baseModelFactory);
+    
+    return BaseModel.extend({
+      type: {
+        id: "pentaho/visual/samples/bar",
+        sourceId: module.id,
+        defaultView: "./view",
+        props: [
+          // General properties
+          {
+            name: "barSize",
+            type: "number",
+            value: 30,
+            isRequired: true
+          },
+          
+          // Visual role properties
+          {
+            name: "category",
+            type: {
+              base: "pentaho/visual/role/ordinal",
+              props: {attributes: {isRequired: true, countMax: 1}}
+            }
+          },
+          {
+            name: "measure",
+            type: {
+              base: "pentaho/visual/role/quantitative",
+              dataType: "number",
+              props: {attributes: {isRequired: true, countMax: 1}}
+            }
+          }
+        ]
+      }
+    });
+  };
+});
+```
+
+The following sections explain each of the properties.
+  
+#### The `barSize` property
+
+```js
+barSizeSpec = {
+  name: "barSize",
+  type: "number",
+  value: 30,
+  isRequired: true
+}
+```
+
+A simple property to determine the constant width of bars. 
+It is of type `number`, is required and has a default value of `30`. That's as simple as it gets.
+
+#### The `category` property
+
+```js
+categorySpec = {
+  name: "category",
+  type: {
+    base: "pentaho/visual/role/ordinal",
+    props: {attributes: {isRequired: true, countMax: 1}}
+  }
+}
+```
+
+Represents the _Category_ visual role. Being _ordinal_ means that it can visually encode discrete values 
+and their relative order.
+
+The [data](http://) property, which is inherited from the base visualization model, 
+is given a dataset containing data for attributes such as _Product Family_ and _Sales_.
+The value of a visual role contains the names of the data attributes that are _mapped_ to it,
+e.g.: `{attributes: ["productFamily"]}`. 
+So, the value of a visual role is an object with a list property named `attributes`.
+
+Because by default, any number of data attributes can be mapped to a visual role, including 0 or 10, 
+it is necessary to derive the `pentaho/visual/role/ordinal` visual role type to limit the cardinality 
+limits of its `attributes` property, so that it accepts and requires a single data attribute.
+
+#### The `measure` property
+
+```js
+measureSpec = {
+  name: "measure",
+  type: {
+    base: "pentaho/visual/role/quantitative",
+    dataType: "number",
+    props: {attributes: {isRequired: true, countMax: 1}}
+  }
+}
+```
+
+Represents the _Measure_ visual role. Being _quantitative_ means that it can visually represent
+the proportion between values (_this is twice that_).
+Additionally, to prevent a data attribute of type `date` to be mapped to the visual role, 
+its `dataType` is restricted to `number`.
+
+#### Additional Metadata
+
+The model could still be enriched by providing localized labels/descriptions for the name of the visualization
+and its properties, or providing standard icons for supported Pentaho themes. 
+However, you can define these anytime, and now you can't wait to see something shining on the screen,
+so let's move on into creating a visualization view.
 
 ### 2. Create your View
+
+You'll be creating a D3-based bar chart view for the visualization.
 
 #### __1. Render methods
 
