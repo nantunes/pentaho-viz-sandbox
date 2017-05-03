@@ -139,16 +139,16 @@ because of security restrictions that disallow the loading of local resources us
 <p>To overcome this limitation you need to serve the project files through an HTTP server. 
 There are several simple-to-use solutions:</p>
 
-<b>Node:</b><pre>npm install -g node-static
-static -p 8000</pre>
+<b>Node:</b><pre class='highlight'><code>npm install -g node-static
+static -p 8000</code></pre>
 
-<b>PHP:</b><pre>php -S localhost:8000</pre>
+<b>PHP:</b><pre class='highlight'><code>php -S localhost:8000</code></pre>
 
-<b>Python 2:</b><pre>python -m SimpleHTTPServer 8000</pre>
+<b>Python 2:</b><pre class='highlight'><code>python -m SimpleHTTPServer 8000</code></pre>
 
-<b>Python 3:</b><pre>python -m http.server 8000</pre>
+<b>Python 3:</b><pre class='highlight'><code>python -m http.server 8000</code></pre>
 
-<b>Ruby:</b><pre>ruby -run -e httpd . -p 8000</pre>
+<b>Ruby:</b><pre class='highlight'><code>ruby -run -e httpd . -p 8000</code></pre>
 " type="warning" %}
 
 # Quick background facts
@@ -252,7 +252,7 @@ specification = {
 }
 ```
 
-A simple property to determine the constant width of bars. 
+A general property which determines the constant width of bars. 
 It is of type `number`, is required and has a default value of `30`. That's as simple as it gets.
 
 ## The `category` property
@@ -300,12 +300,10 @@ its `dataType` is restricted to `number`.
 
 ## Additional model metadata
 
-The model could still be enriched in several ways:
+The model could still be enriched in several ways, such as:
 
 - Providing localized labels/descriptions for the name of the visualization and that of its properties.
 - Providing standard icons for supported Pentaho themes.
-- Configuring additional validation rules.
-- ...
 
 However, these are all accessory and can be done anytime.
 Now you can't wait to see something shining on the screen, so let's move on into creating the view.

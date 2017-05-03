@@ -25,7 +25,7 @@ They are also interactive, exposing [actions](another-page) and showing [tooltip
 
 ## Creating your visualization
 
-Read the [Bar/D3 sample](sample-bar-d3) walk-through to learn how to create a custom visualization
+Read the [Bar/D3 sample](samples/bar-d3) walk-through to learn how to create a custom visualization
 using the [D3](https://d3js.org/) library for rendering.
 
 ## Deploying your visualization
