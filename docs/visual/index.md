@@ -23,24 +23,24 @@ They are also interactive, exposing [actions](another-page) and showing [tooltip
 
 ----
 
-## Creating your visualization
+# Creating a visualization
 
 Read the [Bar/D3 sample](samples/bar-d3) walk-through to learn how to create a custom visualization
 using the [D3](https://d3js.org/) library for rendering.
 
-## Deploying your visualization
+# Deploying a visualization
 
-### Packaging
+## Packaging
 > Explain the Pentaho Web Packaging, the package.json, the pentaho/service config, the bundling...
 > 
 > **How to package dependencies!** Webjars, feature, kar...
 
-### Installing
+## Installing
 > Copy to the deploy folder... Submit it to the marketplace?
 
 ----
 
-# Configuring visualizations
+# Configuring a visualization
 > The config file location, its format, adding configuration rules, priorities, etc..
 
 ## Migrating Analyzer's settings
