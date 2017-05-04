@@ -648,7 +648,7 @@ function() {
   var barWidth  = Math.min(model.barSize, bandWidth);
   var barOffset = bandWidth / 2 - barWidth / 2 + 0.5;
 
-  g.selectAll(".bar")
+  var bar = g.selectAll(".bar")
       .data(scenes)
       .enter().append("rect")
       .attr("class", "bar")
@@ -737,10 +737,117 @@ The Visualization API defines two standard types of actions:
 [select]({{site.refDocsUrlPattern | replace: '$', 'pentaho.visual.action.Select'}}).
 Most container applications handle these in some useful way.
 
+### On data actions...
+
+Visualization API 
+[data actions]({{site.refDocsUrlPattern | replace: '$', 'pentaho.visual.action.Data'}}) 
+carry information that _identifies_ the visual element with which the user interacted 
+in terms of the subset of data that it visually represents.
+This is conveyed in their
+[dataFilter]({{site.refDocsUrlPattern | replace: '$', 'pentaho.visual.action.Data' | append: '#dataFilter'}})
+property.
+
 ### Implementing the `execute` action
 
+The `execute` action is typically performed in response to a double-click event on the main visual elements,
+in this case, the bars.
+
+In this visualization, 
+because 
+each bar represents a category of the data, 
+and the _Category_ visual role is mapped to a single data attribute, 
+then 
+each bar corresponds to a distinct value of the mapped data attribute.
+
+#### Declare the dependency on the `execute` action
+
+The `execute` action type module needs to be loaded with the view module.
+Modify the AMD module declaration of the `view-d3.js` file to the following:
+
+```js
+define([
+  "module",
+  "pentaho/visual/base/view",
+  "./model",
+  "pentaho/visual/action/execute",
+  "d3",
+  "css!./css/view-d3",
+], function(module, baseViewFactory, barModelFactory, executeActionFactory, d3) {
+  // ...
+});
+```
+
+#### Handle the `dblclick` event
+
+Now, you'll handle the `dblclick` event of the SVG rect elements — the bars.
+Add the following code to the `_updateAll` method:
+
+```js
+// view-d3.js
+// _updateAll:
+function() {
+  // Part 1 & 2
+  // ...
+  
+  // Part 3
+  var view = this;
+  var context = this.type.context;
+
+  bar.on("dblclick", function(d) {
+    
+    var filterSpec = {_: "=", property: categoryAttribute, value: d.category};
+
+    var ExecuteAction = context.get(executeActionFactory);
+    var action = new ExecuteAction({dataFilter: filterSpec});
+
+    view.act(action);
+  });
+}
+```
+
+Remarks:
+  - An [isEqual]({{site.refDocsUrlPattern | replace: '$', 'pentaho.type.filter.IsEqual'}}) 
+    filter is being created; `=` is the alias of the filter type. 
+  - The action is being dispatched through the view, where action listeners can handle it. 
+
+#### Handle the `execute` action event
+
+Finally, you'll handle the `execute` action event from the sandbox side, 
+so that it is clear that the action is being dispatched.
+
+In `index.html`, find the statement `view.update()`. 
+Just before it, add the following:
+
+```js
+view.on("pentaho/visual/action/execute", {
+  "do": function(action) {
+    var filter = action.dataFilter.toDnf();
+    if(filter.kind === "or") {
+      var terminalFilter = filter.operands.at(0).operands.at(0);
+      alert("Executed " + terminalFilter.contentKey);
+    }
+  }
+});
+```
+
+Remarks:
+  - Actions emit events whose _type_ is the id of the action's type.
+  - Actions emit _structured_ events, composed of multiple phases; you're handling its `do` phase.
+  - Action listener functions receive the action as argument.
+  - By converting the action's 
+    [dataFilter]({{site.refDocsUrlPattern | replace: '$', 'pentaho.visual.action.Data' | append: '#dataFilter'}}) 
+    to [Disjunctive Nornal Form](https://en.wikipedia.org/wiki/Disjunctive_normal_form),
+    a filter with a predictable form is obtained
+    (an `or` of `and`s of, possibly negated, property `isEqual` filters).
+  - The filter's 
+    [contentKey]({{site.refDocsUrlPattern | replace: '$', 'pentaho.type.filter.Abstract' | append: '#contentKey'}})
+    property provides an easy way to get a human-readable description of a filter.
+
+What are you waiting for? 
+Refresh the `index.html` page in the browser, and double click a bar!
 
 ### Implementing the `select` action
+
 
 
 #### Emit Action

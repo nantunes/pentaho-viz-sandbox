@@ -17,9 +17,10 @@ define([
   "module",
   "pentaho/visual/base/view",
   "./model",
+  "pentaho/visual/action/execute",
   "d3",
-  "css!./css/view-d3"
-], function(module, baseViewFactory, barModelFactory, d3) {
+  "css!./css/view-d3",
+], function(module, baseViewFactory, barModelFactory, executeActionFactory, d3) {
 
   "use strict";
 
@@ -127,7 +128,7 @@ define([
         var barWidth  = Math.min(model.barSize, bandWidth);
         var barOffset = bandWidth / 2 - barWidth / 2 + 0.5;
 
-        g.selectAll(".bar")
+        var bar = g.selectAll(".bar")
             .data(scenes)
             .enter().append("rect")
             .attr("class", "bar")
@@ -135,6 +136,21 @@ define([
             .attr("y", function(d) { return y(d.measure); })
             .attr("width", barWidth)
             .attr("height", function(d) { return height - y(d.measure); });
+
+        var view = this;
+        var context = this.type.context;
+
+        bar.on("dblclick", function(d) {
+          // A filter that would select the data that the bar visually represents.
+          var filterSpec = {_: "=", property: categoryAttribute, value: d.category};
+
+          // Create the action.
+          var ExecuteAction = context.get(executeActionFactory);
+          var action = new ExecuteAction({dataFilter: filterSpec});
+
+          // Dispatch the action through the view.
+          view.act(action);
+        });
       },
 
       /**
