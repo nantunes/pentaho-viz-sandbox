@@ -63,10 +63,14 @@
         "operation": "avg"
       });
 
+      // Mark the container with the model's CSS classes, for styling purposes.
+      var domContainer = document.getElementById("viz_div");
+      domContainer.className = model.type.inheritedStyleClasses.join(" ");
+
       // Create the visualization view.
       var BaseView = context.get(baseViewFactory);
       BaseView.createAsync({
-        domContainer: document.getElementById("viz_div"),
+        domContainer: domContainer,
         width: 400,
         height: 200,
         model: model
