@@ -79,7 +79,7 @@ define([
         // TODO: D3 - please look away...
         container.selectAll("*").remove();
 
-        var margin = {top: 50, right: 20, bottom: 30, left: 50};
+        var margin = {top: 50, right: 30, bottom: 30, left: 75};
 
         // Note use of the view's width and height properties
         var width  = this.width  - margin.left - margin.right;

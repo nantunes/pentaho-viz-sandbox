@@ -2,10 +2,8 @@
 <html>
 <head>
   <style>
-    #viz_div {
+    .pentaho-visual-base {
       border: solid 1px #005da6;
-      width: 400px;
-      height: 200px;
     }
   </style>
 
@@ -36,46 +34,43 @@
       "pentaho/type/Context",
       "pentaho/data/Table",
       "pentaho/visual/base/view",
-      "pentaho/visual/samples/bar"
-    ], function(Context, Table, baseViewFactory, barModelFactory) {
+      "pentaho/visual/samples/bar",
+      "json!./sales-by-product-family.json"
+    ], function(Context, Table, baseViewFactory, barModelFactory, dataSpec) {
 
-      // Setup up a VizAPI context
+      // Setup up a VizAPI context.
       var context = new Context({application: "viz-api-sandbox"});
 
-      // Prepare some test data
-      var dataTable = new Table({
-        model: [
-          {name: "productFamily", type: "string", label: "Product Family"},
-          {name: "sales",         type: "number", label: "Sales"}
-        ],
-        rows: [
-          {c: [{v: "plains", f: "Plains"}, 123]},
-          {c: [{v: "cars",   f: "Cars"  }, 456]}
-        ]
-      });
-
       // Create the visualization model.
-      var BarModel = context.get(barModelFactory);
-      var model = new BarModel({
-        "data": dataTable,
+      var modelSpec = {
+        "data": new Table(dataSpec),
         "category": {attributes: ["productFamily"]},
-        "measure":  {attributes: ["sales"]},
-        "operation": "avg"
-      });
+        "measure": {attributes: ["sales"]},
+        "barSize": 20
+      };
+
+      var BarModel = context.get(barModelFactory);
+      var model = new BarModel(modelSpec);
+
+      // Create the visualization view
+      var viewSpec = {
+        width: 700,
+        height: 300,
+        domContainer: document.getElementById("viz_div"),
+        model: model
+      };
 
       // Mark the container with the model's CSS classes, for styling purposes.
-      var domContainer = document.getElementById("viz_div");
-      domContainer.className = model.type.inheritedStyleClasses.join(" ");
+      viewSpec.domContainer.className = model.type.inheritedStyleClasses.join(" ");
+
+      // Set the container dimensions.
+      viewSpec.domContainer.style.width = viewSpec.width + "px";
+      viewSpec.domContainer.style.height = viewSpec.height + "px";
 
       // Create the visualization view.
       var BaseView = context.get(baseViewFactory);
-      BaseView.createAsync({
-        domContainer: domContainer,
-        width: 400,
-        height: 200,
-        model: model
-      }).then(function(view) {
-        // Render the visualization
+      BaseView.createAsync(viewSpec).then(function(view) {
+        // Render the visualization.
         view.update();
       });
     });

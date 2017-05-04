@@ -49,17 +49,35 @@ npm install
     # or: yarn add @nantunes/viz-api
     ```
 
-2. Create a file named `index.html` and place the following content in it:
+2. Create a file named `sales-by-product-family.json` and place the following content in it:
+
+   ```json
+   {
+     "model": [
+       {"name": "productFamily", "type": "string", "label": "Product Family"},
+       {"name": "sales",         "type": "number", "label": "Sales"}
+     ],
+     "rows": [
+       {"c": [{"v": "cars-classic", "f": "Classic Cars"}, 2746782]},
+       {"c": [{"v": "motorcycles", "f": "Motorcycles"}, 753753]},
+       {"c": [{"v": "planes", "f": "Planes"}, 748324]},
+       {"c": [{"v": "ships", "f": "Ships"}, 538982]},
+       {"c": [{"v": "trains", "f": "Trains"}, 165215]},
+       {"c": [{"v": "trucks-and-buses", "f": "Trucks and Buses"}, 756438]},
+       {"c": [{"v": "cars-vintage", "f": "Vintage Cars"}, 1308470]}
+     ]
+   }
+   ```
+
+3. Create a file named `index.html` and place the following content in it:
 
     ```html
     <!doctype html>
     <html>
       <head>
         <style>
-          #viz_div {
+          .pentaho-visual-base {
             border: solid 1px #005da6;
-            width: 400px;
-            height: 200px;
           }
         </style>
        
@@ -74,42 +92,42 @@ npm install
             "pentaho/type/Context",
             "pentaho/data/Table",
             "pentaho/visual/base/view",
-            "pentaho/visual/samples/calc"
-          ], function(Context, Table, baseViewFactory, calcFactory) {
+            "pentaho/visual/samples/calc",
+            "json!./sales-by-product-family.json"
+          ], function(Context, Table, baseViewFactory, calcFactory, dataSpec) {
             
-            // Setup up a VizAPI context
+            // Setup up a VizAPI context.
             var context = new Context({application: "viz-api-sandbox"});
-    
-            // Prepare some test data
-            var dataTable = new Table({
-              model: [
-                {name: "productFamily", type: "string", label: "Product Family"},
-                {name: "sales",         type: "number", label: "Sales"}
-              ],
-              rows: [
-                {c: [{v: "plains", f: "Plains"}, 123]},
-                {c: [{v: "cars",   f: "Cars"  }, 456]}
-              ]
-            });
-    
-            // Create the visualization model
-            var CalcModel = context.get(calcFactory);
-            var model = new CalcModel({
-              "data": dataTable,
+        
+            // Create the visualization model.
+            var modelSpec = {
+              "data": new Table(dataSpec),
               "levels": {attributes: ["productFamily"]},
               "measure": {attributes: ["sales"]},
               "operation": "avg"
-            });
-    
-            // Create the visualization view
-            var BaseView = context.get(baseViewFactory);
-            BaseView.createAsync({
-              domContainer: document.getElementById("viz_div"),
+            };
+        
+            var CalcModel = context.get(calcFactory);
+            var model = new CalcModel(modelSpec);
+        
+            // Create the visualization view.
+            var viewSpec = {
               width: 400,
               height: 200,
+              domContainer: document.getElementById("viz_div"),
               model: model
-            }).then(function(view) {
-              // Render the visualization
+            };
+        
+            // Mark the container with the model's CSS classes, for styling purposes.
+            viewSpec.domContainer.className = model.type.inheritedStyleClasses.join(" ");
+        
+            // Set the container dimensions.
+            viewSpec.domContainer.style.width = viewSpec.width + "px";
+            viewSpec.domContainer.style.height = viewSpec.height + "px";
+        
+            var BaseView = context.get(baseViewFactory);
+            BaseView.createAsync(viewSpec).then(function(view) {
+              // Render the visualization.
               view.update();
             });
           });
@@ -129,7 +147,8 @@ npm install
 
 # Visualize it
 
-Open `index.html` in a browser. You should see the text `The result is 289.5`.
+Open `index.html` in a browser.
+You should see the result of the average operation: `The result is 1002566.2857142857`.
 
 {% include callout.html content="<p>Directly opening the file through the filesystem will not work when using 
 Google Chrome (and possibly other browsers),
@@ -401,10 +420,8 @@ Edit the `index.html` file and place the following code in it:
 <html>
 <head>
   <style>
-    #viz_div {
+    .pentaho-visual-base {
       border: solid 1px #005da6;
-      width: 400px;
-      height: 200px;
     }
   </style>
 
@@ -432,42 +449,43 @@ Edit the `index.html` file and place the following code in it:
       "pentaho/type/Context",
       "pentaho/data/Table",
       "pentaho/visual/base/view",
-      "pentaho/visual/samples/bar"
-    ], function(Context, Table, baseViewFactory, barModelFactory) {
+      "pentaho/visual/samples/bar",
+      "json!./sales-by-product-family.json"
+    ], function(Context, Table, baseViewFactory, barModelFactory, dataSpec) {
 
-      // Setup up a VizAPI context
+      // Setup up a VizAPI context.
       var context = new Context({application: "viz-api-sandbox"});
 
-      // Prepare some test data
-      var dataTable = new Table({
-        model: [
-          {name: "productFamily", type: "string", label: "Product Family"},
-          {name: "sales",         type: "number", label: "Sales"}
-        ],
-        rows: [
-          {c: [{v: "plains", f: "Plains"}, 123]},
-          {c: [{v: "cars",   f: "Cars"  }, 456]}
-        ]
-      });
-
       // Create the visualization model.
-      var BarModel = context.get(barModelFactory);
-      var model = new BarModel({
-        "data": dataTable,
+      var modelSpec = {
+        "data": new Table(dataSpec),
         "category": {attributes: ["productFamily"]},
-        "measure":  {attributes: ["sales"]},
-        "barSize":  20
-      });
+        "measure": {attributes: ["sales"]},
+        "barSize": 20
+      };
+
+      var BarModel = context.get(barModelFactory);
+      var model = new BarModel(modelSpec);
+
+      // Create the visualization view
+      var viewSpec = {
+        width: 700,
+        height: 300,
+        domContainer: document.getElementById("viz_div"),
+        model: model
+      };
+
+      // Mark the container with the model's CSS classes, for styling purposes.
+      viewSpec.domContainer.className = model.type.inheritedStyleClasses.join(" ");
+
+      // Set the container dimensions.
+      viewSpec.domContainer.style.width = viewSpec.width + "px";
+      viewSpec.domContainer.style.height = viewSpec.height + "px";
 
       // Create the visualization view.
       var BaseView = context.get(baseViewFactory);
-      BaseView.createAsync({
-        domContainer: document.getElementById("viz_div"),
-        width: 400,
-        height: 200,
-        model: model
-      }).then(function(view) {
-        // Render the visualization
+      BaseView.createAsync(viewSpec).then(function(view) {
+        // Render the visualization.
         view.update();
       });
     });
@@ -484,6 +502,7 @@ Remarks:
   - A script block was added with the AMD/RequireJS configuration of the Bar and D3 packages.
   - The used visualization model is now `pentaho/visual/samples/bar`.
   - The model now contains visual role mappings for the `category` and `measure` visual roles.
+  - The dimensions of the visualization were increased.
 
 Now, refresh the `index.html` page in the browser, and you should read `Hello World!`.
 
@@ -581,7 +600,7 @@ function() {
   // Part 2
   container.selectAll("*").remove();
   
-  var margin = {top: 50, right: 20, bottom: 30, left: 50};
+  var margin = {top: 50, right: 20, bottom: 30, left: 75};
 
   var width  = this.width  - margin.left - margin.right;
   var height = this.height - margin.top  - margin.bottom;
