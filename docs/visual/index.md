@@ -5,12 +5,16 @@ layout: sub-intro
 ---
 
 # Overview
+
 The Pentaho Visualization API provides a unified way to visualize data across the Pentaho suite (Analyzer, PDI, CDF).
 The stock CCC charts provide a set of ready-to-use chart types, customizable and extensible.
 
-Visualizations are implemented on top of the [Type API](another-page).
+Visualizations are implemented on top of the 
+[Type API]({{site.refDocsUrlPattern | replace: '$', 'pentaho.type'}}).
 That ensures out-of-the-box class inheritance capabilities (reducing code duplication), 
-[change events](another-page), [validation](another-page), [configuration](another-page) and 
+[change events](another-page), 
+[validation](another-page), 
+[configuration](another-page) and 
 [serialization](another-page).
 
 The framework includes 14 visualization Models (chart types) and corresponding Views (chart implementations).

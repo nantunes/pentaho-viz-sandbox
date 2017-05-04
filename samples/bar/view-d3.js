@@ -45,7 +45,6 @@ define([
 
         d3.select(this.domContainer).text("Hello World!");
 
-        // TODO: Implement full-render.
       }
     });
 

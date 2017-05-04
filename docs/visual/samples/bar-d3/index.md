@@ -235,9 +235,12 @@ define([
 Remarks:
   - The value of the AMD module is a factory function of Bar model classes.
   - Defines a visualization (model) of id `pentaho/visual/samples/bar`.
-  - Inherits directly from the base visualization model, `pentaho/visual/base`.
-  - Specifies the default view to use with this model (which you'll create in a moment).
-  - Two main property types exist: general and visual roles.
+  - Inherits directly from the base visualization model, 
+    [pentaho/visual/base]({{site.refDocsUrlPattern | replace: '$', 'pentaho.visual.base.Model'}}).
+  - Specifies the
+    [default view]({{site.refDocsUrlPattern | replace: '$', 'pentaho.type.Type' | append: '#defaultView'}}) 
+    to use with this model (which you'll create in a moment).
+  - Two main types of property exist: general and visual roles.
   
 The following sections explain each of the model properties.
   
@@ -253,7 +256,14 @@ specification = {
 ```
 
 A general property which determines the constant width of bars. 
-It is of type `number`, is required and has a default value of `30`. That's as simple as it gets.
+It is of 
+[type]({{site.refDocsUrlPattern | replace: '$', 'pentaho.type.Property.Type' | append: '#type'}})
+[number]({{site.refDocsUrlPattern | replace: '$', 'pentaho.type.Number'}}), 
+is [required]({{site.refDocsUrlPattern | replace: '$', 'pentaho.type.Property.Type' | append: '#isRequired'}}) and 
+has a 
+[default value]({{site.refDocsUrlPattern | replace: '$', 'pentaho.type.Property.Type' | append: '#value'}}) 
+of `30`.
+That's as simple as it gets.
 
 ## The `category` property
 
@@ -267,17 +277,23 @@ specification = {
 }
 ```
 
-Represents the _Category_ visual role. Being _ordinal_ means that it can visually encode discrete values 
+Represents the _Category_ visual role.
+Being [ordinal]({{site.refDocsUrlPattern | replace: '$', 'pentaho.visual.role.OrdinalMapping'}}) 
+means that it can visually encode discrete values 
 and their relative order.
 
-The [data](http://) property, which is inherited from the base visualization model, 
+The [data]({{site.refDocsUrlPattern | replace: '$', 'pentaho.visual.base.Mode' | append: '#data'}}) property, 
+which is inherited from the base visualization model, 
 is given a dataset containing data for attributes such as _Product Family_ and _Sales_.
 The value of a visual role contains the names of the data attributes that are _mapped_ to it,
 e.g.: `{attributes: ["productFamily"]}`. 
-So, the value of a visual role is an object with a list property named `attributes`.
+So, the value of a visual role is an object with a list property named 
+[attributes]({{site.refDocsUrlPattern | replace: '$', 'pentaho.visual.role.Mapping' | append: '#attributes'}}).
 
 Because by default, any number of data attributes can be mapped to a visual role, including 0 or 10, 
-it is necessary to derive the `pentaho/visual/role/ordinal` visual role type to limit the cardinality 
+it is necessary to derive the 
+[pentaho/visual/role/ordinal]({{site.refDocsUrlPattern | replace: '$', 'pentaho.visual.role.OrdinalMapping'}}) 
+visual role type to limit the cardinality 
 limits of its `attributes` property, so that it accepts and requires a single data attribute.
 
 ## The `measure` property
@@ -293,10 +309,15 @@ specification = {
 }
 ```
 
-Represents the _Measure_ visual role. Being _quantitative_ means that it can visually represent
-the proportion between values (_this is twice that_).
-Additionally, to prevent a data attribute of type `date` to be mapped to the visual role, 
-its `dataType` is restricted to `number`.
+Represents the _Measure_ visual role. 
+Being [quantitative]({{site.refDocsUrlPattern | replace: '$', 'pentaho.visual.role.QuantitativeMapping'}}) 
+means that it can visually represent the proportion between values (_this is twice that_).
+Additionally, to prevent a data attribute of type 
+[date]({{site.refDocsUrlPattern | replace: '$', 'pentaho.type.Date'}}) to be mapped to the visual role, 
+its 
+[dataType]({{site.refDocsUrlPattern | replace: '$', 'pentaho.visual.role.Mapping.Type' | append: '#dataType'}}) 
+is restricted to 
+[number]({{site.refDocsUrlPattern | replace: '$', 'pentaho.type.Number'}}).
 
 ## Additional model metadata
 
@@ -351,9 +372,15 @@ define([
 
 Remarks:
   - Defines a visualization view type of id `pentaho/visual/samples/bar/view`.
-  - Inherits directly from the base visualization view, `pentaho/visual/base/view`.
-  - The inherited `model` property is overridden so that its `type` is the Bar model you previously created.
-  - The `_updateAll` method is where the code that fully renders the visualization must go, 
+  - Inherits directly from the base visualization view, 
+    [pentaho/visual/base/view]({{site.refDocsUrlPattern | replace: '$', 'pentaho.visual.base.View'}}).
+  - The inherited 
+    [model]({{site.refDocsUrlPattern | replace: '$', 'pentaho.visual.base.View' | append: '#model'}}) 
+    property is overridden so that its 
+    [type]({{site.refDocsUrlPattern | replace: '$', 'pentaho.type.Property.Type' | append: '#type'}}) 
+    is the Bar model you previously created.
+  - The [_updateAll]({{site.refDocsUrlPattern | replace: '$', 'pentaho.visual.base.View' | append: '#_updateAll'}})
+    method is where the code that fully renders the visualization must go,
     and, for now, it simply uses d3 to output `"Hello World!"` in the view's DOM element, `domContainer`.
 
 ## Installing D3
@@ -368,7 +395,7 @@ npm install d3 --save
 
 ## Adapting the HTML sandbox
 
-Edit the `index.html` file and place the following code in it.
+Edit the `index.html` file and place the following code in it:
 
 ```html
 <html>
@@ -462,12 +489,14 @@ Now, refresh the `index.html` page in the browser, and you should read `Hello Wo
 
 ## Implementing the render code
 
-## Handling interactivity
+## Adding interactivity
 
-### Implementing the Bar select action
+### Implementing the `execute` action
 
-### Implementing the Bar execute action
+### Implementing the `select` action
 
+#### Emit Action
+#### Update rendering
 
 ### __1. Render methods
 

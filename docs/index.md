@@ -22,14 +22,16 @@ Lore...
     <li>
         <dl>
             <dt>
-                <a title="Pentaho Data API" href="data">Pentaho Data API</a>
+                <a title="Pentaho Data API" 
+                   href="{{site.refDocsUrlPattern | replace: '$', 'pentaho.data'}}">Pentaho Data API</a>
             </dt>
             <dd>Classes and interfaces used for data representation by the Visualization API.
                 <ul>
                     <li>
                         <dl>
                             <dt>
-                                <a title="Pentaho Data Access API" href="data/access">Data Access API</a>
+                                <a title="Pentaho Data Access API" 
+                                   href="data/access">Data Access API</a>
                             </dt>
                             <dd>sad sadas dasdsa dsad sa dsad sadsadas.</dd>
                         </dl>
@@ -41,7 +43,8 @@ Lore...
     <li>
         <dl>
             <dt>
-                <a title="Pentaho Type API" href="type">Pentaho Type API</a>
+                <a title="Pentaho Type API" 
+                   href="{{site.refDocsUrlPattern | replace: '$', 'pentaho.type'}}">Type API</a>
             </dt>
             <dd>Pentaho Client Metadata Model.</dd>
         </dl>
@@ -49,14 +52,15 @@ Lore...
     <li class="bigger">
         <dl>
             <dt>
-                <a title="Pentaho Core API" href="core">Pentaho Core API</a>
+                Pentaho Core APIs
             </dt>
             <dd>Pentaho Web Platform's base functionality.
                 <ul>
                     <li>
                         <dl>
                             <dt>
-                                <a title="Environment" href="core/environment">Environment</a>
+                                <a title="Environment" 
+                                   href="{{site.refDocsUrlPattern | replace: '$', 'pentaho.context'}}">Environment</a>
                             </dt>
                             <dd>The Pentaho Web Client Platform's contextual information.</dd>
                         </dl>
@@ -64,7 +68,8 @@ Lore...
                     <li>
                         <dl>
                             <dt>
-                                <a title="Services" href="core/service">Services</a>
+                                <a title="Services" 
+                                   href="{{site.refDocsUrlPattern | replace: '$', 'pentaho.service'}}">Services</a>
                             </dt>
                             <dd>AMD plugin which maintains a collection of logical modules and their dependencies.</dd>
                         </dl>
@@ -72,7 +77,8 @@ Lore...
                     <li>
                         <dl>
                             <dt>
-                                <a title="Pentaho Core API Configuration" href="core/config">Configuration System</a>
+                                <a title="Pentaho Core API Configuration" 
+                                   href="{{site.refDocsUrlPattern | replace: '$', 'pentaho.config'}}">Configuration System</a>
                             </dt>
                             <dd>Classes and interfaces related to the configuration of value types.</dd>
                         </dl>
@@ -80,7 +86,8 @@ Lore...
                     <li>
                         <dl>
                             <dt>
-                                <a title="Pentaho Core API Lang package" href="core/lang">pentaho/lang</a>
+                                <a title="Pentaho Core API Lang package" 
+                                   href="{{site.refDocsUrlPattern | replace: '$', 'pentaho.lang'}}">pentaho/lang</a>
                             </dt>
                             <dd>
                                 Classes and interfaces used as type system building blocks to form other classes and 
