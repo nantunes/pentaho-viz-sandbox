@@ -581,7 +581,7 @@ function() {
   // Part 2
   container.selectAll("*").remove();
   
-  var margin = {top: 30, right: 20, bottom: 30, left: 50};
+  var margin = {top: 50, right: 20, bottom: 30, left: 50};
 
   var width  = this.width  - margin.left - margin.right;
   var height = this.height - margin.top  - margin.bottom;
@@ -647,20 +647,82 @@ Remarks:
   - The chart title is build with the labels of the mapped attributes, by calling 
     [getColumnLabel]({{site.refDocsUrlPattern | replace: '$', 'pentaho.data.ITable' | append: '#getColumnLabel'}}).
   - The Bar model's `barSize` property is being used to limit the width of bars.
-  
+
 Now, refresh the `index.html` page in the browser, and you should finally see a Bar chart!
+
+## Styling your visualization
+
+Noticed that you added CSS classes to some of the SVG elements? 
+Let's then give some love to the Bar chart by styling it with CSS.
+
+### Creating the CSS file
+
+Create a folder named `css` and, in it, create a file named `view-d3.css`. Add the following content to it:
+
+```css
+.pentaho-visual-samples-bar .bar {
+  fill: #007297;
+}
+
+.pentaho-visual-samples-bar .bar:hover {
+  fill: #1973bc;
+}
+
+.pentaho-visual-samples-bar .axis path,
+.pentaho-visual-samples-bar .tick line {
+  stroke: #cbdde8;
+}
+
+.pentaho-visual-samples-bar .tick text {
+  font-family: OpenSansLight, Helvetica, Arial, Sans serif;
+  fill: #26363d;
+}
+
+.pentaho-visual-samples-bar .title {
+  font-family: OpenSansLight, Helvetica, Arial, Sans serif;
+  font-size: 18px;
+  font-style: normal;
+  fill: #005f7d;
+}
+```
+
+Remarks:
+  - The CSS rules are scoped with the visualization model's
+    CSS [style class]({{site.refDocsUrlPattern | replace: '$', 'pentaho.type.Type' | append: '#styleClass'}}), 
+    which, by default is derived from its id, `pentaho/visual/samples/bar`.
+
+### Loading the CSS file with the view
+
+To load the view's CSS file dynamically, whenever the view module is loaded, use the `css` AMD/RequireJS plugin.
+Modify the AMD module declaration of the `view-d3.js` file to the following:
+
+```js
+define([
+  "module",
+  "pentaho/visual/base/view",
+  "./model",
+  "d3",
+  "css!./css/view-d3"
+], function(module, baseViewFactory, barModelFactory, d3) {
+  // ...
+});
+```
+
+Now, refresh the `index.html` page in the browser, and you should see a more colorful Bar chart!
 
 ## Adding interactivity
 
-Visualizations can be much more fun and useful if the user can interact with them.
-The Visualization API defines two standard action types: 
+Visualizations can be much more fun and useful if the user is able to interact with them.
+The Visualization API defines two standard types of actions: 
 [execute]({{site.refDocsUrlPattern | replace: '$', 'pentaho.visual.action.Execute'}}) and
-[select]({{site.refDocsUrlPattern | replace: '$', 'pentaho.visual.action.Select'}}),
-that most container applications handle in some useful way.
+[select]({{site.refDocsUrlPattern | replace: '$', 'pentaho.visual.action.Select'}}).
+Most container applications handle these in some useful way.
 
 ### Implementing the `execute` action
 
+
 ### Implementing the `select` action
+
 
 #### Emit Action
 #### Update rendering

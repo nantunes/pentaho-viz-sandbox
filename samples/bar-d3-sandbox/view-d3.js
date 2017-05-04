@@ -17,7 +17,8 @@ define([
   "module",
   "pentaho/visual/base/view",
   "./model",
-  "d3"
+  "d3",
+  "css!./css/view-d3"
 ], function(module, baseViewFactory, barModelFactory, d3) {
 
   "use strict";
@@ -78,7 +79,7 @@ define([
         // TODO: D3 - please look away...
         container.selectAll("*").remove();
 
-        var margin = {top: 30, right: 20, bottom: 30, left: 50};
+        var margin = {top: 50, right: 20, bottom: 30, left: 50};
 
         // Note use of the view's width and height properties
         var width  = this.width  - margin.left - margin.right;
