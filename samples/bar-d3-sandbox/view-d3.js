@@ -18,9 +18,10 @@ define([
   "pentaho/visual/base/view",
   "./model",
   "pentaho/visual/action/execute",
+  "pentaho/visual/action/select",
   "d3",
   "css!./css/view-d3",
-], function(module, baseViewFactory, barModelFactory, executeActionFactory, d3) {
+], function(module, baseViewFactory, barModelFactory, executeActionFactory, selectActionFactory, d3) {
 
   "use strict";
 
@@ -151,6 +152,23 @@ define([
           // Dispatch the action through the view.
           view.act(action);
         });
+
+        bar.on("click", function(d) {
+          // A filter that would select the data that the bar visually represents.
+          var filterSpec = {_: "=", property: categoryAttribute, value: d.category};
+
+          var SelectAction = context.get(selectActionFactory);
+          var action = new SelectAction({dataFilter: filterSpec, selectionMode: 'replace'});
+
+          view.act(action);
+        });
+        /*
+        TODO: uncomment me when the `filterRow` method actually exists.
+        bar.classed("selected", function(d) {
+          var sf = view.selectionFilter;
+          return !!sf && dataTable.filterRow(sf, d.rowIndex);
+        });
+        */
       },
 
       /**
@@ -171,7 +189,8 @@ define([
           scenes.push({
             category:      dataTable.getValue(i, categoryColumn),
             categoryLabel: dataTable.getFormattedValue(i, categoryColumn),
-            measure:       dataTable.getValue(i, measureColumn)
+            measure:       dataTable.getValue(i, measureColumn),
+            rowIndex:      i
           });
         }
 

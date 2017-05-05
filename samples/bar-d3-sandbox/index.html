@@ -84,6 +84,13 @@
           }
         });
 
+        // Handle the select action.
+        view.on("pentaho/visual/action/select", {
+          "finally": function(action) {
+            document.getElementById("messages_div").innerText = "Selected: " + action.dataFilter.contentKey;
+          }
+        });
+
         // Render the visualization.
         view.update();
       });
@@ -94,5 +101,8 @@
 <body>
   <!-- div that will contain the visualization -->
   <div id="viz_div"></div>
+
+  <!-- div that will display messages -->
+  <div id="messages_div"></div>
 </body>
 </html>

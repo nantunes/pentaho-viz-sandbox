@@ -516,7 +516,7 @@ We'll now go through the view's
 [_updateAll]({{site.refDocsUrlPattern | replace: '$', 'pentaho.visual.base.View' | append: '#_updateAll'}})
 code, piece by piece.
 
-### Method `_updateAll`, part 1 
+### Method `_updateAll`, part 1
 
 In `view-d3.js`, replace the code of the `_updateAll` method with the following:
 
@@ -570,7 +570,8 @@ function(dataTable, categoryColumn, measureColumn) {
     scenes.push({
       category:      dataTable.getValue(i, categoryColumn),
       categoryLabel: dataTable.getFormattedValue(i, categoryColumn),
-      measure:       dataTable.getValue(i, measureColumn)
+      measure:       dataTable.getValue(i, measureColumn),
+      rowIndex:      i
     });
   }
 
@@ -584,7 +585,8 @@ Remarks:
     [getValue]({{site.refDocsUrlPattern | replace: '$', 'pentaho.data.ITable' | append: '#getValue'}}) and
     [getFormattedValue]({{site.refDocsUrlPattern | replace: '$', 'pentaho.data.ITable' | append: '#getFormattedValue'}}).
   - In the X axis, you'll be displaying the value of `categoryLabel`, 
-    but the value of `category` will be useful, later, for adding interactivity to the visualization. 
+    but the value of `category` (and of `rowIndex`) will be useful, later, 
+    for adding interactivity to the visualization. 
 
 ### Method `_updateAll`, part 2
 
@@ -737,7 +739,7 @@ The Visualization API defines two standard types of actions:
 [select]({{site.refDocsUrlPattern | replace: '$', 'pentaho.visual.action.Select'}}).
 Most container applications handle these in some useful way.
 
-### On data actions...
+### On data actions and filters...
 
 Visualization API 
 [data actions]({{site.refDocsUrlPattern | replace: '$', 'pentaho.visual.action.Data'}}) 
@@ -747,17 +749,17 @@ This is conveyed in their
 [dataFilter]({{site.refDocsUrlPattern | replace: '$', 'pentaho.visual.action.Data' | append: '#dataFilter'}})
 property.
 
-### Implementing the `execute` action
-
-The `execute` action is typically performed in response to a double-click event on the main visual elements,
-in this case, the bars.
-
 In this visualization, 
 because 
 each bar represents a category of the data, 
 and the _Category_ visual role is mapped to a single data attribute, 
 then 
 each bar corresponds to a distinct value of the mapped data attribute.
+
+### Implementing the `execute` action
+
+The `execute` action is typically performed in response to a double-click event on the main visual elements,
+in this case, the bars.
 
 #### Declare the dependency on the `execute` action
 
@@ -844,25 +846,159 @@ Remarks:
     property provides an easy way to get a human-readable description of a filter.
 
 What are you waiting for? 
-Refresh the `index.html` page in the browser, and double click a bar!
+Refresh the `index.html` page in the browser, and double-click a bar!
 
 ### Implementing the `select` action
 
+The `select` action is an _auxiliary_ action.
+Its goal is to mark a subset of data on which, later, a _real_ action, such as drilling-down, is performed.
+The current set of selected data is stored in the view's 
+[selectionFilter]({{site.refDocsUrlPattern | replace: '$', 'pentaho.visual.base.View' | append: '#selectionFilter'}})
+property.
+For each `select` action that is performed, 
+its [dataFilter]({{site.refDocsUrlPattern | replace: '$', 'pentaho.visual.action.Data' | append: '#dataFilter'}}), 
+may be removed from, be added to, replace or toggled in the view's current `selectionFilter`, 
+according to the action's 
+[selectionMode]({{site.refDocsUrlPattern | replace: '$', 'pentaho.visual.action.Select' | append: '#selectionMode'}}).
 
+Visualizations typically highlight visual elements that represent data that is selected.
+Container applications typically expose actions, from which the user can choose,
+to be performed on the currently selected subset of data.
 
-#### Emit Action
-#### Update rendering
+You'll let the user _select_ bars by clicking on them.
 
-### __1. Render methods
+#### Declare the dependency on the `select` action
 
-### __2. Interactivity
-#### ____ Trigger Select actions
-#### ____ Trigger Execute actions
-#### ____ ~~Tooltips~~ [out of scope]
-#### ____ ~~Printing / exporting~~ [out of scope]
+The `select` action type module needs to be loaded with the view module.
+Modify the AMD module declaration of the `view-d3.js` file to the following:
 
-### __3. ~~Color pallets~~ [out of scope]
+```js
+define([
+  "module",
+  "pentaho/visual/base/view",
+  "./model",
+  "pentaho/visual/action/execute",
+  "pentaho/visual/action/select",
+  "d3",
+  "css!./css/view-d3",
+], function(module, baseViewFactory, barModelFactory, executeActionFactory, selectActionFactory, d3) {
+  // ...
+});
+```
 
-### __4. ~~Themes~~ [2nd pass]
+#### Handle the `click` event
 
-### __5. ~~Localization~~ [2nd pass]
+Now, you'll handle the `click` event of the SVG rect elements, the bars.
+Add the following code to the `_updateAll` method:
+
+```js
+// view-d3.js
+// _updateAll:
+function() {
+  // Part 1 & 2 & 3
+  // ...
+  
+  // Part 4
+  bar.on("click", function(d) {
+    
+    var filterSpec = {_: "=", property: categoryAttribute, value: d.category};
+
+    var SelectAction = context.get(selectActionFactory);
+    var action = new SelectAction({dataFilter: filterSpec, selectionMode: "replace"});
+
+    view.act(action);
+  });
+}
+```
+
+Remarks:
+  - Each time a bar is clicked, the current view's `selectionFilter` will be 
+    [replaced]({{site.refDocsUrlPattern | replace: '$', 'pentaho.visual.action' | append: '#SelectionModes'}})
+    with the data filter associated with the clicked bar.
+
+#### Handle the `select` action event
+
+You'll handle the `select` action event from the sandbox side, 
+so that it is clear that the action is being dispatched.
+
+In `index.html`, find the markup `<div id="viz_div"></div>`. 
+Immediately after it, add the following:
+
+```html
+   <div id="messages_div"></div>
+```
+
+Again, in `index.html`, find the statement `view.update()`. 
+Just before it, add the following:
+
+```js
+view.on("pentaho/visual/action/select", {
+  "finally": function(action) {
+    document.getElementById("messages_div").innerText = "Selected: " + action.dataFilter.contentKey;
+  }
+});
+```
+
+Remarks:
+  - You're handling the `finally` phase of the `select` action, the last phase, that is called whatever happens.
+  - The `select` action's 
+    [default action]({{site.refDocsUrlPattern | replace: '$', 'pentaho.visual.action.Select' | append: '#_doDefault'}})
+    automatically processes the action's `dataFilter` and `selectionMode` and applies it to the view's
+    `selectionFilter`. Alternatively, you could show the content's of the view's `selectionFilter` property.
+
+Refresh the `index.html` page in the browser, and click a bar!
+You should see a text under the visualization showing the selected data's filter.
+
+#### Render selected bars differently
+
+It would be much nicer if bars where highlighted with a different color when selected. Let's do that.
+
+##### Edit the CSS file
+
+Edit the `view-d3.css` file. Append the following rules to it:
+
+```css
+.pentaho-visual-samples-bar .bar.selected {
+  fill: #97372d;
+}
+
+.pentaho-visual-samples-bar .bar.selected:hover {
+  fill: #970a05;
+}
+```
+
+##### Change the render code
+
+Finally, add the following code to the `_updateAll` method:
+
+```js
+// view-d3.js
+// _updateAll:
+function() {
+  // Part 1 & 2 & 3 & 4
+  // ...
+  
+  // Part 5
+  bar.classed("selected", function(d) {
+    var selectionFilter = view.selectionFilter;
+    return !!selectionFilter && dataTable.filterRow(selectionFilter, d.rowIndex);
+  });
+}
+```
+
+Refresh the `index.html` page in the browser, and click a bar!
+You should see the selected bar exhibiting different colors.
+
+### Conflicting Click and Double-click events
+
+You might have noticed that, when double-clicking, apart from the `dblclick` event, 
+two other `click` events are being triggered. 
+This is a known issue of DOM events and there are multiple solutions to it.
+Here's one solution, specifically for D3: 
+[Distinguishing click and double-click in D3](http://bl.ocks.org/couchand/6394506).
+
+# Next steps
+
+You've covered the basics of developing a visualization for the Pentaho Visualization API.
+Many features, such as color palettes, localization, theming and configuration, were purposely left out, 
+to keep things as accessible as possible.

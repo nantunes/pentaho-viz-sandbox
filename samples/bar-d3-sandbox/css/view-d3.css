@@ -38,3 +38,11 @@
   font-style: normal;
   fill: #005f7d;
 }
+
+.pentaho-visual-samples-bar .bar.selected {
+  fill: #97372d;
+}
+
+.pentaho-visual-samples-bar .bar.selected:hover {
+  fill: #970a05;
+}
