@@ -10,7 +10,7 @@ The following steps will walk you through the creation of a simple Bar chart vis
 using the Pentaho Visualization API and the amazing [D3](https://d3js.org/) graphics library.
  
 The complete code of this sample is available at 
-[pentaho/pentaho-engineering-samples/vizapi/samples/bar](https://github.com/pentaho/pentaho-engineering-samples).
+[pentaho/pentaho-engineering-samples](https://github.com/pentaho/pentaho-engineering-samples/Samples for Extending Pentaho/javascript-apis/platform/pentaho/visual/samples/bar-d3-sandbox).
 
 # Prerequisites
 
@@ -26,10 +26,10 @@ While reading, you can either build the sample step-by-step or follow along with
 
 ```shell
 # clone the repository
-git clone https://github.com/pentaho/pentaho-sdk
+git clone https://github.com/pentaho/pentaho-engineering-samples
 
 # go to the sample's directory
-cd pentaho-sdk/samples/viz-api/bar
+cd "Samples for Extending Pentaho/javascript-apis/platform/pentaho/visual/samples/bar-d3-sandbox"
 
 # install the dependencies
 npm install
@@ -44,9 +44,9 @@ npm install
     # create the package.json file
     npm init
     
-    # add and install the VizAPI dependency
-    npm install @nantunes/viz-api --save
-    # or: yarn add @nantunes/viz-api
+    # add and install the Visualization API dependency
+    npm install https://github.com/nantunes/pentaho-viz-sandbox/releases/download/3.0.4/nantunes-viz-api-3.0.4.tgz --save
+    # or: yarn add https://github.com/nantunes/pentaho-viz-sandbox/releases/download/3.0.4/nantunes-viz-api-3.0.4.tgz
     ```
 
 2. Create a file named `sales-by-product-family.json` and place the following content in it:

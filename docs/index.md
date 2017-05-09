@@ -9,7 +9,7 @@ Lore...
     <li class="bigger">
         <dl>
             <dt>
-                <a title="Pentaho Visualization API" href="visual">Pentaho Visualization API</a> ⭐ <em>3.0 beta</em>
+                <a title="Pentaho Visualization API" href="platform/visual">Pentaho Visualization API</a> ⭐ <em>3.0 beta</em>
             </dt>
             <dd>
                 The Pentaho Visualization API provides a unified way to visualize data across the 
