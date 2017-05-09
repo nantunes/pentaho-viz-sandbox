@@ -8,3 +8,4 @@ docs/_site
 *.iml
 .idea
 .sonar
+/docs/.jekyll-metadata
