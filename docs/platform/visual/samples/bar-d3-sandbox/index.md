@@ -331,12 +331,12 @@ specification = {
 Represents the _Measure_ visual role. 
 Being [quantitative]({{site.refDocsUrlPattern | replace: '$', 'pentaho.visual.role.QuantitativeMapping'}}) 
 means that it can visually represent the proportion between values (_this is twice that_).
-Additionally, to prevent a data attribute of type 
-[date]({{site.refDocsUrlPattern | replace: '$', 'pentaho.type.Date'}}) to be mapped to the visual role, 
-its 
-[dataType]({{site.refDocsUrlPattern | replace: '$', 'pentaho.visual.role.Mapping.Type' | append: '#dataType'}}) 
-is restricted to 
+The quantitative data types are 
+[date]({{site.refDocsUrlPattern | replace: '$', 'pentaho.type.Date'}})
+and 
 [number]({{site.refDocsUrlPattern | replace: '$', 'pentaho.type.Number'}}).
+The [dataType]({{site.refDocsUrlPattern | replace: '$', 'pentaho.visual.role.Mapping.Type' | append: '#dataType'}})
+is used to only allow mapping to data attributes of type `number`.
 
 ## Additional model metadata
 
@@ -503,6 +503,7 @@ Remarks:
   - The used visualization model is now `pentaho/visual/samples/bar`.
   - The model now contains visual role mappings for the `category` and `measure` visual roles.
   - The dimensions of the visualization were increased.
+  - The `barSize` property is being given a value different from its default.
 
 Now, refresh the `index.html` page in the browser, and you should read `Hello World!`.
 
@@ -823,11 +824,7 @@ Just before it, add the following:
 ```js
 view.on("pentaho/visual/action/execute", {
   "do": function(action) {
-    var filter = action.dataFilter.toDnf();
-    if(filter.kind === "or") {
-      var terminalFilter = filter.operands.at(0).operands.at(0);
-      alert("Executed " + terminalFilter.contentKey);
-    }
+    alert("Executed " + action.dataFilter.contentKey);
   }
 });
 ```
@@ -836,11 +833,6 @@ Remarks:
   - Actions emit events whose _type_ is the id of the action's type.
   - Actions emit _structured_ events, composed of multiple phases; you're handling its `do` phase.
   - Action listener functions receive the action as argument.
-  - By converting the action's 
-    [dataFilter]({{site.refDocsUrlPattern | replace: '$', 'pentaho.visual.action.Data' | append: '#dataFilter'}}) 
-    to [Disjunctive Nornal Form](https://en.wikipedia.org/wiki/Disjunctive_normal_form),
-    a filter with a predictable form is obtained
-    (an `or` of `and`s of, possibly negated, property `isEqual` filters).
   - The filter's 
     [contentKey]({{site.refDocsUrlPattern | replace: '$', 'pentaho.type.filter.Abstract' | append: '#contentKey'}})
     property provides an easy way to get a human-readable description of a filter.
