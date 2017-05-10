@@ -1,0 +1,13 @@
+{
+  "name": "${project.amd-module}",
+  "version": "${project.version}",
+  "description": "${project.description}",
+
+  "config": {
+    "pentaho/service": {
+    }
+  },
+
+  "dependencies": {
+  }
+}
