@@ -6,31 +6,49 @@ layout: sub-intro
 
 # Overview
 
-The Pentaho Visualization API provides a unified way to visualize data across the Pentaho suite (Analyzer, PDI, CDF).
-The stock CCC charts provide a set of ready-to-use chart types, customizable and extensible.
+The Pentaho Visualization API provides a unified way to visualize data across the Pentaho suite 
+(e.g.
+[Analyzer](http://www.pentaho.com/product/business-visualization-analytics), 
+[PDI](http://www.pentaho.com/product/data-integration), 
+[CDF](http://community.pentaho.com/ctools/cdf/)).
+Essentially, it is a set of abstractions that ensures total isolation between 
+applications, 
+visualizations and 
+configurations (the glue).
 
-Visualizations are implemented on top of the 
-[Type API]({{site.refDocsUrlPattern | replace: '$', 'pentaho.type'}}).
-That ensures out-of-the-box class inheritance capabilities (reducing code duplication), 
-[change events](another-page), 
-[validation](another-page), 
-[configuration](another-page) and 
-[serialization](another-page).
+Visualizations are constituted by one [Model]({{site.refDocsUrlPattern | replace: '$', 'pentaho.visual.base.Model'}}) 
+and (at least) one [View]({{site.refDocsUrlPattern | replace: '$', 'pentaho.visual.base.View'}}).
+Models identify visualizations and 
+define their data requirements. Views implement the actual rendering using chosen technologies 
+(e.g. [HTML](https://www.w3.org/TR/html/), [SVG](https://www.w3.org/TR/SVG/), [D3](https://d3js.org/)),
+and handle user interaction, 
+dispatching [actions]({{site.refDocsUrlPattern | replace: '$', 'pentaho.visual.action'}}) and, 
+for example, showing tooltips.
 
-The framework includes 14 visualization Models (chart types) and corresponding Views (chart implementations).
+Visualizations are implemented on top of the Pentaho Core, Type and Data JavaScript APIs:
+- Using the [Type API]({{site.refDocsUrlPattern | replace: '$', 'pentaho.type'}}) 
+  endows visualizations with out-of-the-box class inheritance, metadata support, type configuration, 
+  validation, serialization, among other features.
+- Using the [Data API]({{site.refDocsUrlPattern | replace: '$', 'pentaho.data'}}) 
+  ensures seamless integration with data sources in the Pentaho platform, 
+  as well as with other client-side component frameworks.
+- Using [Core APIs]()
+  provides visualizations with features such as localization, theming and registration.
+  
+The use of [Pentaho Platform JavaScript APIs]({{site.refDocsUrlPattern | replace: '$', 'pentaho'}}) for anything not 
+directly related with the visualization concept, 
+ensures developers can reuse knowledge that they gain in other components of the Pentaho suite 
+to build visualizations and vice-versa.
 
-> **List them**
-
-Views can be further customized by [configuration](another-page) 
-(through [CCC extension points](another-page) in the case of the stock visualizations) to fit the desired look and feel.
-They are also interactive, exposing [actions](another-page) and showing [tooltips](another-page).
-
-----
+The Pentaho Visualization API comes with a set of stock visualizations, 
+covering the most common chart-types.
+Most stock visualizations are based on the [CCC](http://community.pentaho.com/ctools/ccc/) chart library,
+which means that the stock visualizations are _super-configurable_ to suite your organization's preferred style.
 
 # Creating a visualization
 
-Read the [Bar/D3 sample](samples/bar-d3-sandbox) walk-through to learn how to create a custom visualization
-using the [D3](https://d3js.org/) library for rendering.
+- [Bar/D3 sample](samples/bar-d3-sandbox) — walks you through creating a custom visualization 
+  having a [D3](https://d3js.org/)-based view.
 
 # Deploying a visualization
 

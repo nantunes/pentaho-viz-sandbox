@@ -12,10 +12,10 @@ Lore...
                 <a title="Pentaho Visualization API" href="platform/visual">Pentaho Visualization API</a> ⭐ <em>3.0 beta</em>
             </dt>
             <dd>
-                The Pentaho Visualization API provides a unified way to visualize data across the 
-                Pentaho suite (Analyzer, PDI, CDF). 
-                The stock CCC charts provide a set of ready-to-use chart types, 
-                customisable and extendable.
+                The Pentaho Visualization API provides a unified way to visualize data across the Pentaho suite 
+                (e.g. Analyzer, PDI, CDF).
+                Essentially, it is a set of abstractions that ensures total isolation between 
+                applications, visualizations and configurations (the glue).
             </dd>
         </dl>
     </li>

@@ -180,7 +180,8 @@ A visualization is constituted by:
   in terms of the visual degrees of freedom it has (e.g. _X position_, _color_ and _size_) and 
   any major options that affect its rendering.
 
-- One **view** (at least), which implements the actual rendering using chosen technologies (e.g. HTML, SVG, D3).
+- One **view** (at least), which implements the actual rendering using chosen technologies 
+  (e.g. [HTML](https://www.w3.org/TR/html/), [SVG](https://www.w3.org/TR/SVG/), [D3](https://d3js.org/)).
 
 ## On Bar charts...
 
