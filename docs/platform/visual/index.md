@@ -42,7 +42,7 @@ to build visualizations and vice-versa.
 
 The Pentaho Visualization API comes with a set of stock visualizations, 
 covering the most common chart-types.
-Most stock visualizations are based on the [CCC](http://community.pentaho.com/ctools/ccc/) chart library,
+Most stock visualizations are based on the [CCC](http://community.pentaho.com/ctools/ccc/) charting library,
 which means that the stock visualizations are _super-configurable_ to suite your organization's preferred style.
 
 # Creating a visualization
