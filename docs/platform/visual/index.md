@@ -6,6 +6,10 @@ layout: sub-intro
 
 # Overview
 
+Up until 7.0, the Pentaho platform included the 2.0 (internal) version of the Visualization API.
+As of 7.1, the Pentaho platform also ships with the **beta** version of the future Visualization API, (internal) version 3.0, 
+**side-by-side** with version 2.0. This documentation relates to the future version, 3.0.
+
 The Pentaho Visualization API provides a unified way to visualize data across the Pentaho suite 
 (e.g.
 [Analyzer](http://www.pentaho.com/product/business-visualization-analytics), 
@@ -44,6 +48,9 @@ The Pentaho Visualization API comes with a set of stock visualizations,
 covering the most common chart-types.
 Most stock visualizations are based on the [CCC](http://community.pentaho.com/ctools/ccc/) charting library,
 which means that the stock visualizations are _super-configurable_ to suite your organization's preferred style.
+
+If you want to know more about how Pentaho Analyzer exposes the future Visualization API, 
+read [Analyzer and the Future Visualization API](analyzer-future-viz-api).
 
 # Creating a visualization
 
@@ -87,4 +94,3 @@ See [packaging for deploy](bundling) for instructions.
 
 > The config file location, its format, adding configuration rules, priorities, etc..
 
-## Migrating Analyzer's settings
