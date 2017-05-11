@@ -62,13 +62,16 @@ This section describes how to package and deploy your visualization into the Pen
 
 ## Package information
 
-The visualization must be wraped as a Pentaho Web Package. All packages must contain a file called `package.json`, holding the relevant metadata about the resources being deployed.
+The visualization must be wrapped as a Pentaho Web Package. 
+All packages must contain a file called `package.json`, 
+holding the relevant metadata about the resources being deployed.
 
 See [Pentaho Web Package description](pentaho-web-package) for a more detailed view.
 
 ## Bundling
 
-The Pentaho platform is built on top of an OSGi container, so developers must provide their code as a bundle. Aditionally the required client side dependencies must also be provided to the platform as bundles.
+The Pentaho platform is built on top of an OSGi container, so developers must provide their code as an OSGi bundle. 
+Additionally, the required client side dependencies must also be provided to the platform as bundles.
 
 See [packaging for deploy](bundling) for instructions.
 
