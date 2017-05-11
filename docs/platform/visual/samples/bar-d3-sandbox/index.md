@@ -1,10 +1,10 @@
 ---
 title: Create a custom Bar chart visualization using D3
 description: Walks you through the creation of a simple Bar chart visualization that uses the D3 graphics library.
+parent-title: Visualization API
+parent-path: ../..
 layout: default
 ---
-
-# Introduction
 
 The following steps will walk you through the creation of a simple Bar chart visualization, 
 using the Pentaho Visualization API and the amazing [D3](https://d3js.org/) graphics library.
@@ -12,52 +12,51 @@ using the Pentaho Visualization API and the amazing [D3](https://d3js.org/) grap
 The complete code of this sample is available at 
 [pentaho/pentaho-engineering-samples](https://github.com/pentaho/pentaho-engineering-samples/Samples for Extending Pentaho/javascript-apis/platform/pentaho/visual/samples/bar-d3-sandbox).
 
-# Prerequisites
+## Prerequisites
 
 - Basic JavaScript knowledge
 - Basic D3 knowledge
 - An npm registry compatible package manager like [yarn](https://yarnpkg.com) or [npm](https://www.npmjs.com).
 
-# Preparing the environment
+## Preparing the environment
 
 While reading, you can either build the sample step-by-step or follow along with the complete code.
 
-## a. Following with the complete code
+### a. Following with the complete code
 
 ```shell
-# clone the repository
-git clone https://github.com/pentaho/pentaho-engineering-samples
+  # clone the repository
+  git clone https://github.com/pentaho/pentaho-engineering-samples
 
-# go to the sample's directory
-cd "Samples for Extending Pentaho/javascript-apis/platform/pentaho/visual/samples/bar-d3-sandbox"
+  # go to the sample's directory
+  cd "Samples for Extending Pentaho/javascript-apis/platform/pentaho/visual/samples/bar-d3-sandbox"
 
-# install the dependencies
-npm install
-# or: yarn install
+  # install the dependencies
+  npm install
+  # or: yarn install
 ```
 
-## b. Building it yourself
+### b. Building it yourself
 
 1. Create a folder and then initialize it:
-
-    ```shell
+  ```shell
     # create the package.json file
     npm init
     
-    # add and install the Visualization API dependency
-    npm install https://github.com/nantunes/pentaho-viz-sandbox/releases/download/3.0.4/nantunes-viz-api-3.0.4.tgz --save
-    # or: yarn add https://github.com/nantunes/pentaho-viz-sandbox/releases/download/3.0.4/nantunes-viz-api-3.0.4.tgz
-    ```
+    # add and install the Visualization API dev dependency
+    # (the runtime dependecy is provided by the platform)
+    npm install https://github.com/nantunes/pentaho-viz-sandbox/releases/download/3.0.4/nantunes-viz-api-3.0.4.tgz --save-dev
+    # or: yarn add https://github.com/nantunes/pentaho-viz-sandbox/releases/download/3.0.4/nantunes-viz-api-3.0.4.tgz --dev
+  ```
 
 2. Create a file named `sales-by-product-family.json` and place the following content in it:
-
-   ```json
-   {
-     "model": [
+```json
+{
+  "model": [
        {"name": "productFamily", "type": "string", "label": "Product Family"},
        {"name": "sales",         "type": "number", "label": "Sales"}
-     ],
-     "rows": [
+  ],
+  "rows": [
        {"c": [{"v": "cars-classic", "f": "Classic Cars"}, 2746782]},
        {"c": [{"v": "motorcycles", "f": "Motorcycles"}, 753753]},
        {"c": [{"v": "planes", "f": "Planes"}, 748324]},
@@ -65,13 +64,12 @@ npm install
        {"c": [{"v": "trains", "f": "Trains"}, 165215]},
        {"c": [{"v": "trucks-and-buses", "f": "Trucks and Buses"}, 756438]},
        {"c": [{"v": "cars-vintage", "f": "Vintage Cars"}, 1308470]}
-     ]
-   }
-   ```
+  ]
+}
+```
 
 3. Create a file named `index.html` and place the following content in it:
-
-    ```html
+  ```html
     <!doctype html>
     <html>
       <head>
@@ -81,8 +79,8 @@ npm install
           }
         </style>
        
-        <!-- load requirejs -->
-        <script type="text/javascript" src="node_modules/requirejs/require.js"></script>
+        <!-- load RequireJS -->
+        <script type="text/javascript" src="node_modules/RequireJS/require.js"></script>
     
         <!-- load the VizAPI dev bootstrap helper -->
         <script type="text/javascript" src="node_modules/@nantunes/viz-api/dev-bootstrap.js"></script>
@@ -139,22 +137,18 @@ npm install
         <div id="viz_div"></div>
       </body>
     </html>
-    ```
+  ```
 
-    This page will show the simplest (and kind of useless) visualization: a calculator, 
-    which just displays the result of aggregating the values of one column of a dataset.
-    That's why you have to create your own!
+  This page will show the simplest (and kind of useless) visualization: a calculator, 
+  which just displays the result of aggregating the values of one column of a dataset.
+  That's why you have to create your own!
 
-# Visualize it
+## Visualize it
 
 Open `index.html` in a browser.
 You should see the result of the average operation: `The result is 1002566.2857142857`.
 
-{% include callout.html content="<p>Directly opening the file through the filesystem will not work when using 
-Google Chrome (and possibly other browsers),
-because of security restrictions that disallow the loading of local resources using XHR 
-— a functionality that is required by the VizAPI to load localization bundles and other resources.</p>
-
+{% include callout.html content="<p>Directly opening the file through the filesystem will not work when using Google Chrome (and possibly other browsers),because of security restrictions that disallow the loading of local resources using XHR — a functionality that is required by the VizAPI to load localization bundles and other resources.</p>
 <p>To overcome this limitation you need to serve the project files through an HTTP server. 
 There are several simple-to-use solutions:</p>
 
@@ -170,9 +164,9 @@ static -p 8000</code></pre>
 <b>Ruby:</b><pre class='highlight'><code>ruby -run -e httpd . -p 8000</code></pre>
 " type="warning" %}
 
-# Quick background facts
+## Quick background facts
 
-## On visualizations...
+### On visualizations...
  
 A visualization is constituted by:
 
@@ -183,7 +177,7 @@ A visualization is constituted by:
 - One **view** (at least), which implements the actual rendering using chosen technologies 
   (e.g. [HTML](https://www.w3.org/TR/html/), [SVG](https://www.w3.org/TR/SVG/), [D3](https://d3js.org/)).
 
-## On Bar charts...
+### On Bar charts...
 
 The simplest of Bar charts shows a single _series_ of data: 
 a list of pairs of a category and a measure, where each category can only occur in one of the pairs.
@@ -198,9 +192,9 @@ _Category_ and _Measure_.
 The values of the attributes mapped to visual roles are visually encoded using visual variables/properties such as 
 position, size, orientation or color.
 
-# Creating the Bar model
+## Creating the Bar model
 
-## Complete model code
+### Complete model code
 
 Create a file named `model.js` and place the following code in it:
 
@@ -264,7 +258,7 @@ Remarks:
   
 The following sections explain each of the model properties.
   
-## The `barSize` property
+### The `barSize` property
 
 ```js
 specification = {
@@ -285,7 +279,7 @@ has a
 of `30`.
 That's as simple as it gets.
 
-## The `category` property
+### The `category` property
 
 ```js
 specification = {
@@ -316,7 +310,7 @@ it is necessary to derive the
 visual role type to limit the cardinality 
 limits of its `attributes` property, so that it accepts and requires a single data attribute.
 
-## The `measure` property
+### The `measure` property
 
 ```js
 specification = {
@@ -339,7 +333,7 @@ and
 The [dataType]({{site.refDocsUrlPattern | replace: '$', 'pentaho.visual.role.Mapping.Type' | append: '#dataType'}})
 is used to only allow mapping to data attributes of type `number`.
 
-## Additional model metadata
+### Additional model metadata
 
 The model could still be enriched in several ways, such as:
 
@@ -349,9 +343,9 @@ The model could still be enriched in several ways, such as:
 However, these are all accessory and can be done anytime.
 Now you can't wait to see something shining on the screen, so let's move on into creating the view.
 
-# Creating the Bar View
+## Creating the Bar View
 
-## Skeleton view code
+### Skeleton view code
 
 Create a file named `view-d3.js` and place the following code in it:
 
@@ -403,7 +397,7 @@ Remarks:
     method is where the code that fully renders the visualization must go,
     and, for now, it simply uses d3 to output `"Hello World!"` in the view's DOM element, `domContainer`.
 
-## Installing D3
+### Installing D3
 
 Execute the following:
 
@@ -413,7 +407,7 @@ npm install d3 --save
 # or: yarn add d3
 ```
 
-## Adapting the HTML sandbox
+### Adapting the HTML sandbox
 
 Edit the `index.html` file and place the following code in it:
 
@@ -426,7 +420,7 @@ Edit the `index.html` file and place the following code in it:
     }
   </style>
 
-  <script type="text/javascript" src="node_modules/requirejs/require.js"></script>
+  <script type="text/javascript" src="node_modules/RequireJS/require.js"></script>
 
   <script type="text/javascript" src="node_modules/@nantunes/viz-api/dev-bootstrap.js"></script>
 
@@ -508,7 +502,7 @@ Remarks:
 
 Now, refresh the `index.html` page in the browser, and you should read `Hello World!`.
 
-## Implementing the render code
+### Implementing the render code
 
 Let's now finally implement the rendering of a Bar chart in D3.
 To make it easy, we'll adapt the code of following D3 block: 
@@ -518,7 +512,7 @@ We'll now go through the view's
 [_updateAll]({{site.refDocsUrlPattern | replace: '$', 'pentaho.visual.base.View' | append: '#_updateAll'}})
 code, piece by piece.
 
-### Method `_updateAll`, part 1
+#### Method `_updateAll`, part 1
 
 In `view-d3.js`, replace the code of the `_updateAll` method with the following:
 
@@ -557,7 +551,7 @@ Remarks:
 
 Now, you'll make a small detour to create that new `__buildScenes` method.
 
-### Method `__buildScenes`
+#### Method `__buildScenes`
 
 Add a property `__buildScenes`, after `_updateAll`, and give it the following code:
 
@@ -590,7 +584,7 @@ Remarks:
     but the value of `category` (and of `rowIndex`) will be useful, later, 
     for adding interactivity to the visualization. 
 
-### Method `_updateAll`, part 2
+#### Method `_updateAll`, part 2
 
 Having prepared the data for rendering, you'll now add the adapted D3 code:
 
@@ -673,12 +667,12 @@ Remarks:
 
 Now, refresh the `index.html` page in the browser, and you should finally see a Bar chart!
 
-## Styling your visualization
+### Styling your visualization
 
 Noticed that you added CSS classes to some of the SVG elements? 
 Let's then give some love to the Bar chart by styling it with CSS.
 
-### Creating the CSS file
+#### Creating the CSS file
 
 Create a folder named `css` and, in it, create a file named `view-d3.css`. Add the following content to it:
 
@@ -714,7 +708,7 @@ Remarks:
     CSS [style class]({{site.refDocsUrlPattern | replace: '$', 'pentaho.type.Type' | append: '#styleClass'}}), 
     which, by default is derived from its id, `pentaho/visual/samples/bar`.
 
-### Loading the CSS file with the view
+#### Loading the CSS file with the view
 
 To load the view's CSS file dynamically, whenever the view module is loaded, use the `css` AMD/RequireJS plugin.
 Modify the AMD module declaration of the `view-d3.js` file to the following:
@@ -733,7 +727,7 @@ define([
 
 Now, refresh the `index.html` page in the browser, and you should see a more colorful Bar chart!
 
-## Adding interactivity
+### Adding interactivity
 
 Visualizations can be much more fun and useful if the user is able to interact with them.
 The Visualization API defines two standard types of actions: 
@@ -741,7 +735,7 @@ The Visualization API defines two standard types of actions:
 [select]({{site.refDocsUrlPattern | replace: '$', 'pentaho.visual.action.Select'}}).
 Most container applications handle these in some useful way.
 
-### On data actions and filters...
+#### On data actions and filters...
 
 Visualization API 
 [data actions]({{site.refDocsUrlPattern | replace: '$', 'pentaho.visual.action.Data'}}) 
@@ -758,12 +752,12 @@ and the _Category_ visual role is mapped to a single data attribute,
 then 
 each bar corresponds to a distinct value of the mapped data attribute.
 
-### Implementing the `execute` action
+#### Implementing the `execute` action
 
 The `execute` action is typically performed in response to a double-click event on the main visual elements,
 in this case, the bars.
 
-#### Declare the dependency on the `execute` action
+##### Declare the dependency on the `execute` action
 
 The `execute` action type module needs to be loaded with the view module.
 Modify the AMD module declaration of the `view-d3.js` file to the following:
@@ -781,7 +775,7 @@ define([
 });
 ```
 
-#### Handle the `dblclick` event
+##### Handle the `dblclick` event
 
 Now, you'll handle the `dblclick` event of the SVG rect elements — the bars.
 Add the following code to the `_updateAll` method:
@@ -814,7 +808,7 @@ Remarks:
     filter is being created; `=` is the alias of the filter type. 
   - The action is being dispatched through the view, where action listeners can handle it. 
 
-#### Handle the `execute` action event
+##### Handle the `execute` action event
 
 Finally, you'll handle the `execute` action event from the sandbox side, 
 so that it is clear that the action is being dispatched.
@@ -841,7 +835,7 @@ Remarks:
 What are you waiting for? 
 Refresh the `index.html` page in the browser, and double-click a bar!
 
-### Implementing the `select` action
+#### Implementing the `select` action
 
 The `select` action is an _auxiliary_ action.
 Its goal is to mark a subset of data on which, later, a _real_ action, such as drilling-down, is performed.
@@ -860,7 +854,7 @@ to be performed on the currently selected subset of data.
 
 You'll let the user _select_ bars by clicking on them.
 
-#### Declare the dependency on the `select` action
+##### Declare the dependency on the `select` action
 
 The `select` action type module needs to be loaded with the view module.
 Modify the AMD module declaration of the `view-d3.js` file to the following:
@@ -879,7 +873,7 @@ define([
 });
 ```
 
-#### Handle the `click` event
+##### Handle the `click` event
 
 Now, you'll handle the `click` event of the SVG rect elements, the bars.
 Add the following code to the `_updateAll` method:
@@ -909,7 +903,7 @@ Remarks:
     [replaced]({{site.refDocsUrlPattern | replace: '$', 'pentaho.visual.action' | append: '#SelectionModes'}})
     with the data filter associated with the clicked bar.
 
-#### Handle the `select` action event
+##### Handle the `select` action event
 
 You'll handle the `select` action event from the sandbox side, 
 so that it is clear that the action is being dispatched.
@@ -942,11 +936,11 @@ Remarks:
 Refresh the `index.html` page in the browser, and click a bar!
 You should see a text under the visualization showing the selected data's filter.
 
-#### Render selected bars differently
+##### Render selected bars differently
 
 It would be much nicer if bars where highlighted with a different color when selected. Let's do that.
 
-##### Edit the CSS file
+###### Edit the CSS file
 
 Edit the `view-d3.css` file. Append the following rules to it:
 
@@ -960,7 +954,7 @@ Edit the `view-d3.css` file. Append the following rules to it:
 }
 ```
 
-##### Change the render code
+###### Change the render code
 
 Finally, add the following code to the `_updateAll` method:
 
@@ -982,7 +976,7 @@ function() {
 Refresh the `index.html` page in the browser, and click a bar!
 You should see the selected bar exhibiting different colors.
 
-### Conflicting Click and Double-click events
+#### Conflicting Click and Double-click events
 
 You might have noticed that, when double-clicking, apart from the `dblclick` event, 
 two other `click` events are being triggered. 
@@ -990,7 +984,7 @@ This is a known issue of DOM events and there are multiple solutions to it.
 Here's one solution, specifically for D3: 
 [Distinguishing click and double-click in D3](http://bl.ocks.org/couchand/6394506).
 
-# Next steps
+## Next steps
 
 You've covered the basics of developing a visualization for the Pentaho Visualization API.
 Many features, such as color palettes, localization, theming and configuration, were purposely left out, 

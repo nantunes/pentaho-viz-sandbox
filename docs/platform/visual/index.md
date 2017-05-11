@@ -52,61 +52,36 @@ which means that the stock visualizations are _super-configurable_ to suite your
 
 # Deploying a visualization
 
-## Packaging
-> Explain the Pentaho Web Packaging, the package.json, the pentaho/service config, the bundling...
-> 
-> **How to package dependencies!** Webjars, feature, kar...
+This section describes how to package and deploy your visualization into the Pentaho platform.
 
+## Prerequisites
 
-- (one page) Do the walkthrough
-  - Prerequisites
-    - Maven >= 3.0.3
-    - Java 1.8
-    - PDI EE (DET)
-    - Pentaho-server EE (Analyzer)
-    - Pentaho-server CE (CTools)
-  - Actual deploy. Copy paste the kar
+- Java 1.8
+- Maven >= 3.0.3
+- A Pentaho platform container (Analyzer, PDI)
 
-- (another page) Explain the package.json
-  - module id + version
-  - dependencies + require configurations black magic
-  - pentaho/service
-    - explain that this is a kind dependency injection
-    - registering a viz
-    
+## Package information
 
-- (another page) Packaging for deploy. 
-  - OSGI? bundles and Kars?
-  - Maven project structure starting with the maven archetype. 
-    - _Do not inherit from pentaho parent POMs_
-    - _We need to check where/how to publish the archetype_
-  - Explain the folder structure
-  	- What are the assemblies (generating kar) 
-  	- What are the impl (the actual viz)
-  	  - ~Blueprint~ Keep it to a minimum. Just mentioned that this file is used to specify where (URL) the JS code will be available from
-  - Adding (client) dependencies
-    - NPM => Maven/webjars. 
-      - We need to use webjars. 
-      - Explain why and what they are
-      - Where to get / create new webjars
-    - package.json => webjars + bunbling them
-      - Say that dependencies are only included in the feature file. No need to specify they are added to the POM dependencies. 
-  
-  
-- Marketplace?
+The visualization must be wraped as a Pentaho Web Package. All packages must contain a file called `package.json`, holding the relevant metadata about the resources being deployed.
+
+See [Pentaho Web Package description](pentaho-web-package) for a more detailed view.
+
+## Bundling
+
+The Pentaho platform is built on top of an OSGi container, so developers must provide their code as a bundle. Aditionally the required client side dependencies must also be provided to the platform as bundles.
+
+See [packaging for deploy](bundling) for instructions.
 
 ## Installing
+
 > Copy to the deploy folder... Submit it to the marketplace?
+>  - Actual deploy. Copy paste the kar
+>  - Marketplace?
 
 ----
 
 # Configuring a visualization
+
 > The config file location, its format, adding configuration rules, priorities, etc..
-
-Use the maven archetype
-
-
-
-
 
 ## Migrating Analyzer's settings
