@@ -11,10 +11,9 @@ The Pentaho Visualization API provides a unified way to visualize data across th
 [Analyzer](http://www.pentaho.com/product/business-visualization-analytics), 
 [PDI](http://www.pentaho.com/product/data-integration), 
 [CDF](http://community.pentaho.com/ctools/cdf/)).
-Essentially, it is a set of abstractions that ensures total isolation between 
-applications, 
-visualizations and 
-configurations (the glue).
+
+Essentially, it is a set of abstractions that ensures isolation between
+applications, visualizations and configurations.
 
 Visualizations are constituted by one [Model]({{site.refDocsUrlPattern | replace: '$', 'pentaho.visual.base.Model'}}) 
 and (at least) one [View]({{site.refDocsUrlPattern | replace: '$', 'pentaho.visual.base.View'}}).
@@ -34,21 +33,17 @@ Visualizations are implemented on top of the Pentaho Core, Type and Data JavaScr
   as well as with other client-side component frameworks.
 - Using [Core APIs]()
   provides visualizations with features such as localization, theming and registration.
-  
-The use of [Pentaho Platform JavaScript APIs]({{site.refDocsUrlPattern | replace: '$', 'pentaho'}}) for anything not 
-directly related with the visualization concept, 
-ensures developers can reuse knowledge that they gain in other components of the Pentaho suite 
-to build visualizations and vice-versa.
 
-The Pentaho Visualization API comes with a set of stock visualizations, 
-covering the most common chart-types.
-Most stock visualizations are based on the [CCC](http://community.pentaho.com/ctools/ccc/) charting library,
-which means that the stock visualizations are _super-configurable_ to suite your organization's preferred style.
+The platform provides a set of stock visualizations, covering the most
+common chart-types.
+Based on the [CCC](http://community.pentaho.com/ctools/ccc/) charting
+library, they're customizable and extensible to fit your organization's
+desired look and feel.
 
 # Creating a visualization
 
-- [Bar/D3 sample](samples/bar-d3-sandbox) — walks you through creating a custom visualization 
-  having a [D3](https://d3js.org/)-based view.
+See the [Bar/D3 sample](samples/bar-d3-sandbox) that walks you through
+creating a custom visualization having a [D3](https://d3js.org/)-based view.
 
 # Deploying a visualization
 

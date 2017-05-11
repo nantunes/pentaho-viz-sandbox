@@ -16,7 +16,7 @@ The complete code of this sample is available at
 
 - Basic JavaScript knowledge
 - Basic D3 knowledge
-- An npm registry compatible package manager like [yarn](https://yarnpkg.com) or [npm](https://www.npmjs.com).
+- An npm registry compatible package manager like [npm](https://www.npmjs.com) or [yarn](https://yarnpkg.com).
 
 ## Preparing the environment
 
@@ -74,6 +74,7 @@ While reading, you can either build the sample step-by-step or follow along with
     <html>
       <head>
         <style>
+          /* why is this needed? */
           .pentaho-visual-base {
             border: solid 1px #005da6;
           }
@@ -99,6 +100,7 @@ While reading, you can either build the sample step-by-step or follow along with
         
             // Create the visualization model.
             var modelSpec = {
+              // I liked the table created separated using an inline spec instead of the separate json... is not that big :-P
               "data": new Table(dataSpec),
               "levels": {attributes: ["productFamily"]},
               "measure": {attributes: ["sales"]},
@@ -117,9 +119,12 @@ While reading, you can either build the sample step-by-step or follow along with
             };
         
             // Mark the container with the model's CSS classes, for styling purposes.
+            // Why is it needed? Doesn't the view put those automatically?
+            // Can't we omit this?
             viewSpec.domContainer.className = model.type.inheritedStyleClasses.join(" ");
         
             // Set the container dimensions.
+            // Can't we omit this by putting "style='width: 400; height: 200'" bellow?
             viewSpec.domContainer.style.width = viewSpec.width + "px";
             viewSpec.domContainer.style.height = viewSpec.height + "px";
         
@@ -139,14 +144,16 @@ While reading, you can either build the sample step-by-step or follow along with
     </html>
   ```
 
-  This page will show the simplest (and kind of useless) visualization: a calculator, 
-  which just displays the result of aggregating the values of one column of a dataset.
-  That's why you have to create your own!
-
 ## Visualize it
 
 Open `index.html` in a browser.
 You should see the result of the average operation: `The result is 1002566.2857142857`.
+
+This page will show the simplest (and kind of useless) visualization: a
+calculator, which just displays the result of aggregating the values of
+one column of a dataset.
+
+That's why you have to create your own!
 
 {% include callout.html content="<p>Directly opening the file through the filesystem will not work when using Google Chrome (and possibly other browsers),because of security restrictions that disallow the loading of local resources using XHR — a functionality that is required by the VizAPI to load localization bundles and other resources.</p>
 <p>To overcome this limitation you need to serve the project files through an HTTP server. 
@@ -167,7 +174,7 @@ static -p 8000</code></pre>
 ## Quick background facts
 
 ### On visualizations...
- 
+
 A visualization is constituted by:
 
 - One **model**, which _identifies_ the visualization and _defines_ it 
@@ -340,7 +347,7 @@ The model could still be enriched in several ways, such as:
 - Providing localized labels/descriptions for the name of the visualization and that of its properties.
 - Providing standard icons for supported Pentaho themes.
 
-However, these are all accessory and can be done anytime.
+However, these are all accessory and can be done at a latter stage.
 Now you can't wait to see something shining on the screen, so let's move on into creating the view.
 
 ## Creating the Bar View
@@ -425,6 +432,9 @@ Edit the `index.html` file and place the following code in it:
   <script type="text/javascript" src="node_modules/@nantunes/viz-api/dev-bootstrap.js"></script>
 
   <script>
+    // maybe explain this kind of configurations
+    // is only needed in the sandbox, as the platform
+    // will handle it automatically
     require.config({
       packages: [
         {
