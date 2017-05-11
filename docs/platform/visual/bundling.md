@@ -76,7 +76,7 @@ In the end the bundle description in the feature file will look like this:
 ```
 
 You should add bundle descriptions for each dependency that is declared in the `package.json` file.
-If using them, skip any Pentaho Platform API dependencies, such as the Visualization API dependency, 
+If any, skip the Pentaho Platform API dependencies, such as the Visualization API dependency, 
 as these are provided by the platform.
 
 ## Building it
