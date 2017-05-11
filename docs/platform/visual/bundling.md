@@ -24,8 +24,7 @@ Using a KAR file avoids the need to download artifacts from remote repositories.
 
 Typically, to deploy your visualization you'll need a _bundle_ with your code, 
 a _feature_ grouping it together with its dependencies, 
-and a _KAR_ file, so that 
-you don't need to publish your bundle to a remote (or even local) repository and 
+and a _KAR_ file, so you don't need to publish your bundle to a remote (or even local) repository and 
 your dependencies are available without the need for a network connection.
 
 To ease the process, a Maven Archetype is provided that lays out the recommended project structure for you.
@@ -54,9 +53,9 @@ mvn archetype:generate ...
 The client-side dependencies of your package — declared in the `package.json` file — 
 must also be provided to the platform as bundles.
 
-But, if they are third-party code, that means you would have to bundle them yourself, creating separate modules, etc...
+If they are third-party code that means you would have to bundle them yourself, creating separate modules, etc..
 
-Luckily, there is a project that already packages client-side web libraries as JAR files. 
+Luckily there is a project that already packages client-side web libraries as JAR files. 
 It is appropriately called [WebJars](http://www.webjars.org).
 
 All you have to do is to look for the needed libraries (the [NPM flavor](http://www.webjars.org/npm) is recommended), 
@@ -64,14 +63,14 @@ choose the right versions and copy their Maven artifact information (groupId, ar
 
 If you can't find the library, or the right version, you can create a new WebJar (light blue button on the top right corner).
 
-With the artifact information, you can add the dependency to your feature definition.
+With the artifact information you can add the dependency to your feature definition.
 Just build the Maven artifact URL in the form `mvn:GROUP_ID/ARTIFACT_ID/VERSION`.
 
-However, note that WebJars are just plain JAR files, that don't have the manifest headers that make it an OSGi bundle.
+However, WebJars are just plain JAR files without the manifest headers needed to make it a OSGi bundle.
 The Pentaho platform provides an Apache Karaf deployer that solves the problem:
 just prepend `pentaho-webjars:` to the artifact URL.
 
-In the end, the bundle description in the feature file will look like this:
+In the end the bundle description in the feature file will look like this:
 ```xml
 <bundle>pentaho-webjars:mvn:org.webjars.npm/whatwg-fetch/2.0.1</bundle>
 ```
