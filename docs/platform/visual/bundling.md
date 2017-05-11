@@ -66,7 +66,7 @@ If you can't find the library, or the right version, you can create a new WebJar
 With the artifact information you can add the dependency to your feature definition.
 Just build the Maven artifact URL in the form `mvn:GROUP_ID/ARTIFACT_ID/VERSION`.
 
-However, WebJars are just plain JAR files without the manifest headers needed to make it a OSGi bundle.
+However, WebJars are just plain JAR files without the manifest headers needed to make it an OSGi bundle.
 The Pentaho platform provides an Apache Karaf deployer that solves the problem:
 just prepend `pentaho-webjars:` to the artifact URL.
 
