@@ -13,10 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+define([
+  "./data",
+  "./select",
+  "./execute"
+], function(dataActionFactory, selectActionFactory, executeActionFactory) {
 
-/**
- * The `typeInfo.impl` namespace contains implementation classes of the `typeInfo` namespace.
- *
- * @name pentaho.typeInfo.impl
- * @namespace
- */
+  "use strict";
+
+  return {
+    data: dataActionFactory,
+    select: selectActionFactory,
+    execute: executeActionFactory
+  };
+});
