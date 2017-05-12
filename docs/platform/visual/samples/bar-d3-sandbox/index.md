@@ -74,7 +74,6 @@ While reading, you can either build the sample step-by-step or follow along with
     <html>
       <head>
         <style>
-          /* why is this needed? */
           .pentaho-visual-base {
             border: solid 1px #005da6;
           }
@@ -100,7 +99,6 @@ While reading, you can either build the sample step-by-step or follow along with
         
             // Create the visualization model.
             var modelSpec = {
-              // I liked the table created separated using an inline spec instead of the separate json... is not that big :-P
               "data": new Table(dataSpec),
               "levels": {attributes: ["productFamily"]},
               "measure": {attributes: ["sales"]},
@@ -117,14 +115,12 @@ While reading, you can either build the sample step-by-step or follow along with
               domContainer: document.getElementById("viz_div"),
               model: model
             };
-        
-            // Mark the container with the model's CSS classes, for styling purposes.
-            // Why is it needed? Doesn't the view put those automatically?
-            // Can't we omit this?
+            
+            // These are responsibilities of the visualization container application:
+            // 1. Mark the container with the model's CSS classes, for styling purposes.
             viewSpec.domContainer.className = model.type.inheritedStyleClasses.join(" ");
         
-            // Set the container dimensions.
-            // Can't we omit this by putting "style='width: 400; height: 200'" bellow?
+            // 2. Set the DOM container dimensions.
             viewSpec.domContainer.style.width = viewSpec.width + "px";
             viewSpec.domContainer.style.height = viewSpec.height + "px";
         
@@ -149,7 +145,7 @@ While reading, you can either build the sample step-by-step or follow along with
 Open `index.html` in a browser.
 You should see the result of the average operation: `The result is 1002566.2857142857`.
 
-This page will show the simplest (and kind of useless) visualization: a
+The page shows the simplest (and kind of useless) visualization: a
 calculator, which just displays the result of aggregating the values of
 one column of a dataset.
 
@@ -347,7 +343,7 @@ The model could still be enriched in several ways, such as:
 - Providing localized labels/descriptions for the name of the visualization and that of its properties.
 - Providing standard icons for supported Pentaho themes.
 
-However, these are all accessory and can be done at a latter stage.
+However, these are all accessory and can be done at a later stage.
 Now you can't wait to see something shining on the screen, so let's move on into creating the view.
 
 ## Creating the Bar View
@@ -432,9 +428,7 @@ Edit the `index.html` file and place the following code in it:
   <script type="text/javascript" src="node_modules/@nantunes/viz-api/dev-bootstrap.js"></script>
 
   <script>
-    // maybe explain this kind of configurations
-    // is only needed in the sandbox, as the platform
-    // will handle it automatically
+    // Needed only in a sandbox environment.
     require.config({
       packages: [
         {
@@ -480,10 +474,11 @@ Edit the `index.html` file and place the following code in it:
         model: model
       };
 
-      // Mark the container with the model's CSS classes, for styling purposes.
+      // These are responsibilities of the visualization container application:
+      // 1. Mark the container with the model's CSS classes, for styling purposes.
       viewSpec.domContainer.className = model.type.inheritedStyleClasses.join(" ");
 
-      // Set the container dimensions.
+      // 2. Set the DOM container dimensions.
       viewSpec.domContainer.style.width = viewSpec.width + "px";
       viewSpec.domContainer.style.height = viewSpec.height + "px";
 
@@ -505,6 +500,9 @@ Edit the `index.html` file and place the following code in it:
 
 Remarks:
   - A script block was added with the AMD/RequireJS configuration of the Bar and D3 packages.
+    This step is only needed in a sandbox environment. 
+    When inside the Pentaho platform, these configurations are provided automatically,
+    built from the web package information.
   - The used visualization model is now `pentaho/visual/samples/bar`.
   - The model now contains visual role mappings for the `category` and `measure` visual roles.
   - The dimensions of the visualization were increased.

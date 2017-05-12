@@ -13,7 +13,7 @@ The Pentaho Visualization API provides a unified way to visualize data across th
 [CDF](http://community.pentaho.com/ctools/cdf/)).
 
 Essentially, it is a set of abstractions that ensures isolation between
-applications, visualizations and configurations.
+applications, visualizations and configurations (that glue the two together).
 
 Visualizations are constituted by one [Model]({{site.refDocsUrlPattern | replace: '$', 'pentaho.visual.base.Model'}}) 
 and (at least) one [View]({{site.refDocsUrlPattern | replace: '$', 'pentaho.visual.base.View'}}).
@@ -39,10 +39,13 @@ common chart-types.
 Based on the [CCC](http://community.pentaho.com/ctools/ccc/) charting
 library, they're customizable and extensible to fit your organization's
 desired look and feel.
+For more information on how to customize visualizations,
+see [Configuration](configuration).
+
 
 # Creating a visualization
 
-See the [Bar/D3 sample](samples/bar-d3-sandbox) that walks you through
+See the [Bar/D3 sample](samples/bar-d3-sandbox), that walks you through
 creating a custom visualization having a [D3](https://d3js.org/)-based view.
 
 # Deploying a visualization
