@@ -90,5 +90,12 @@ See [packaging for deploy](bundling) for instructions.
 
 # Configuring a visualization
 
-> The config file location, its format, adding configuration rules, priorities, etc..
+Pentaho's JavaScript API allows users to configure its objects via _prioritized configuration rules_.
+
+Typical configuration rules include:
+- modifying default values for properties,
+- adding validations, 
+- extending objects with environment-specific properties
+
+See [configuration](configuration) for more details.
 
