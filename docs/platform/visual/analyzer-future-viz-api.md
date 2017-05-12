@@ -16,7 +16,7 @@ are based on the [Pentaho Visualization API](..).
 As of 7.1, the Pentaho platform ships with the future Visualization API, (internal) version 3.0-**beta**, 
 **side-by-side** with the current version, 2.0.
  
-Analyzer now also supports visualizations of both formats,
+Analyzer supports visualizations of both formats,
 allowing you 
 to evaluate and immediately take advantage of the future format, and 
 to convert any custom visualizations of the current format at your own pace.
@@ -42,9 +42,9 @@ while upgrade installations are configured to keep using the current stock visua
 ## Differences between the stock visualizations of the current and future formats
 
 The future stock visualizations are **not** totally identical to 
-the corresponding current ones. 
-Some differences are intended, and arise from the will to fix certain parts of their design, 
-while other are due to the development of the future visualizations not being totally complete.
+the corresponding current ones.
+Most changes are intentional, enabling new features or fixing faulty behaviours, 
+while others are still work in progress, and expected to change when coming out of beta.
 
 The following sections describe the differences that _future_ stock visualizations have 
 relative to the _current_ stock visualizations.
@@ -66,7 +66,7 @@ relative to the _current_ stock visualizations.
    see [Migrating visualization settings](Migrating-visualization-settings).
 2. Custom translations for properties of stock visualizations may not work anymore.
 
-### Incomplete work
+### Work In Progress
 
 1. Printing of scrolled charts shrinks them to fit, breaking their aspect-ratio.
 2. Printing does not reflect custom configurations.
