@@ -21,7 +21,9 @@ allowing you
 to evaluate and immediately take advantage of the future format, and 
 to convert any custom visualizations of the current format at your own pace.
 
-All **stock visualizations**, with the exception of the Geo Map, are already available in the future format 
+All [stock visualizations](https://help.pentaho.com/Documentation/7.1/0L0/120/030/010), 
+with the exception of the [Geo Map](https://help.pentaho.com/Documentation/7.1/0L0/120/030/010#Geo_Map_Visualization), 
+are already available in the future format 
 and you **can choose** which format you want Analyzer to use, by configuring an Analyzer setting
 (see [Changing the visualization format of stock visualizations](Changing-the-visualization-format-of-stock-visualizations)).
 This setting **does not** affect reports that use a custom (non-stock) visualization — 
@@ -94,18 +96,86 @@ Save the file and restart Pentaho Server.
 
 ## Migrating visualization settings
 
-* note that color palette in analyzer.properties is preserved
+Visualizations of the _current_ format can be configured in Analyzer  
+through properties in its `analyzer.properties` file,
+located at `pentaho-server/pentaho-solutions/system/analyzer`, 
+in a Pentaho server installation.
 
-### Converting a general visualization property
+Visualizations of the _future_ format are however configured using the 
+[platform-wide JavaScript configuration system](configuration), 
+and so, the current Analyzer visualization settings must be migrated to it.
 
-* Show old `analyzer.properties` pattern
-* Show future configuration system pattern
+Despite this, the color palette Analyzer option, `chart.series.colors`, 
+is still supported for current and future visualizations.
 
-### Converting the special `maxValues` property
+### General visualization properties
 
-* Show current `analyzer.properties` pattern
-* Show future configuration system pattern
+Take the example of a configuration that changes 
+the default value of the "Line width" property of "Line chart" visualizations.
 
-### Correspondence between visualization ids
+1. Current format, in `analyzer.properties`:
 
-### Correspondence between property names and values
+    ```properties
+    viz.ccc_line.args.lineWidth=1
+    ```
+    
+2. Future format, in a platform configuration file:
+    ```js
+    define(function() {
+      return [
+        {
+          select: {
+            application: "pentaho-analyzer",
+            type: "pentaho/visual/models/line"
+          },
+          apply: {
+            props: {
+              "lineWidth": {value: 1}
+            }
+          }
+        }
+      ];
+    });
+    ```
+    
+To perform the translation, all you need to know is the correspondence between, current and future,
+[visualization identifiers](#correspondence-between-visualization-identifiers) and 
+[property names and values](#correspondence-between-visualization-property-names-and-values).
+
+### The `maxValues` property
+
+Take the example of a configuration that changes 
+the possible _maximum number of results_ for "Bar chart" visualizations.
+
+1. Current format, in `analyzer.properties`:
+
+    ```properties
+    viz.ccc_bar.maxValues=250,500,1000,5000
+    ```
+    
+2. Future format, in a platform configuration file:
+    ```js
+    define(function() {
+      return [
+        {
+          select: {
+            application: "pentaho-analyzer",
+            type: "pentaho/visual/models/barHorizontal"
+          },
+          apply: {
+            application: {
+              maxValues: [250, 500, 1000, 5000]
+            }
+          }
+        }
+      ];
+    });
+    ```
+
+### Correspondence between visualization identifiers
+
+- TODO
+
+### Correspondence between visualization property names and values
+
+- TODO
