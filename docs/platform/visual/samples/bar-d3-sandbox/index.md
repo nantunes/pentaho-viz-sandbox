@@ -16,7 +16,7 @@ The complete code of this sample is available at
 
 - Basic JavaScript knowledge
 - Basic D3 knowledge
-- An npm registry compatible package manager like [yarn](https://yarnpkg.com) or [npm](https://www.npmjs.com).
+- An npm registry compatible package manager like [npm](https://www.npmjs.com) or [yarn](https://yarnpkg.com).
 
 ## Preparing the environment
 
@@ -115,11 +115,12 @@ While reading, you can either build the sample step-by-step or follow along with
               domContainer: document.getElementById("viz_div"),
               model: model
             };
-        
-            // Mark the container with the model's CSS classes, for styling purposes.
+            
+            // These are responsibilities of the visualization container application:
+            // 1. Mark the container with the model's CSS classes, for styling purposes.
             viewSpec.domContainer.className = model.type.inheritedStyleClasses.join(" ");
         
-            // Set the container dimensions.
+            // 2. Set the DOM container dimensions.
             viewSpec.domContainer.style.width = viewSpec.width + "px";
             viewSpec.domContainer.style.height = viewSpec.height + "px";
         
@@ -139,14 +140,16 @@ While reading, you can either build the sample step-by-step or follow along with
     </html>
   ```
 
-  This page will show the simplest (and kind of useless) visualization: a calculator, 
-  which just displays the result of aggregating the values of one column of a dataset.
-  That's why you have to create your own!
-
 ## Visualize it
 
 Open `index.html` in a browser.
 You should see the result of the average operation: `The result is 1002566.2857142857`.
+
+The page shows the simplest (and kind of useless) visualization: a
+calculator, which just displays the result of aggregating the values of
+one column of a dataset.
+
+That's why you have to create your own!
 
 {% include callout.html content="<p>Directly opening the file through the filesystem will not work when using Google Chrome (and possibly other browsers),because of security restrictions that disallow the loading of local resources using XHR — a functionality that is required by the VizAPI to load localization bundles and other resources.</p>
 <p>To overcome this limitation you need to serve the project files through an HTTP server. 
@@ -167,7 +170,7 @@ static -p 8000</code></pre>
 ## Quick background facts
 
 ### On visualizations...
- 
+
 A visualization is constituted by:
 
 - One **model**, which _identifies_ the visualization and _defines_ it 
@@ -340,7 +343,7 @@ The model could still be enriched in several ways, such as:
 - Providing localized labels/descriptions for the name of the visualization and that of its properties.
 - Providing standard icons for supported Pentaho themes.
 
-However, these are all accessory and can be done anytime.
+However, these are all accessory and can be done at a later stage.
 Now you can't wait to see something shining on the screen, so let's move on into creating the view.
 
 ## Creating the Bar View
@@ -425,6 +428,7 @@ Edit the `index.html` file and place the following code in it:
   <script type="text/javascript" src="node_modules/@nantunes/viz-api/dev-bootstrap.js"></script>
 
   <script>
+    // Needed only in a sandbox environment.
     require.config({
       packages: [
         {
@@ -470,10 +474,11 @@ Edit the `index.html` file and place the following code in it:
         model: model
       };
 
-      // Mark the container with the model's CSS classes, for styling purposes.
+      // These are responsibilities of the visualization container application:
+      // 1. Mark the container with the model's CSS classes, for styling purposes.
       viewSpec.domContainer.className = model.type.inheritedStyleClasses.join(" ");
 
-      // Set the container dimensions.
+      // 2. Set the DOM container dimensions.
       viewSpec.domContainer.style.width = viewSpec.width + "px";
       viewSpec.domContainer.style.height = viewSpec.height + "px";
 
@@ -495,6 +500,9 @@ Edit the `index.html` file and place the following code in it:
 
 Remarks:
   - A script block was added with the AMD/RequireJS configuration of the Bar and D3 packages.
+    This step is only needed in a sandbox environment. 
+    When inside the Pentaho platform, these configurations are provided automatically,
+    built from the web package information.
   - The used visualization model is now `pentaho/visual/samples/bar`.
   - The model now contains visual role mappings for the `category` and `measure` visual roles.
   - The dimensions of the visualization were increased.
