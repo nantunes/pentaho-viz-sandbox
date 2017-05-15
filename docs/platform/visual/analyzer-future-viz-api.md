@@ -140,7 +140,7 @@ the default value of the "Line width" property of "Line chart" visualizations.
     
 To perform the translation, all you need to know is the correspondence between, current and future,
 [visualization identifiers](#correspondence-between-visualization-identifiers) and 
-[property names and values](#correspondence-between-visualization-property-names-and-values).
+[property values](#correspondence-between-visualization-property-values).
 
 ### The `maxValues` property
 
@@ -174,8 +174,97 @@ the possible _maximum number of results_ for "Bar chart" visualizations.
 
 ### Correspondence between visualization identifiers
 
-- TODO
+| Current Vis. Id.      | Future Vis. Id.                               | Description          |
+|-----------------------|-----------------------------------------------|----------------------|
+| ccc_area              | pentaho/visual/models/areaStacked             | Stacked Area         |
+| ccc_line              | pentaho/visual/models/line                    | Line                 |
+| ccc_bar               | pentaho/visual/models/bar                     | Column               |
+| ccc_barstacked        | pentaho/visual/models/barStacked              | Column Stacked       |
+| ccc_barnormalized     | pentaho/visual/models/bar                     | Column Stacked 100%  |
+| ccc_horzbar           | pentaho/visual/models/barHorizontal           | Bar                  |
+| ccc_horzbarstacked    | pentaho/visual/models/barStackedHorizontal    | Bar Stacked          |
+| ccc_horzbarnormalized | pentaho/visual/models/barNormalizedHorizontal | Bar Stacked 100%     |
+| ccc_barline           | pentaho/visual/models/barLine                 | Column/Line Combo    |
+| ccc_scatter           | pentaho/visual/models/bubble                  | X/Y Scatter/Bubble   |
+| ccc_heatgrid          | pentaho/visual/models/heatGrid                | Heat-Grid            |
+| ccc_pie               | pentaho/visual/models/pie                     | Pie                  |
+| ccc_sunburst          | pentaho/visual/models/sunburst                | Sunburst             |
 
-### Correspondence between visualization property names and values
 
-- TODO
+### Correspondence between visualization property values
+
+<table>
+    <tbody>
+        <tr>
+            <th>Property Name</th>
+            <th>Value changes</th>
+        </tr>
+        <tr>
+            <td>labelsOption</td>
+            <td>
+                <ul>
+                    <li><code>inside_end</code> &rarr; <code>"insideEnd"</code></li>
+                    <li><code>inside_base</code> &rarr; <code>"insideBase"</code></li>
+                    <li><code>outside_end</code> &rarr; <code>"outsideEnd"</code></li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td>pattern</td>
+            <td>
+                <ul>
+                    <li><code>ryg_3</code> &rarr; <code>"ryg-3"</code></li>
+                    <li><code>ryg_5</code> &rarr; <code>"ryg-5"</code></li>
+                    <li><code>ryb_3</code> &rarr; <code>"ryb-3"</code></li>
+                    <li><code>ryb_5</code> &rarr; <code>"ryb-5"</code></li>
+                    <li><code>blue_3</code> &rarr; <code>"blue-3"</code></li>
+                    <li><code>blue_5</code> &rarr; <code>"blue-5"</code></li>
+                    <li><code>gray_3</code> &rarr; <code>"gray-3"</code></li>
+                    <li><code>gray_5</code> &rarr; <code>"gray-5"</code></li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <ul>
+                    <li>lineWidth</li>
+                    <li>trendLineWidth</li>
+                </ul>
+            </td>
+            <td>
+                The number in the properties file passes verbatim to a JSON number value. 
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <ul>
+                    <li>emptySlicesHidden</li>
+                    <li>reverseColors</li>
+                </ul>
+            </td>
+            <td>
+                The <code>true</code> or <code>false</code> value in the properties file passes verbatim to 
+                a JSON boolean value.
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <ul>
+                    <li>colorSet</li>
+                    <li>lineLabelsOption</li>
+                    <li>shape</li>
+                    <li>sliceOrder</li>
+                    <li>trendName</li>
+                    <li>trendType</li>
+                </ul>
+            </td>
+            <td>
+                The textual value in the properties file is wrapped in quotes to 
+                form a JSON string value. E.g.:
+                <ul>
+                    <li><code>circle</code> &rarr; <code>"circle"</code></li>
+                </ul>
+            </td>
+        </tr>
+    </tbody>
+</table>
