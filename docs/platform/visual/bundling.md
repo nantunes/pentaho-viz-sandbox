@@ -1,5 +1,5 @@
 ---
-title: Packaging a visualization for deploy
+title: Bundling a visualization
 description: Explains the core concepts and walks through the creation of a kar file for deploying a visualization in the Pentaho Platform.
 parent-title: Visualization API
 layout: default

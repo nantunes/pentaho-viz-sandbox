@@ -55,13 +55,9 @@ For a better understanding see the [Bar/D3 sample](samples/bar-d3-sandbox),
 that walks you through creating a custom visualization having a
 [D3](https://d3js.org/)-based view.
 
-# Deploying a visualization
+# Packaging
 
-This section describes how to package and deploy your visualization into the Pentaho platform.
-
-## Package information
-
-The visualization must be wrapped as a Pentaho Web Package. 
+Your visualization must be wrapped as a Pentaho Web Package. 
 All packages must contain a file `META-INF/js/package.json`, 
 holding the relevant metadata about the resources being deployed.
 
@@ -86,16 +82,16 @@ If the visualization has third-party dependencies they must be declared in the s
 
 See [Pentaho Web Package description](pentaho-web-package) for a more detailed view.
 
-## Bundling
+# Bundling and provisioning
 
 The Pentaho platform is built on top of an OSGi container, so developers must provide their code as an OSGi bundle. 
 Additionally, the required client side dependencies must also be provided to the platform as bundles.
 
 The recommended way is to package the visualization bundle, its dependencies, and corresponding feature definition together into a single KAR file.
 
-See [packaging for deploy](bundling) for instructions.
+See [Bundling](bundling) for instructions.
 
-## Installing
+# Deploying the visualization
 
 The platform supports hot deployment: simply drop a file in the deploy directory and Apache Karaf will detect the file and try to deploy it.
 
