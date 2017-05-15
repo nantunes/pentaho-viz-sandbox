@@ -29,6 +29,11 @@ your dependencies are available without the need for a network connection.
 
 To ease the process, a Maven Archetype is provided that lays out the recommended project structure for you.
 
+## Prerequisites
+
+- Java 1.8
+- Maven >= 3.0.3
+
 ## Recommended Maven project directory layout
 
 ### Using the Archetype

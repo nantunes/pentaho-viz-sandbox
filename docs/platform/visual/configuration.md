@@ -1,9 +1,14 @@
-# Configuration of javascript objects
+---
+title: Configuration of javascript objects
+description: The Configuration API provides a means for types to be configured by third-parties.
+parent-title: Visualization API
+layout: default
+---
 
 The following is a simple example of a configuration rule that hides the pie chart (and any charts that derive from it) 
 from the list of available visualizations:
 
-```
+```javascript
   {
     select: {
       type: "pentaho/visual/models/pie"
@@ -46,7 +51,7 @@ Follow the [instructions for creating a Pentaho Web Package](pentaho-web-package
 
 Create a file `no-pie-charts.conf.js` under the folder `impl/src/main/resources/web` with the following content:
 
-```
+```javascript
 define(function(){
   
   // Define a rule
@@ -74,7 +79,7 @@ you still need to inform the environment that you wish that file to be loaded.
 Edit the file `impl/src/main/resources/META-INF/js/package.json` and
 add an entry for the rule set file under the `config` section:
 
-```
+```json
 {
   ...
   "config": {
@@ -93,7 +98,7 @@ When an application loads an environment, all the rule sets declared in the syst
 ### 4. Build the project
 
 On the root folder of the project, run
-```
+```shell
 mvn clean package
 ```
 

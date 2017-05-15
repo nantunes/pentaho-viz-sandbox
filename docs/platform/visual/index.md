@@ -19,15 +19,6 @@ The Pentaho Visualization API provides a unified way to visualize data across th
 Essentially, it is a set of abstractions that ensures isolation between
 applications, visualizations and configurations (that glue the two together).
 
-Visualizations are constituted by one [Model]({{site.refDocsUrlPattern | replace: '$', 'pentaho.visual.base.Model'}}) 
-and (at least) one [View]({{site.refDocsUrlPattern | replace: '$', 'pentaho.visual.base.View'}}).
-Models identify visualizations and 
-define their data requirements. Views implement the actual rendering using chosen technologies 
-(e.g. [HTML](https://www.w3.org/TR/html/), [SVG](https://www.w3.org/TR/SVG/), [D3](https://d3js.org/)),
-and handle user interaction, 
-dispatching [actions]({{site.refDocsUrlPattern | replace: '$', 'pentaho.visual.action'}}) and, 
-for example, showing tooltips.
-
 Visualizations are implemented on top of the Pentaho Core, Type and Data JavaScript APIs:
 - Using the [Type API]({{site.refDocsUrlPattern | replace: '$', 'pentaho.type'}}) 
   endows visualizations with out-of-the-box class inheritance, metadata support, type configuration, 
@@ -46,30 +37,52 @@ desired look and feel.
 For more information on how to customize visualizations,
 see [Configuration](configuration).
 
-
 If you want to know more about how Pentaho Analyzer exposes the future Visualization API, 
 read [Analyzer and the Future Visualization API](analyzer-future-viz-api).
 
 # Creating a visualization
 
-See the [Bar/D3 sample](samples/bar-d3-sandbox), that walks you through
-creating a custom visualization having a [D3](https://d3js.org/)-based view.
+Visualizations are constituted by one [Model]({{site.refDocsUrlPattern | replace: '$', 'pentaho.visual.base.Model'}}) 
+and (at least) one [View]({{site.refDocsUrlPattern | replace: '$', 'pentaho.visual.base.View'}}).
+Models identify visualizations and 
+define their data requirements. Views implement the actual rendering using chosen technologies 
+(e.g. [HTML](https://www.w3.org/TR/html/), [SVG](https://www.w3.org/TR/SVG/), [D3](https://d3js.org/)),
+and handle user interaction, 
+dispatching [actions]({{site.refDocsUrlPattern | replace: '$', 'pentaho.visual.action'}}) and, 
+for example, showing tooltips.
+
+For a better understanding see the [Bar/D3 sample](samples/bar-d3-sandbox),
+that walks you through creating a custom visualization having a
+[D3](https://d3js.org/)-based view.
 
 # Deploying a visualization
 
 This section describes how to package and deploy your visualization into the Pentaho platform.
 
-## Prerequisites
-
-- Java 1.8
-- Maven >= 3.0.3
-- A Pentaho platform container (Analyzer, PDI)
-
 ## Package information
 
 The visualization must be wrapped as a Pentaho Web Package. 
-All packages must contain a file called `package.json`, 
+All packages must contain a file `META-INF/js/package.json`, 
 holding the relevant metadata about the resources being deployed.
+
+Apart from the mandatory `"name"` and `"version"` fields, you must also register your visualization into the platform. This is done by configuring the `pentaho/service` plugin to declare your visualization's model class as implementing/extending `"pentaho/visual/base"`.
+
+If the visualization has third-party dependencies they must be declared in the same file.
+
+```json
+{ 
+  "name": "foo",
+  "version": "1.0.0",
+  "config": {
+    "pentaho/service": {
+      "foo_1.0.0/my-viz/model": "pentaho/visual/base"
+    }
+  },
+  "dependencies": {
+    "bar": "~2.0"
+  }
+}
+```
 
 See [Pentaho Web Package description](pentaho-web-package) for a more detailed view.
 
@@ -78,13 +91,21 @@ See [Pentaho Web Package description](pentaho-web-package) for a more detailed v
 The Pentaho platform is built on top of an OSGi container, so developers must provide their code as an OSGi bundle. 
 Additionally, the required client side dependencies must also be provided to the platform as bundles.
 
+The recommended way is to package the visualization bundle, its dependencies, and corresponding feature definition together into a single KAR file.
+
 See [packaging for deploy](bundling) for instructions.
 
 ## Installing
 
-> Copy to the deploy folder... Submit it to the marketplace?
->  - Actual deploy. Copy paste the kar
->  - Marketplace?
+The platform supports hot deployment: simply drop a file in the deploy directory and Apache Karaf will detect the file and try to deploy it.
+
+For Spoon PDI Client the Karaf folder is located in `system/karaf`. On the Pentaho server it's found within `pentaho-solutions/system/karaf`.
+
+You can drop any KAR file, bundle or Feature file into the `karaf/deploy` folder. It will be automatically installed and activated, even after restarts of the product. Replacing a bundle or feature already in the deploy folder will reinstall it within OSGI. Deleting it will uninstall.
+
+> TODO: Explain how to test in Analyzer and DET
+
+> TODO: Explain how to distribute it using marketplace?
 
 ----
 
