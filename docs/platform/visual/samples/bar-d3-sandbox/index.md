@@ -217,6 +217,7 @@ define([
       type: {
         id: "pentaho/visual/samples/bar",
         sourceId: module.id,
+        label: "D3 Bar Chart",
         defaultView: "./view-d3",
         props: [
           {
