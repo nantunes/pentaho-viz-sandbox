@@ -92,17 +92,22 @@ See [Pentaho Web Package description](../pentaho-web-package) for a more detaile
 The Pentaho platform is built on top of an OSGi container, so developers must provide their code as an OSGi bundle. 
 Additionally, the required client side dependencies must also be provided to the platform as bundles.
 
-The recommended way is to package the visualization bundle, its dependencies, and corresponding feature definition together into a single KAR file.
+The recommended way is to package the visualization bundle, its dependencies, 
+and corresponding feature definition together into a single KAR file.
 
 See [Bundling](bundling) for instructions.
 
 # Deploying the visualization
 
-The platform supports hot deployment: simply drop a file in the deploy directory and Apache Karaf will detect the file and try to deploy it.
+The platform supports hot deployment: simply drop a bundle file in the deploy directory and 
+Apache Karaf will detect the file and try to deploy it.
 
-For Spoon PDI Client the Karaf folder is located in `system/karaf`. On the Pentaho server it's found within `pentaho-solutions/system/karaf`.
+For Spoon PDI Client the Karaf folder is located in `system/karaf`. 
+On the Pentaho server it's found within `pentaho-solutions/system/karaf`.
 
-You can drop any KAR file, bundle or Feature file into the `karaf/deploy` folder. It will be automatically installed and activated, even after restarts of the product. Replacing a bundle or feature already in the deploy folder will reinstall it within OSGI. Deleting it will uninstall.
+You can drop any KAR file, bundle or Feature file into the `karaf/deploy` folder. 
+It will be automatically installed and activated, even after restarts of the product. 
+Replacing a bundle or feature already in the deploy folder will reinstall it within OSGI. Deleting it will uninstall.
 
 > TODO: Explain how to test in Analyzer and DET
 
