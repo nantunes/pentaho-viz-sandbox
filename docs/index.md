@@ -1,10 +1,12 @@
 ---
 title: Pentaho Platform JavaScript APIs
+description: The Pentaho Platform JavaScript APIs support the development of JavaScript components for the Pentaho platform.
 layout: intro
 ---
 
-Lore...
+The Pentaho Platform JavaScript APIs support the development of JavaScript components for the Pentaho platform, by standardizing in cross-cutting areas, such as data and visualization, but also on lower-level areas, such as configuration, localization, services and, even, control of debugging information; and exposing key Pentaho platform information and services to JavaScript components.
 
+The APIs are organized as follows:
 <ul class="api-list">
     <li class="bigger">
         <dl>
@@ -14,8 +16,8 @@ Lore...
             <dd>
                 The Pentaho Visualization API provides a unified way to visualize data across the Pentaho suite 
                 (e.g. Analyzer, PDI, CDF).
-                Essentially, it is a set of abstractions that ensures total isolation between 
-                applications, visualizations and configurations (the glue).
+
+                Essentially, it is a set of abstractions that ensures isolation between applications, visualizations and configurations (that glue the two together).
             </dd>
         </dl>
     </li>
@@ -25,15 +27,15 @@ Lore...
                 <a title="Pentaho Data API" 
                    href="{{site.refDocsUrlPattern | replace: '$', 'pentaho.data'}}">Pentaho Data API</a>
             </dt>
-            <dd>Classes and interfaces used for data representation by the Visualization API.
-                <ul>
+            <dd>The Pentaho Data API contains a <em>data table</em> abstraction that allows components and applications to consume and exchange tabular data in a common way.
+                <ul style="display: none;">
                     <li>
                         <dl>
                             <dt>
                                 <a title="Pentaho Data Access API" 
                                    href="data/access">Data Access API</a>
                             </dt>
-                            <dd>sad sadas dasdsa dsad sa dsad sadsadas.</dd>
+                            <dd>Unreleased</dd>
                         </dl>
                     </li>
                 </ul>
@@ -104,7 +106,7 @@ Lore...
             <dt>
                 <a title="Pentaho Web Package" href="platform/pentaho-web-package">Pentaho Web Package</a>
             </dt>
-            <dd>How to package and deploy web client resources into the Pentaho platform.</dd>
+            <dd>How to package web resources into the Pentaho platform.</dd>
         </dl>
     </li>
 </ul>
