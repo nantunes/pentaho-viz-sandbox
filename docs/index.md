@@ -1,5 +1,5 @@
 ---
-title: Overview
+title: Pentaho Platform JavaScript APIs
 layout: intro
 ---
 
@@ -102,7 +102,7 @@ Lore...
     <li>
         <dl>
             <dt>
-                <a title="Pentaho Web Client Package" href="packaging">Pentaho Web Client Package</a>
+                <a title="Pentaho Web Package" href="platform/pentaho-web-package">Pentaho Web Package</a>
             </dt>
             <dd>How to package and deploy web client resources into the Pentaho platform.</dd>
         </dl>

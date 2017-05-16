@@ -1,6 +1,8 @@
 ---
 title: Pentaho Visualization API
 description: The Pentaho Visualization API provides a unified way to visualize data across the Pentaho suite (Analyzer, PDI, CDF).
+parent-title: Pentaho Platform JavaScript APIs
+parent-path: ..
 layout: sub-intro
 ---
 
@@ -80,7 +82,7 @@ If the visualization has third-party dependencies they must be declared in the s
 }
 ```
 
-See [Pentaho Web Package description](pentaho-web-package) for a more detailed view.
+See [Pentaho Web Package description](../pentaho-web-package) for a more detailed view.
 
 # Bundling and provisioning
 

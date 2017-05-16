@@ -11,7 +11,7 @@ layout: default
 ## Overview
 
 [Pentaho Analyzer](http://www.pentaho.com/product/business-visualization-analytics) reports display visualizations that 
-are based on the [Pentaho Visualization API](..).
+are based on the [Pentaho Visualization API](.).
 
 As of 7.1, the Pentaho platform ships with the future Visualization API, (internal) version 3.0-**beta**, 
 **side-by-side** with the current version, 2.0.

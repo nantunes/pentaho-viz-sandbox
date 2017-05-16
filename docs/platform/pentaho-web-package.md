@@ -1,7 +1,8 @@
 ---
 title: Pentaho Web Package
 description: Describes how to package web client resources, including visualizations, into the Pentaho platform.
-parent-title: Visualization API
+parent-title: Pentaho Platform JavaScript APIs
+parent-path: ..
 layout: default
 ---
 
