@@ -65,7 +65,9 @@ holding the relevant metadata about the resources being deployed.
 
 Apart from the mandatory `"name"` and `"version"` fields, you must also register your visualization into the platform. This is done by configuring the `pentaho/service` plugin to declare your visualization's model class as implementing/extending `"pentaho/visual/base"`.
 
-If the visualization has third-party dependencies they must be declared in the same file.
+If you provide any configuration file you must as well declare it as implementing `"pentaho.config.spec.IRuleSet"`.
+
+Finally, any third-party dependencies must be declared in the same file.
 
 ```json
 { 
@@ -73,7 +75,8 @@ If the visualization has third-party dependencies they must be declared in the s
   "version": "1.0.0",
   "config": {
     "pentaho/service": {
-      "foo_1.0.0/my-viz/model": "pentaho/visual/base"
+      "foo_1.0.0/my-viz/model": "pentaho/visual/base",
+      "foo_1.0.0/my-viz/default-config": "pentaho.config.spec.IRuleSet"
     }
   },
   "dependencies": {
