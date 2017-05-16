@@ -13,7 +13,8 @@ _Types_ are known by their _string_ identifier and are, for all other purposes, 
 
 The configurations are declared in AMD/RequireJS modules that return an instance of 
 [`pentaho.config.IRuleSet`]({{site.refDocsUrlPattern | replace: '$', 'pentaho.config.IRuleSet'}}).
-These modules must be advertised to [`pentaho/system`]({@link pentaho/system}), 
+
+These modules must be advertised to [`pentaho/system`]({{site.refDocsUrlPattern | replace: '$', 'pentaho.system'}}), 
 using the service id `pentaho.config.IRuleSet`, to be visible to the configuration system.
 
 The configuration system merges multiple configurations that target the same type.
@@ -92,19 +93,19 @@ from the list of available visualizations.
 It instructs the applications that the visualization's model type should not be offered.
 Indirectly, it means that no view using this model will be used.
 
-The second rule applies only to Analyzer, and modifies the default values of two properties ("lineWidth" and "shape") 
+The second rule applies only to Analyzer, and modifies the default values of two properties (`lineWidth` and `shape`) 
 defined in the Line and Bar/Line visualizations.
 Apart from its default `value`, a property's type has other attributes, such as `label`.
 
 In general, each configuration rule is an object that:
-- contains a mandatory `select` object, which restricts the span of types targeted by this rule. 
+- contains a mandatory `select` object, which restricts the span of types targeted by this rule.
 This span can be specified by using the following attributes:
-  + `type`: the identifier of the targeted AMD module (or list of module identifiers);
+  + `type`: the identifier of the targeted AMD module (or list of module identifiers); 
   + `application`:  the identifier of the targeted application (or list of applications), 
   e.g. `"pentaho-analyzer"` or `["pentaho-analyzer", "pentaho-det"]`;
   + `user`: the user name (or list of user names);
   + `theme`: the theme (or list of themes), e.g. (`"sapphire"` or `["crystal", "sapphire"]`);
-  + `locale`: the locale
+  + `locale`: the locale (or list of locales)
 - contains an `apply` object, which defines overrides for the properties of the targeted objects. 
 You will need to consult the reference documentation of the target type to get the list of available properties. 
 - can contain a numeric `priority` (higher values have higher priority), which can be useful for overriding other rules.
@@ -115,9 +116,9 @@ for more details.
 
 ## Registering a configuration
 
-System administrators can readily add their own configuration rules by editing `config.js` files on predefined locations. 
-- On PDI: `data-integration/system/karaf/config/web-config/config.js`
-- On the Pentaho Server: `pentaho-solutions/system/karaf/config/web-config/config.js`
+System administrators can readily add their own configuration rules by editing `config.js` files on predefined locations: 
+- on PDI: `data-integration/system/karaf/config/web-config/config.js`
+- on the Pentaho Server: `pentaho-solutions/system/karaf/config/web-config/config.js`
 
 These files are shipped with a small set of illustrative (but commented-out) rules.
 Please note that these files will be overwritten during upgrades.
