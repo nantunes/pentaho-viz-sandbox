@@ -5,56 +5,45 @@ parent-title: Visualization API
 layout: default
 ---
 
-The following is a simple example of a configuration rule that hides the pie chart (and any charts that derive from it) 
-from the list of available visualizations:
+## Introduction
 
-```javascript
-  {
-    select: {
-      type: "pentaho/visual/models/pie"
-    },
-    apply: {
-      isBrowsable: false
-    }
-  }
-```
+The Configuration API provides a means for _types_ to be configured by third-parties.
+_Types_ are known by their _string_ identifier and are, for all other purposes, opaque entities
+— these may or may not exist as actual classes, or may simply represent an interface type.
 
-A configuration rule is an object that:
-- must contain a mandatory `select` object, which restricts the span of objects targeted by this rule. 
-This span can be specified by using the following attributes:
-  + `type`: the identifier of the targeted AMD module (or list of module identifiers);
-  + `application`:  the identifier of the targeted application (or list of applications), 
-  e.g. `"pentaho-analyzer"` or `["pentaho-analyzer", "pentaho-det"]`;
-  + `user`: the user name (or list of user names);
-  + `theme`: the theme (or list of themes), e.g. (`"sapphire"` or `["crystal", "sapphire"]`);
-  + `locale`: the locale
-- must contain an `apply` object, which defines overrides for the properties of the targeted objects. 
-You will need to consult the reference documentation for the list of available properties. 
-- can contain a numeric `priority` (higher values have higher priority).
+The configurations are declared in AMD/RequireJS modules that return an instance of 
+[`pentaho.config.IRuleSet`]({{site.refDocsUrlPattern | replace: '$', 'pentaho.config.IRuleSet'}}).
+These modules must be advertised to [`pentaho/system`]({@link pentaho/system}), 
+using the service id `pentaho.config.IRuleSet`, to be visible to the configuration system.
 
-System administrators can readily add their own configuration rules by editing `config.js` files on predefined locations. 
-- On PDI: `data-integration/system/karaf/config/web-config/config.js`
-- On the Pentaho Server: `pentaho-solutions/system/karaf/config/web-config/config.js`
+The configuration system merges multiple configurations that target the same type.
 
-These files are shipped with a small set of illustrative (but commented-out) rules.
-Please note that these files will be overwritten during upgrades.
+Perhaps the most likely use case involving the Configuration API is a user wanting to modify the default settings 
+with which new visualizations are created in a given application.
 
-## Deploying a configuration as a Pentaho Web Package 
+Both model and view classes can be configured.
 
-A Pentaho Web Package is a convenient means to distribute user configurations.
+Examples of typical model configurations:
+- invalidate the visualization if the supplied data has the wrong type 
+- setting the default line width of a line chart
+- define the minimum and maximum 
+- define the default view class
 
-### 1. Create a maven project that generates a Pentaho Web Package
- 
-Follow the [instructions for creating a Pentaho Web Package](pentaho-web-package) from a maven archetype.
+Examples of typical view configurations:
+- define the margins
+- configure an extension point of a CCC visualization
 
-### 2. Create the file with the configuration rules
+## Configuring a visualization
 
-Create a file `no-pie-charts.conf.js` under the folder `impl/src/main/resources/web` with the following content:
+The following is an example of a configuration module that declares two rules:
 
 ```javascript
 define(function(){
   
-  // Define a rule
+  "use strict";
+  
+  // Fist rule: 
+  // hide pie charts
   var noPieCharts = {
     select: {
       type: "pentaho/visual/models/pie"
@@ -63,48 +52,75 @@ define(function(){
       isBrowsable: false
     }
   };
-    
-  // return a list of rules
+  
+  // Second rule:
+  // in Analyzer, for all Line and Bar/Line charts, 
+  // change the default line width to 2
+  // and change the default dot shape
+  var defaultLineWidthAndShapeInAnalyzer = {
+    select: {
+      application: "pentaho-analyzer",
+      type: [
+        "pentaho/visual/models/line",
+        "pentaho/visual/models/barLine"
+      ]
+    },
+    apply: {
+      props: {
+        lineWidth: {
+          value: 2
+        },
+        shape: {
+          value: "diamond"
+        }
+      }
+    }
+  };
+   
+  // return a list of rules (as a pentaho.config.IRuleSet object)
   return {
-    rules: [ noPieCharts ];
-  }
+    rules: [ 
+      noPieCharts, 
+      defaultLineWidthAndShapeInAnalyzer 
+    ]
+  };
 });
 ```
 
+The first configuration rule hides the pie chart (and any charts that derive from it) 
+from the list of available visualizations. 
+It instructs the applications that the visualization's model type should not be offered.
+Indirectly, it means that no view using this model will be used.
 
-### 3. Register the rule set
-Defining a file with a set of rules is not enough: 
-you still need to inform the environment that you wish that file to be loaded.
+The second rule applies only to Analyzer, and modifies the default values of two properties ("lineWidth" and "shape") 
+defined in the Line and Bar/Line visualizations.
+Apart from its default `value`, a property's type has other attributes, such as `label`.
 
-Edit the file `impl/src/main/resources/META-INF/js/package.json` and
-add an entry for the rule set file under the `config` section:
+In general, each configuration rule is an object that:
+- contains a mandatory `select` object, which restricts the span of types targeted by this rule. 
+This span can be specified by using the following attributes:
+  + `type`: the identifier of the targeted AMD module (or list of module identifiers);
+  + `application`:  the identifier of the targeted application (or list of applications), 
+  e.g. `"pentaho-analyzer"` or `["pentaho-analyzer", "pentaho-det"]`;
+  + `user`: the user name (or list of user names);
+  + `theme`: the theme (or list of themes), e.g. (`"sapphire"` or `["crystal", "sapphire"]`);
+  + `locale`: the locale
+- contains an `apply` object, which defines overrides for the properties of the targeted objects. 
+You will need to consult the reference documentation of the target type to get the list of available properties. 
+- can contain a numeric `priority` (higher values have higher priority), which can be useful for overriding other rules.
 
-```json
-{
-  ...
-  "config": {
-    "pentaho/service": {
-       "no-pie-charts.conf": "pentaho.config.spec.IRuleSet"
-    }
-  },
-  ...
-};
-```
+Please consult the 
+[reference documentation on the Configuration API]({{site.refDocsUrlPattern | replace: '$', 'pentaho.config'}})
+for more details.
 
-This effectively declares that the file `no-pie-charts.conf.js` outputs a rule set.
-When an application loads an environment, all the rule sets declared in the system are loaded and merged.
+## Registering a configuration
 
+System administrators can readily add their own configuration rules by editing `config.js` files on predefined locations. 
+- On PDI: `data-integration/system/karaf/config/web-config/config.js`
+- On the Pentaho Server: `pentaho-solutions/system/karaf/config/web-config/config.js`
 
-### 4. Build the project
+These files are shipped with a small set of illustrative (but commented-out) rules.
+Please note that these files will be overwritten during upgrades.
 
-On the root folder of the project, run
-```shell
-mvn clean package
-```
-
-### 5. Deploy the bundle
-
-Copy the `.kar` file to the deploy locations:
-
-- PDI: `data-integration/system/karaf/deploy`
-- Pentaho Server: `pentaho-solutions/system/karaf/deploy`
+An alternative is to use a Pentaho Web Package to distribute user configurations.
+Custom visualizations can thus be distributed together with their configuration rules.

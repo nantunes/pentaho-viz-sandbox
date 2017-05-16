@@ -112,7 +112,8 @@ You can drop any KAR file, bundle or Feature file into the `karaf/deploy` folder
 
 # Configuring a visualization
 
-Pentaho's JavaScript API allows users to configure its objects via _prioritized configuration rules_.
+Pentaho's JavaScript API allows users to declare _prioritized configuration rules_ 
+that configure the objects built using the Type API.
 
 Typical configuration rules include:
 - modifying default values for properties,
