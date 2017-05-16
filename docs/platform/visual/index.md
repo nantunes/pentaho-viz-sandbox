@@ -106,6 +106,12 @@ You can drop any KAR file, bundle or Feature file into the `karaf/deploy` folder
 
 > TODO: Explain how to test in Analyzer and DET
 
+![Bar/D3 in Analyzer](img/sample-bar-d3-analyzer.png)
+
+![Bar/D3 in PDI - menu](img/sample-bar-d3-pdi-menu.png)
+![Bar/D3 in PDI](img/sample-bar-d3-pdi.png)
+
+
 > TODO: Explain how to distribute it using marketplace?
 
 ----
