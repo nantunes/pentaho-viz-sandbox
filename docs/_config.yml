@@ -27,4 +27,4 @@ safe: true
 # * TypeDef:   {{site.refDocsUrlPattern | replace: '$', 'pentaho.type' | append: '#Factory'}}
 # * Class:     {{site.refDocsUrlPattern | replace: '$', 'pentaho.type.Complex'}}
 # * Property:  {{site.refDocsUrlPattern | replace: '$', 'pentaho.type.Complex' | append: '#changeset'}}
-refDocsUrlPattern: http://localhost:8001/$.html
+refDocsUrlPattern: https://help.pentaho.com/Documentation/7.1/0R0/070/javascript-apis/platform/$
