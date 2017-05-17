@@ -176,7 +176,7 @@ the possible _maximum number of results_ for "Bar chart" visualizations.
 
 | Current Vis. Id.      | Future Vis. Id.                               | Description          |
 |-----------------------|-----------------------------------------------|----------------------|
-| ccc_area              | pentaho/visual/models/areaStacked             | Stacked Area         |
+| ccc_area              | pentaho/visual/models/areaStacked             | Area Stacked         |
 | ccc_line              | pentaho/visual/models/line                    | Line                 |
 | ccc_bar               | pentaho/visual/models/bar                     | Column               |
 | ccc_barstacked        | pentaho/visual/models/barStacked              | Column Stacked       |

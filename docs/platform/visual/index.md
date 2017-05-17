@@ -44,8 +44,8 @@ read [Analyzer and the Future Visualization API](analyzer-future-viz-api).
 
 # Creating a visualization
 
-Visualizations are constituted by one [Model]({{site.refDocsUrlPattern | replace: '$', 'pentaho.visual.base.Model'}}) 
-and (at least) one [View]({{site.refDocsUrlPattern | replace: '$', 'pentaho.visual.base.View'}}).
+Visualizations are constituted by one [`Model`]({{site.refDocsUrlPattern | replace: '$', 'pentaho.visual.base.Model'}}) 
+and (at least) one [`View`]({{site.refDocsUrlPattern | replace: '$', 'pentaho.visual.base.View'}}).
 Models identify visualizations and 
 define their data requirements. Views implement the actual rendering using chosen technologies 
 (e.g. [HTML](https://www.w3.org/TR/html/), [SVG](https://www.w3.org/TR/SVG/), [D3](https://d3js.org/)),
@@ -53,7 +53,7 @@ and handle user interaction,
 dispatching [actions]({{site.refDocsUrlPattern | replace: '$', 'pentaho.visual.action'}}) and, 
 for example, showing tooltips.
 
-For a better understanding see the [Bar/D3 sample](samples/bar-d3-sandbox),
+For a better understanding, see the [Bar/D3 sample](samples/bar-d3-sandbox),
 that walks you through creating a custom visualization having a
 [D3](https://d3js.org/)-based view.
 

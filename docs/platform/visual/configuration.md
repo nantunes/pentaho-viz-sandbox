@@ -1,127 +1,260 @@
 ---
-title: Configuration of javascript objects
-description: The Configuration API provides a means for types to be configured by third-parties.
+title: Configuring your Visualization
+description: Shows how to use the Configuration API to configure a visualization.
 parent-title: Visualization API
 layout: default
 ---
 
-## Introduction
+This article shows you how to create a configuration for a 
+[Visualization API](.) 
+visualization.
 
-The Configuration API provides a means for _types_ to be configured by third-parties.
-_Types_ are known by their _string_ identifier and are, for all other purposes, opaque entities
-— these may or may not exist as actual classes, or may simply represent an interface type.
+It is assumed that you have some basic knowledge on how to configure JavaScript _types_ on the Pentaho platform
+and on what constitutes a visualization.
+If not, you should first read [Configuration API](../configuration) and 
+[Creating a visualization](./#creating-a-visualization).
 
-The configurations are declared in AMD/RequireJS modules that return an instance of 
-[`pentaho.config.IRuleSet`]({{site.refDocsUrlPattern | replace: '$', 'pentaho.config.IRuleSet'}}).
+Visualizations are constituted by one 
+[`Model`]({{site.refDocsUrlPattern | replace: '$', 'pentaho.visual.base.Model'}}) 
+type and (at least) one 
+[`View`]({{site.refDocsUrlPattern | replace: '$', 'pentaho.visual.base.View'}})
+type,
+any of which is a 
+[Type API]({{site.refDocsUrlPattern | replace: '$', 'pentaho.type'}}) complex type 
+that can be configured.
 
-These modules must be advertised to [`pentaho/system`]({{site.refDocsUrlPattern | replace: '$', 'pentaho.system'}}), 
-using the service id `pentaho.config.IRuleSet`, to be visible to the configuration system.
+Section [Identifiers of Stock Visualizations](#identifiers-of-stock-visualizations) contains the list
+of identifiers of stock `Model` and `View` types.
 
-The configuration system merges multiple configurations that target the same type.
+The following sections show examples of typical `Model` and `View` configurations.
+A single [IRule]({{site.refDocsUrlPattern | replace: '$', 'pentaho.config.spec.IRule'}}) object 
+is provided in each example, 
+but it should be interpreted as being part of the following generic configuration module:
 
-Perhaps the most likely use case involving the Configuration API is a user wanting to modify the default settings 
-with which new visualizations are created in a given application.
-
-Both model and view classes can be configured.
-
-Examples of typical model configurations:
-- invalidate the visualization if the supplied data has the wrong type 
-- setting the default line width of a line chart
-- define the minimum and maximum 
-- define the default view class
-
-Examples of typical view configurations:
-- define the margins
-- configure an extension point of a CCC visualization
-
-## Configuring a visualization
-
-The following is an example of a configuration module that declares two rules:
-
-```javascript
-define(function(){
+```js
+define(function() {
   
   "use strict";
   
-  // Fist rule: 
-  // hide pie charts
-  var noPieCharts = {
-    select: {
-      type: "pentaho/visual/models/pie"
-    },
-    apply: {
-      isBrowsable: false
-    }
-  };
+  var ruleSpec = { /* ... */ };
   
-  // Second rule:
-  // in Analyzer, for all Line and Bar/Line charts, 
-  // change the default line width to 2
-  // and change the default dot shape
-  var defaultLineWidthAndShapeInAnalyzer = {
-    select: {
-      application: "pentaho-analyzer",
-      type: [
-        "pentaho/visual/models/line",
-        "pentaho/visual/models/barLine"
-      ]
-    },
-    apply: {
-      props: {
-        lineWidth: {
-          value: 2
-        },
-        shape: {
-          value: "diamond"
-        }
-      }
-    }
-  };
-   
-  // return a list of rules (as a pentaho.config.IRuleSet object)
-  return {
-    rules: [ 
-      noPieCharts, 
-      defaultLineWidthAndShapeInAnalyzer 
-    ]
-  };
+  return {rules: [ruleSpec]};
 });
+```  
+
+## Examples of typical Model configurations
+
+### Hiding a visualization from an application's visualization list
+
+The following rule configures the 
+[isBrowsable]({{site.refDocsUrlPattern | replace: '$', 'pentaho.type.Type' | append: '#isBrowsable'}}) 
+type attribute to hide the stock _Pie_ visualization (and any visualizations that derive from it) 
+from the [Analyzer](http://www.pentaho.com/product/business-visualization-analytics) application's
+visualizations menu, effectively preventing the user from creating new visualizations of this type:
+
+```js
+var ruleSpec = {
+  select: {
+    type: "pentaho/visual/models/pie",
+    application: "pentaho-analyzer"
+  },
+  apply: {
+    isBrowsable: false
+  }
+};
 ```
 
-The first configuration rule hides the pie chart (and any charts that derive from it) 
-from the list of available visualizations. 
-It instructs the applications that the visualization's model type should not be offered.
-Indirectly, it means that no view using this model will be used.
+### Setting the default line width of a line chart
 
-The second rule applies only to Analyzer, and modifies the default values of two properties (`lineWidth` and `shape`) 
-defined in the Line and Bar/Line visualizations.
-Apart from its default `value`, a property's type has other attributes, such as `label`.
+The following rule configures the default value of the `lineWidth` property of both
+the _Line_ and the _Column/Line Combo_ stock visualizations, 
+when in the [PDI](http://www.pentaho.com/product/data-integration) application,
+to be of `2` pixels:
 
-In general, each configuration rule is an object that:
-- contains a mandatory `select` object, which restricts the span of types targeted by this rule.
-This span can be specified by using the following attributes:
-  + `type`: the identifier of the targeted AMD module (or list of module identifiers); 
-  + `application`:  the identifier of the targeted application (or list of applications), 
-  e.g. `"pentaho-analyzer"` or `["pentaho-analyzer", "pentaho-det"]`;
-  + `user`: the user name (or list of user names);
-  + `theme`: the theme (or list of themes), e.g. (`"sapphire"` or `["crystal", "sapphire"]`);
-  + `locale`: the locale (or list of locales)
-- contains an `apply` object, which defines overrides for the properties of the targeted objects. 
-You will need to consult the reference documentation of the target type to get the list of available properties. 
-- can contain a numeric `priority` (higher values have higher priority), which can be useful for overriding other rules.
+```js
+var ruleSpec = {
+  select: {
+    type: [
+      "pentaho/visual/models/line",
+      "pentaho/visual/models/barLine"
+    ],
+    application: "pentaho-det"
+  },
+  apply: {
+    props: {
+      lineWidth: {
+        value: 2
+      }
+    }
+  }
+};
+```
 
-Please consult the 
-[reference documentation on the Configuration API]({{site.refDocsUrlPattern | replace: '$', 'pentaho.config'}})
-for more details.
+### Setting the default shape of points of a line chart
 
-## Registering a configuration
+The following rule configures the default value of the `shape` property of both
+the _Line_ and the _Column/Line Combo_ stock visualizations, 
+when in any application,
+to be the `diamond` shape:
 
-System administrators can readily add their own configuration rules by editing `config.js` files on predefined locations: 
-- on PDI: `data-integration/system/karaf/config/web-config/config.js`
-- on the Pentaho Server: `pentaho-solutions/system/karaf/config/web-config/config.js`
+```js
+var ruleSpec = {
+  select: {
+    type: [
+      "pentaho/visual/models/line",
+      "pentaho/visual/models/barLine"
+    ]
+  },
+  apply: {
+    props: {
+      shape: {
+        value: "diamond"
+      }
+    }
+  }
+};
+```
 
-These files are shipped with a small set of illustrative (but commented-out) rules.
-Please note that these files will be overwritten during upgrades.
+### Hiding the line width property of line charts
 
-An alternative is to use a Pentaho Web Package to distribute user configurations.
-Custom visualizations can thus be distributed together with their configuration rules.
+The following rule hides the `lineWidth` property of both
+the _Line_ and the _Column/Line Combo_ stock visualizations, 
+from the Analyzer application's properties panel, 
+effectively preventing the user from changing its default value:
+
+```js
+var ruleSpec = {
+  select: {
+    type: [
+      "pentaho/visual/models/line",
+      "pentaho/visual/models/barLine"
+    ],
+    application: "pentaho-analyzer"
+  },
+  apply: {
+    props: {
+      lineWidth: {
+        isBrowsable: false
+      }
+    }
+  }
+};
+```
+
+### Changing the name of a visualization, as shown in the menu of an application
+
+The following rule changes the 
+[label]({{site.refDocsUrlPattern | replace: '$', 'pentaho.type.Type' | append: '#label'}})
+type attribute of the _Bar_ stock visualization, 
+affecting how it is displayed in the visualizations menu of the Analyzer and PDI applications:
+
+```js
+var ruleSpec = {
+  select: {
+    type:"pentaho/visual/models/bar",
+    application: [
+      "pentaho-analyzer",
+      "pentaho-det"
+    ]
+  },
+  apply: {
+    label: "Vertical Bars"
+  }
+};
+```
+
+Note that it is a best practice to load localizable text from a resource bundle. 
+See [pentaho/i18n]({{site.refDocsUrlPattern | replace: '$', 'pentaho.i18n'}}).
+
+## Examples of typical View configurations
+
+Note that view configuration is typically tied to the technology with which views are built.
+The 
+[View.Type#extension]({{site.refDocsUrlPattern | replace: '$', 'pentaho.visual.base.View.Type' | append: '#extension'}})
+type attribute exists to satisfy the pass-through of such options of the underlying technology.
+You should consult the view type documentation to find out about which extension properties it supports.
+
+The views of stock visualizations are implemented using the 
+[CCC](http://community.pentaho.com/ctools/ccc/) charting library,
+and can be customized using its rich set of extension points.
+
+### Thicken the axes rules of stock visualizations
+
+The following rule changes the 
+[lineWidth](http://community.pentaho.com/ctools/ccc/charts/jsdoc/symbols/pvc.options.marks.RuleExtensionPoint.html#lineWidth)
+property of the 
+[baseAxisRule_](http://community.pentaho.com/ctools/ccc/charts/jsdoc/symbols/pvc.options.ext.FlattenedDiscreteCartesianAxisExtensionPoints.html#rule)
+and
+`orthoAxisRule_` 
+extension points,
+of any applicable stock visualizations,
+in any application:
+
+```js
+var ruleSpec = {
+  select: {
+    type:"pentaho/ccc/visual/abstract"
+  },
+  apply: {
+    extension: {
+      baseAxisRule_lineWidth: 2,
+      orthoAxisRule_lineWidth: 2
+    }
+  }
+};
+```
+
+### Change the default label font of axes' ticks of stock visualizations
+
+The following rule changes the 
+[font](http://community.pentaho.com/ctools/ccc/charts/jsdoc/symbols/pvc.options.marks.LabelExtensionPoint.html#font)
+property of the 
+[baseAxisLabel_](http://community.pentaho.com/ctools/ccc/charts/jsdoc/symbols/pvc.options.ext.FlattenedDiscreteCartesianAxisExtensionPoints.html#label)
+and
+`orthoAxisLabel_` 
+extension points,
+of any applicable stock visualizations,
+when in the PDI application:
+
+```js
+var ruleSpec = {
+  select: {
+    type:"pentaho/ccc/visual/areaStacked",
+    application: "pentaho-det"
+  },
+  apply: {
+    extension: {
+      baseAxisLabel_font: "12px OpenSansRegular",
+      orthoAxisLabel_font: "12px OpenSansRegular"
+    }
+  }
+};
+```
+
+## Identifiers of Stock Visualizations
+
+The models of stock visualizations are all sub-modules of `pentaho/visual/models`. 
+For example, `pentaho/visual/models/line`, is the identifier of the stock Line visualization model.
+
+The corresponding CCC-based view of a stock visualization is a sub-module of `pentaho/ccc/visual`. 
+For example, `pentaho/ccc/visual/line`, is the identifier of the CCC view corresponding to 
+the stock Line visualization model.
+
+| Local Module            | Description              |
+|-------------------------|--------------------------|
+| abstract                | All stock visualizations |
+| areaStacked             | Area Stacked             |
+| line                    | Line                     |
+| bar                     | Column                   |
+| barStacked              | Column Stacked           |
+| bar                     | Column Stacked 100%      |
+| barHorizontal           | Bar                      |
+| barStackedHorizontal    | Bar Stacked              |
+| barNormalizedHorizontal | Bar Stacked 100%         |
+| barLine                 | Column/Line Combo        |
+| scatter                 | X/Y Scatter              |
+| bubble                  | Bubble                   |
+| heatGrid                | Heat-Grid                |
+| pie                     | Pie                      |
+| donut                   | Donut                    |
+| sunburst                | Sunburst                 |
