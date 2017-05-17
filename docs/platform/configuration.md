@@ -103,15 +103,15 @@ define(function() {
 
 _Ad hoc_ configuration rules can be added to the system, by system administrators, 
 by placing these in the **global configuration file** — 
-a configuration file, conveniently, registered for you.
+a configuration file conveniently registered for you.
 
-The file is located within the Apache Karaf folder, at: `config/web-client/config.js`.
-Depending on the server, the Karaf folder is located at: 
-- on PDI: `data-integration/system/karaf/`.
-- on Pentaho Server: `pentaho-server/pentaho-solutions/system/karaf/`.
+The file is located within the Apache Karaf folder at: `config/web-client/config.js`.
+Depending on the product, the Karaf folder is located at: 
+- Spoon PDI client: `data-integration/system/karaf/`.
+- Pentaho Server: `pentaho-server/pentaho-solutions/system/karaf/`.
 
 Editing and saving the file causes the system to refresh its configuration,
-without the need to restart the server.
+without the need to restart the software.
 
 The configuration file is shipped with a small set of illustrative (but commented-out) rules.
 
@@ -124,7 +124,6 @@ containing a registered configuration module.
 
 
 ## Known Values of Pentaho Environment Variables
-
 ### `application`
 
 | Description | Value              |
