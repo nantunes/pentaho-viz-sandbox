@@ -99,7 +99,7 @@ Save the file and restart Pentaho Server.
 Visualizations of the _current_ format can be configured in Analyzer  
 through properties in its `analyzer.properties` file,
 located at `pentaho-server/pentaho-solutions/system/analyzer`, 
-in a Pentaho server installation.
+in a Pentaho Server installation.
 
 Visualizations of the _future_ format are however configured using the 
 [platform-wide JavaScript configuration system](configuration), 

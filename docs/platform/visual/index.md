@@ -102,24 +102,23 @@ See [Bundling](bundling) for instructions.
 The platform supports hot deployment: simply drop a bundle file in the deploy directory and 
 Apache Karaf will detect the file and try to deploy it.
 
-For Spoon PDI Client the Karaf folder is located in `system/karaf`. 
-On the Pentaho server it's found within `pentaho-solutions/system/karaf`.
+For PDI the Karaf folder is located in `system/karaf`. 
+On the Pentaho Server it's found within `pentaho-solutions/system/karaf`.
 
 You can drop any KAR file, bundle or Feature file into the `karaf/deploy` folder. 
 It will be automatically installed and activated, even after restarts of the product. 
 Replacing a bundle or feature already in the deploy folder will reinstall it within OSGI. Deleting it will uninstall.
 
-> TODO: Explain how to test in Analyzer and DET
+If every thing went well you should now see your visualization in Analyzer and/or PDI.
 
-![Bar/D3 in Analyzer](img/sample-bar-d3-analyzer.png)
+<img src="img/sample-bar-d3-analyzer.png" alt="Bar/D3 in Analyzer" style="width: 100%; max-width: 575px;"><br>
+*Your Bar/D3 walkthrough visualization in Analyzer*
 
-![Bar/D3 in PDI - menu](img/sample-bar-d3-pdi-menu.png)
-![Bar/D3 in PDI](img/sample-bar-d3-pdi.png)
-
+<img src="img/sample-bar-d3-pdi-menu.png" alt="Bar/D3 in PDI - menu" style="width: 40%; max-width: 274px;  min-width: 274px;">
+<img src="img/sample-bar-d3-pdi.png" alt="Bar/D3 in PDI" style="width: 60%;max-width: 583px;  min-width: 420px;"><br>
+*Your Bar/D3 walkthrough visualization in PDI*
 
 > TODO: Explain how to distribute it using marketplace?
-
-----
 
 # Configuring a visualization
 

@@ -107,7 +107,7 @@ a configuration file conveniently registered for you.
 
 The file is located within the Apache Karaf folder at: `config/web-client/config.js`.
 Depending on the product, the Karaf folder is located at: 
-- Spoon PDI client: `data-integration/system/karaf/`.
+- PDI: `data-integration/system/karaf/`.
 - Pentaho Server: `pentaho-server/pentaho-solutions/system/karaf/`.
 
 Editing and saving the file causes the system to refresh its configuration,
